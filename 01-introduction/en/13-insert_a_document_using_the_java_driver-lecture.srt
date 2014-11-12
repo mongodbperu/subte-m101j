@@ -1,0 +1,521 @@
+1
+00:00:00,000 --> 00:00:00,210
+
+2
+00:00:00,210 --> 00:00:02,690
+So we've taken a tour
+through a little
+
+3
+00:00:02,690 --> 00:00:06,580
+HelloWorldMongoDBStyle as well
+as Spark and Free Marker and
+
+4
+00:00:06,580 --> 00:00:10,110
+combining the three together
+into a single application.
+
+5
+00:00:10,110 --> 00:00:12,780
+Now, we get to go into a little
+bit more detail about
+
+6
+00:00:12,780 --> 00:00:14,920
+using MongoDB from Java.
+
+7
+00:00:14,920 --> 00:00:19,200
+So this is the example we had
+before HelloWorldMongoDBStyle
+
+8
+00:00:19,200 --> 00:00:22,960
+where we created our MongoClient
+and got a database
+
+9
+00:00:22,960 --> 00:00:25,090
+from that client, the
+course database.
+
+10
+00:00:25,090 --> 00:00:27,730
+And then, from that database
+we got a collection called
+
+11
+00:00:27,730 --> 00:00:31,190
+hello and then, we retrieved
+one document from that
+
+12
+00:00:31,190 --> 00:00:33,290
+collection and printed it out.
+
+13
+00:00:33,290 --> 00:00:36,720
+So we're going to take some of
+the scaffolding and do a
+
+14
+00:00:36,720 --> 00:00:40,320
+simple application to insert a
+document into collections.
+
+15
+00:00:40,320 --> 00:00:43,960
+I'm going to create a new Java
+class called simple insert
+
+16
+00:00:43,960 --> 00:00:49,570
+test, and I'll create
+my MongocClients.
+
+17
+00:00:49,570 --> 00:00:54,550
+
+18
+00:00:54,550 --> 00:00:59,210
+And we'll just use the default
+here of local host 2717, and
+
+19
+00:00:59,210 --> 00:01:03,130
+add that host exception
+to my signature.
+
+20
+00:01:03,130 --> 00:01:06,180
+And I don't need the database,
+so I'm just going to shorten
+
+21
+00:01:06,180 --> 00:01:13,620
+this to just people collection
+equals clients dot get DB
+
+22
+00:01:13,620 --> 00:01:17,910
+course dot get collection.
+
+23
+00:01:17,910 --> 00:01:22,090
+So if you recall, before
+HelloWorldMongoDBStyle, when
+
+24
+00:01:22,090 --> 00:01:24,840
+we did a find one, the return
+value of find one
+
+25
+00:01:24,840 --> 00:01:26,860
+is of type db object.
+
+26
+00:01:26,860 --> 00:01:29,500
+And db object is an interface.
+
+27
+00:01:29,500 --> 00:01:32,850
+So when we're inserting
+documents into a collection,
+
+28
+00:01:32,850 --> 00:01:35,190
+we have to create the document
+first in order to insert it.
+
+29
+00:01:35,190 --> 00:01:38,150
+And we can't create an instance
+of an interface, so
+
+30
+00:01:38,150 --> 00:01:40,700
+we need a concrete class that
+implements db object.
+
+31
+00:01:40,700 --> 00:01:43,500
+And the Mongo Java driver
+provides a class called
+
+32
+00:01:43,500 --> 00:01:46,180
+BasicDBObject, which implements
+DBObject.
+
+33
+00:01:46,180 --> 00:01:48,990
+And that's what we'll use when
+we're creating new documents
+
+34
+00:01:48,990 --> 00:01:51,210
+to insert into the database.
+
+35
+00:01:51,210 --> 00:01:55,280
+So we'll call it personDoc
+equals new basic DBObject.
+
+36
+00:01:55,280 --> 00:01:57,890
+Let's create the simplest person
+doc that we can think
+
+37
+00:01:57,890 --> 00:02:03,370
+of, which is id yeminj,
+and insert it.
+
+38
+00:02:03,370 --> 00:02:05,860
+And the way I insert it is I
+say, people collection because
+
+39
+00:02:05,860 --> 00:02:07,330
+I want to insert it
+into the people
+
+40
+00:02:07,330 --> 00:02:09,770
+collection and I call insert.
+
+41
+00:02:09,770 --> 00:02:12,880
+And I pass a person doc.
+
+42
+00:02:12,880 --> 00:02:15,640
+So what's interesting about
+this document is the field
+
+43
+00:02:15,640 --> 00:02:18,820
+name of the one field I
+created, which is id.
+
+44
+00:02:18,820 --> 00:02:22,600
+So I set the id to be yeminj.
+
+45
+00:02:22,600 --> 00:02:25,560
+And what's interesting about
+underscore id is that MongoDB
+
+46
+00:02:25,560 --> 00:02:29,390
+requires that every document
+in a collection has an
+
+47
+00:02:29,390 --> 00:02:31,690
+underscore id field and
+that the value of
+
+48
+00:02:31,690 --> 00:02:33,350
+that field is unique.
+
+49
+00:02:33,350 --> 00:02:36,310
+So in this case, I'm creating
+an id field, and I'm sending
+
+50
+00:02:36,310 --> 00:02:37,140
+it to yeminj.
+
+51
+00:02:37,140 --> 00:02:40,120
+And that means that no other
+documents in this collection
+
+52
+00:02:40,120 --> 00:02:42,730
+can have the id of the
+string yeminj.
+
+53
+00:02:42,730 --> 00:02:45,460
+And just so I can run this
+multiple times, I'm going to
+
+54
+00:02:45,460 --> 00:02:50,000
+call people at collection dot
+drop before I execute this.
+
+55
+00:02:50,000 --> 00:02:51,920
+And now, I think we're
+ready to run.
+
+56
+00:02:51,920 --> 00:02:57,590
+So I'll say run, and there's no
+output so it just exited.
+
+57
+00:02:57,590 --> 00:03:00,250
+So now, let's look at
+the collection.
+
+58
+00:03:00,250 --> 00:03:02,050
+So I'm going to say
+Mongo course.
+
+59
+00:03:02,050 --> 00:03:07,065
+So I default to the course
+database and show collections.
+
+60
+00:03:07,065 --> 00:03:09,450
+And you can see now, there's a
+people collection that was
+
+61
+00:03:09,450 --> 00:03:12,067
+created automatically when I
+inserted the first document to
+
+62
+00:03:12,067 --> 00:03:13,350
+that collection.
+
+63
+00:03:13,350 --> 00:03:15,095
+And let's see what's
+in the collection.
+
+64
+00:03:15,095 --> 00:03:17,800
+
+65
+00:03:17,800 --> 00:03:24,650
+And you can see that there's
+a document id of yeminj.
+
+66
+00:03:24,650 --> 00:03:28,470
+So that's a basic insert of a
+document into collection.
+
+67
+00:03:28,470 --> 00:03:31,960
+But this is JSON, so let's make
+this document a little
+
+68
+00:03:31,960 --> 00:03:33,110
+more complex.
+
+69
+00:03:33,110 --> 00:03:37,390
+So I'm going to add a few more
+fields to this document.
+
+70
+00:03:37,390 --> 00:03:44,680
+I'm going to say append, and
+I'll say name is Jeff Yemin
+
+71
+00:03:44,680 --> 00:03:51,970
+and append profession
+programmer.
+
+72
+00:03:51,970 --> 00:03:55,790
+And let's run this again,
+and let's look again.
+
+73
+00:03:55,790 --> 00:03:58,960
+And I can see we have
+the same id, yeminj.
+
+74
+00:03:58,960 --> 00:04:01,510
+But now, we have name, Jeff
+Yemin, and profession,
+
+75
+00:04:01,510 --> 00:04:02,780
+programmer.
+
+76
+00:04:02,780 --> 00:04:05,080
+So that shows how we can
+insert a document with
+
+77
+00:04:05,080 --> 00:04:06,520
+multiple fields.
+
+78
+00:04:06,520 --> 00:04:10,240
+Now, let's use some of the power
+of JSON now to make a
+
+79
+00:04:10,240 --> 00:04:12,070
+more complicated structure.
+
+80
+00:04:12,070 --> 00:04:15,040
+So I'm going to also create
+a field for the list of
+
+81
+00:04:15,040 --> 00:04:17,130
+programming languages that
+I'm familiar with.
+
+82
+00:04:17,130 --> 00:04:23,210
+So I'll say, person doc
+dot append languages.
+
+83
+00:04:23,210 --> 00:04:26,390
+But in this case, I need a list
+not just a scalar value.
+
+84
+00:04:26,390 --> 00:04:28,750
+So I'm going to say,
+arrays dot as list.
+
+85
+00:04:28,750 --> 00:04:35,430
+And I'll say, Java c plus plus
+and, I don't know, XSLT.
+
+86
+00:04:35,430 --> 00:04:37,980
+
+87
+00:04:37,980 --> 00:04:42,970
+And we'll run it again,
+and print it again.
+
+88
+00:04:42,970 --> 00:04:45,720
+And now, we see that we have the
+three fields before, but
+
+89
+00:04:45,720 --> 00:04:47,540
+we also have a languages
+field.
+
+90
+00:04:47,540 --> 00:04:50,690
+And you can see with these
+brackets that it's an array
+
+91
+00:04:50,690 --> 00:04:53,790
+with three values, Java
+c plus plus and XSLT.
+
+92
+00:04:53,790 --> 00:04:55,375
+Oh, I spelled XSLT wrong.
+
+93
+00:04:55,375 --> 00:04:58,770
+
+94
+00:04:58,770 --> 00:05:02,090
+OK, let's show one last thing
+we can do with JSON.
+
+95
+00:05:02,090 --> 00:05:06,970
+So I can also embed a nested
+document inside of the person.
+
+96
+00:05:06,970 --> 00:05:10,250
+So I'm going to do that
+for my address.
+
+97
+00:05:10,250 --> 00:05:13,820
+I'll create an address
+field and I'll say,
+
+98
+00:05:13,820 --> 00:05:15,890
+new basic db object.
+
+99
+00:05:15,890 --> 00:05:18,610
+So this is a nested document.
+
+100
+00:05:18,610 --> 00:05:22,653
+And I'll say, street Parkland.
+
+101
+00:05:22,653 --> 00:05:27,140
+
+102
+00:05:27,140 --> 00:05:28,790
+Let's form it just a
+little differently.
+
+103
+00:05:28,790 --> 00:05:37,720
+Number is 20 and town
+is WayLand.
+
+104
+00:05:37,720 --> 00:05:41,950
+
+105
+00:05:41,950 --> 00:05:44,920
+Now, let's insert this document
+into the collection
+
+106
+00:05:44,920 --> 00:05:46,500
+and see what it looks like.
+
+107
+00:05:46,500 --> 00:05:49,260
+So now, we have the same
+document, but we, in addition
+
+108
+00:05:49,260 --> 00:05:52,980
+to id, name, profession
+languages, we also have an
+
+109
+00:05:52,980 --> 00:05:53,750
+address field.
+
+110
+00:05:53,750 --> 00:05:57,480
+And this address field is a
+nested document with three
+
+111
+00:05:57,480 --> 00:05:59,720
+fields, street, number,
+and town.
+
+112
+00:05:59,720 --> 00:06:00,970

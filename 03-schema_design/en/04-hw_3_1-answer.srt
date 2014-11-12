@@ -1,0 +1,422 @@
+1
+00:00:00,000 --> 00:00:00,190
+
+2
+00:00:00,190 --> 00:00:00,470
+OK.
+
+3
+00:00:00,470 --> 00:00:03,670
+Let's take you through the
+solution to this problem.
+
+4
+00:00:03,670 --> 00:00:06,530
+Now again, we have to remove the
+lowest homework score for
+
+5
+00:00:06,530 --> 00:00:07,620
+each student.
+
+6
+00:00:07,620 --> 00:00:11,930
+And that's going to be done by
+finding each student and then
+
+7
+00:00:11,930 --> 00:00:14,240
+going through the list of the
+assessments and finding the
+
+8
+00:00:14,240 --> 00:00:15,260
+lowest one.
+
+9
+00:00:15,260 --> 00:00:18,660
+It's a little bit tricky
+compared to some of the other
+
+10
+00:00:18,660 --> 00:00:22,300
+code that we've written so
+far for the homeworks.
+
+11
+00:00:22,300 --> 00:00:26,150
+So we start out by creating this
+Remove Lowest function.
+
+12
+00:00:26,150 --> 00:00:28,280
+And you can see we're
+connecting with the
+
+13
+00:00:28,280 --> 00:00:29,640
+MongoClient right here.
+
+14
+00:00:29,640 --> 00:00:33,105
+The MongoClient class to the
+local MongoD server.
+
+15
+00:00:33,105 --> 00:00:34,880
+Getting database school.
+
+16
+00:00:34,880 --> 00:00:37,530
+And then we're getting the
+collection, students.
+
+17
+00:00:37,530 --> 00:00:39,990
+Now we're going to do a Find
+across the entire collection
+
+18
+00:00:39,990 --> 00:00:41,530
+so we hit every document.
+
+19
+00:00:41,530 --> 00:00:43,990
+And now we're going
+to iterate through
+
+20
+00:00:43,990 --> 00:00:45,220
+each of these students.
+
+21
+00:00:45,220 --> 00:00:48,140
+Now, we're going to get a DB
+Object out of this collection
+
+22
+00:00:48,140 --> 00:00:50,130
+if we iterate across it.
+
+23
+00:00:50,130 --> 00:00:54,620
+And then we're going to call Get
+Scores on each one to get
+
+24
+00:00:54,620 --> 00:00:56,470
+the scores array.
+
+25
+00:00:56,470 --> 00:00:59,290
+And we're going to cast that to
+a basic DB List, because we
+
+26
+00:00:59,290 --> 00:01:01,200
+know that it is a list.
+
+27
+00:01:01,200 --> 00:01:04,300
+And you can see here I've
+created a variable of DB List.
+
+28
+00:01:04,300 --> 00:01:05,520
+We need a sentinel value.
+
+29
+00:01:05,520 --> 00:01:07,700
+We need to know when we've
+found the lowest one.
+
+30
+00:01:07,700 --> 00:01:11,780
+So we set this variable,
+minScoreObj, null, initially.
+
+31
+00:01:11,780 --> 00:01:13,880
+And we set the minScore
+that we've seen to
+
+32
+00:01:13,880 --> 00:01:15,540
+the Max Double Value.
+
+33
+00:01:15,540 --> 00:01:18,670
+In this collection, there's no
+value above 100, so you could
+
+34
+00:01:18,670 --> 00:01:20,480
+probably set it to something
+lower than that.
+
+35
+00:01:20,480 --> 00:01:22,040
+But this will certainly work.
+
+36
+00:01:22,040 --> 00:01:25,800
+And then down here, you can see
+what we're doing is we're
+
+37
+00:01:25,800 --> 00:01:29,430
+iterating across the
+scores collection.
+
+38
+00:01:29,430 --> 00:01:31,110
+Now, this is an array list.
+
+39
+00:01:31,110 --> 00:01:33,470
+And so we can iterate
+directly across it.
+
+40
+00:01:33,470 --> 00:01:35,545
+What we're going to get out of
+it is just simple objects.
+
+41
+00:01:35,545 --> 00:01:38,300
+Now, we know that they're much
+more than that, but we'll have
+
+42
+00:01:38,300 --> 00:01:41,070
+to cast it after we reiterate
+through it.
+
+43
+00:01:41,070 --> 00:01:44,790
+So we're iterating through it
+using this for each command.
+
+44
+00:01:44,790 --> 00:01:47,640
+And then the object that we get
+when we cast it to Basic
+
+45
+00:01:47,640 --> 00:01:50,410
+DB Object and put it in here.
+
+46
+00:01:50,410 --> 00:01:52,370
+Then we get the score
+and the type.
+
+47
+00:01:52,370 --> 00:01:54,620
+Now, we're only interested
+in homeworks.
+
+48
+00:01:54,620 --> 00:01:58,370
+So if the type was homework
+and the score is less than
+
+49
+00:01:58,370 --> 00:02:03,500
+minScore, then we remembered
+the value, the score.
+
+50
+00:02:03,500 --> 00:02:05,060
+Put it in the score variable.
+
+51
+00:02:05,060 --> 00:02:07,150
+And remember the object.
+
+52
+00:02:07,150 --> 00:02:07,700
+We do this.
+
+53
+00:02:07,700 --> 00:02:10,560
+When we're done, we're going
+to have minScore pointed to
+
+54
+00:02:10,560 --> 00:02:12,890
+the lowest score and minScoreObj
+pointing to the
+
+55
+00:02:12,890 --> 00:02:14,690
+object corresponding to that.
+
+56
+00:02:14,690 --> 00:02:18,400
+And this object, of course, came
+from this scores list.
+
+57
+00:02:18,400 --> 00:02:21,340
+So now we're going
+to go down here.
+
+58
+00:02:21,340 --> 00:02:25,660
+We're going to remove the
+minScoreObj from the scores
+
+59
+00:02:25,660 --> 00:02:26,430
+array list.
+
+60
+00:02:26,430 --> 00:02:28,650
+It's a standard Remove
+command.
+
+61
+00:02:28,650 --> 00:02:32,570
+And after that, we're going to
+call the Update command,
+
+62
+00:02:32,570 --> 00:02:34,510
+MongoDB Update command.
+
+63
+00:02:34,510 --> 00:02:37,400
+We're going to find the student
+record that has an
+
+64
+00:02:37,400 --> 00:02:41,410
+underscore ID equal to the ID
+that we're working with.
+
+65
+00:02:41,410 --> 00:02:44,940
+And we're going to create a Set
+command setting the scores
+
+66
+00:02:44,940 --> 00:02:48,420
+value to the scores key to the
+scores array that we've been
+
+67
+00:02:48,420 --> 00:02:49,660
+working with and manipulating.
+
+68
+00:02:49,660 --> 00:02:52,360
+So this will remove
+the lowest score.
+
+69
+00:02:52,360 --> 00:02:54,470
+So let's go through there
+and watch it work.
+
+70
+00:02:54,470 --> 00:02:56,450
+I guess I'll show you the
+values do change.
+
+71
+00:02:56,450 --> 00:02:58,040
+Let me do that first.
+
+72
+00:02:58,040 --> 00:03:01,550
+So if you run the aggregation
+that we gave you before you
+
+73
+00:03:01,550 --> 00:03:03,900
+removed the lowest score for
+each student, you see that
+
+74
+00:03:03,900 --> 00:03:06,010
+Student 85 has the
+lowest average.
+
+75
+00:03:06,010 --> 00:03:08,660
+Now let's run this.
+
+76
+00:03:08,660 --> 00:03:09,660
+I ran it.
+
+77
+00:03:09,660 --> 00:03:12,750
+Now I'm going to go through
+and look again.
+
+78
+00:03:12,750 --> 00:03:14,660
+Run the aggregation
+command again to
+
+79
+00:03:14,660 --> 00:03:15,840
+find the lowest average.
+
+80
+00:03:15,840 --> 00:03:17,200
+And we're going to learn
+about aggregation
+
+81
+00:03:17,200 --> 00:03:19,270
+in a follow-on unit.
+
+82
+00:03:19,270 --> 00:03:21,750
+And you can see the highest
+average in the class is now
+
+83
+00:03:21,750 --> 00:03:24,380
+this student with ID 37.
+
+84
+00:03:24,380 --> 00:03:28,340
+So that has changed because
+of our removal of data.
+
+85
+00:03:28,340 --> 00:03:30,570
+And we can see that the
+data is removed.
+
+86
+00:03:30,570 --> 00:03:31,820
+So let's do that.
+
+87
+00:03:31,820 --> 00:03:35,660
+
+88
+00:03:35,660 --> 00:03:38,910
+So you can see that now each of
+the students has only three
+
+89
+00:03:38,910 --> 00:03:39,980
+assessments.
+
+90
+00:03:39,980 --> 00:03:40,540
+All right.
+
+91
+00:03:40,540 --> 00:03:41,790
+And that's the solution
+to this problem.
+
+92
+00:03:41,790 --> 00:03:43,020

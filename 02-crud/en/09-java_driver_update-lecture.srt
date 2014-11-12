@@ -1,0 +1,650 @@
+1
+00:00:00,000 --> 00:00:00,180
+
+2
+00:00:00,180 --> 00:00:03,720
+So we're done with querying
+from Java for now, and now
+
+3
+00:00:03,720 --> 00:00:06,340
+we're going to move on
+to update and remove.
+
+4
+00:00:06,340 --> 00:00:09,130
+So the API for update and
+remove in Java is pretty
+
+5
+00:00:09,130 --> 00:00:12,240
+similar to the shell with some
+differences in the way
+
+6
+00:00:12,240 --> 00:00:13,390
+parameters are passed.
+
+7
+00:00:13,390 --> 00:00:16,450
+But before I show you update and
+remove, I want to just go
+
+8
+00:00:16,450 --> 00:00:17,710
+over the document structure
+we'll be
+
+9
+00:00:17,710 --> 00:00:19,250
+using for this lesson.
+
+10
+00:00:19,250 --> 00:00:21,840
+So if you look at the top, I've
+abstracted some of the
+
+11
+00:00:21,840 --> 00:00:23,650
+methods just to keep
+the code simple.
+
+12
+00:00:23,650 --> 00:00:26,140
+So I have a method,
+createCollection, here which
+
+13
+00:00:26,140 --> 00:00:28,840
+just creates a Mongo client;
+a database that returns a
+
+14
+00:00:28,840 --> 00:00:31,280
+collection; and then another
+method to print the contents
+
+15
+00:00:31,280 --> 00:00:32,520
+of the collection.
+
+16
+00:00:32,520 --> 00:00:34,590
+That's just to keep the main
+method simple so you can see
+
+17
+00:00:34,590 --> 00:00:35,540
+more easily.
+
+18
+00:00:35,540 --> 00:00:41,412
+And then I create my documents
+by creating a list of names of
+
+19
+00:00:41,412 --> 00:00:44,970
+strings then inserting each of
+those names as the ID of a
+
+20
+00:00:44,970 --> 00:00:46,710
+document in the collection.
+
+21
+00:00:46,710 --> 00:00:47,290
+And then I print it.
+
+22
+00:00:47,290 --> 00:00:49,110
+So let's run this.
+
+23
+00:00:49,110 --> 00:00:51,820
+And you can see that indeed I
+have five documents in my
+
+24
+00:00:51,820 --> 00:00:52,750
+collection--
+
+25
+00:00:52,750 --> 00:00:55,070
+Alice, Bobby, Kathy,
+David, and Ethan.
+
+26
+00:00:55,070 --> 00:00:58,190
+So let's look at update first.
+
+27
+00:00:58,190 --> 00:01:02,430
+So update, like find, is
+a method on collection.
+
+28
+00:01:02,430 --> 00:01:03,590
+So the method is update.
+
+29
+00:01:03,590 --> 00:01:06,590
+And you can see it's overloaded,
+but we're going to
+
+30
+00:01:06,590 --> 00:01:10,660
+use the simplest form first,
+which is the one that takes a
+
+31
+00:01:10,660 --> 00:01:12,570
+query and an update operation.
+
+32
+00:01:12,570 --> 00:01:15,330
+And you'll see later that
+there's a few more overloads
+
+33
+00:01:15,330 --> 00:01:17,710
+for upsert and multi update,
+but we won't
+
+34
+00:01:17,710 --> 00:01:19,060
+deal with those yet.
+
+35
+00:01:19,060 --> 00:01:21,190
+So let's update the first
+document in the collection,
+
+36
+00:01:21,190 --> 00:01:25,530
+Alice, by creating a query
+for a document
+
+37
+00:01:25,530 --> 00:01:27,530
+with an ID of Alice.
+
+38
+00:01:27,530 --> 00:01:29,020
+And this is just
+a normal query.
+
+39
+00:01:29,020 --> 00:01:33,110
+So although we learned about
+querying using find applies to
+
+40
+00:01:33,110 --> 00:01:33,870
+the update.
+
+41
+00:01:33,870 --> 00:01:36,160
+This can be any query
+just like find.
+
+42
+00:01:36,160 --> 00:01:37,510
+So that's the query.
+
+43
+00:01:37,510 --> 00:01:39,970
+Now let's say what
+our update is.
+
+44
+00:01:39,970 --> 00:01:43,230
+Now, we're going to start with
+wholesale replacement, just
+
+45
+00:01:43,230 --> 00:01:45,530
+like Richard did
+with the shell.
+
+46
+00:01:45,530 --> 00:01:48,050
+And we'll say that we're going
+to update this document and
+
+47
+00:01:48,050 --> 00:01:54,330
+we'll set an age field
+to be, say, 24.
+
+48
+00:01:54,330 --> 00:01:59,260
+And if we run this we should see
+that Alice now has an age
+
+49
+00:01:59,260 --> 00:02:03,230
+field that's 24, which
+is what we wanted.
+
+50
+00:02:03,230 --> 00:02:06,050
+But since this is wholesale
+replacement, if we do a second
+
+51
+00:02:06,050 --> 00:02:13,100
+update and say we change this
+to gender of female, then we
+
+52
+00:02:13,100 --> 00:02:15,990
+would expect that the age field
+is going to disappear.
+
+53
+00:02:15,990 --> 00:02:17,110
+And indeed it does.
+
+54
+00:02:17,110 --> 00:02:19,440
+We have Alice ID with
+gender female.
+
+55
+00:02:19,440 --> 00:02:22,720
+And it disappears because while
+the first update set age
+
+56
+00:02:22,720 --> 00:02:25,810
+to 24, it's a wholesale
+replacement of the documents,
+
+57
+00:02:25,810 --> 00:02:26,615
+including ID.
+
+58
+00:02:26,615 --> 00:02:29,000
+You don't have to respecify ID,
+although usually you do.
+
+59
+00:02:29,000 --> 00:02:31,750
+But when we do the second
+update, the document we were
+
+60
+00:02:31,750 --> 00:02:35,230
+giving doesn't include age, so
+the age field disappears.
+
+61
+00:02:35,230 --> 00:02:38,430
+We can change that by using the
+second behavior of update
+
+62
+00:02:38,430 --> 00:02:42,300
+by using the dollar operators
+for the second argument update
+
+63
+00:02:42,300 --> 00:02:44,190
+instead of a BasicDBObject
+
+64
+00:02:44,190 --> 00:02:46,060
+representing an entire document.
+
+65
+00:02:46,060 --> 00:02:52,990
+So we can do that by saying
+BasicDBObject("$set" where now
+
+66
+00:02:52,990 --> 00:02:56,340
+we do a $set of gender to F.
+So in that case, we won't
+
+67
+00:02:56,340 --> 00:02:58,790
+overwrite the age field.
+
+68
+00:02:58,790 --> 00:03:02,150
+And now when we run it, we see
+that Alice has both an age
+
+69
+00:03:02,150 --> 00:03:05,346
+field and a gender field.
+
+70
+00:03:05,346 --> 00:03:09,400
+OK, so that's the two basic
+behaviors of the update method
+
+71
+00:03:09,400 --> 00:03:12,585
+on DBCollection using the
+default values of upsert,
+
+72
+00:03:12,585 --> 00:03:15,280
+which is false, and multi,
+which is also false.
+
+73
+00:03:15,280 --> 00:03:16,860
+So now let's look at upsert.
+
+74
+00:03:16,860 --> 00:03:20,150
+So let's now try to update a
+document where the ID doesn't
+
+75
+00:03:20,150 --> 00:03:22,260
+actually exist in
+the collection.
+
+76
+00:03:22,260 --> 00:03:26,840
+So if I update Frank, we run
+this, we should not see Frank
+
+77
+00:03:26,840 --> 00:03:27,990
+in the collection.
+
+78
+00:03:27,990 --> 00:03:29,875
+We don't because we're
+not doing an upsert.
+
+79
+00:03:29,875 --> 00:03:33,380
+The query ID Frank doesn't
+match any documents.
+
+80
+00:03:33,380 --> 00:03:38,780
+But if we add the upsert
+parameter, true for the third
+
+81
+00:03:38,780 --> 00:03:42,180
+parameter to update, which is
+upsert, then we should expect
+
+82
+00:03:42,180 --> 00:03:45,460
+that a new document will
+be created for Frank.
+
+83
+00:03:45,460 --> 00:03:47,620
+The ID is Frank, gender--
+
+84
+00:03:47,620 --> 00:03:49,500
+I should change the
+gender to male.
+
+85
+00:03:49,500 --> 00:03:51,380
+Sorry, Frank.
+
+86
+00:03:51,380 --> 00:03:53,740
+We have a new document
+created for Frank
+
+87
+00:03:53,740 --> 00:03:55,510
+because we did an upsert.
+
+88
+00:03:55,510 --> 00:03:58,270
+OK, so that's three of
+our four behaviors.
+
+89
+00:03:58,270 --> 00:04:00,930
+Now let's look at the final
+one, which is multi.
+
+90
+00:04:00,930 --> 00:04:04,410
+So let's say, like Richard did
+in his example, we want to
+
+91
+00:04:04,410 --> 00:04:09,010
+update every document in the
+collection and add a title
+
+92
+00:04:09,010 --> 00:04:15,610
+field of Dr. We can do that by
+switching the order of these
+
+93
+00:04:15,610 --> 00:04:16,970
+parameters--
+
+94
+00:04:16,970 --> 00:04:19,620
+upsert false, multi is true--
+
+95
+00:04:19,620 --> 00:04:22,970
+and now we should expect that
+every document in the
+
+96
+00:04:22,970 --> 00:04:26,140
+collection will have a new field
+called title with the
+
+97
+00:04:26,140 --> 00:04:28,480
+value Dr. That is the case.
+
+98
+00:04:28,480 --> 00:04:32,730
+Alice still has her age 24
+because I didn't remove that.
+
+99
+00:04:32,730 --> 00:04:34,230
+OK.
+
+100
+00:04:34,230 --> 00:04:36,940
+So that's all the behaviors
+of update.
+
+101
+00:04:36,940 --> 00:04:39,685
+Now let's take a quick
+look at remove and
+
+102
+00:04:39,685 --> 00:04:41,240
+then we'll do a quiz.
+
+103
+00:04:41,240 --> 00:04:43,460
+So if we want to remove
+documents in a collection, we
+
+104
+00:04:43,460 --> 00:04:45,790
+can do that with the
+remove method.
+
+105
+00:04:45,790 --> 00:04:47,880
+And there's a bunch of
+overloads, we'll get to that
+
+106
+00:04:47,880 --> 00:04:51,990
+in a later lesson when we talk
+about WriteConcern, but the
+
+107
+00:04:51,990 --> 00:04:54,820
+remove method takes a single
+DBObject that represents a
+
+108
+00:04:54,820 --> 00:04:58,610
+query of which documents
+should be removed.
+
+109
+00:04:58,610 --> 00:05:01,850
+We just say new BasicDBObject
+that matches everything, so
+
+110
+00:05:01,850 --> 00:05:03,890
+all the documents
+will be removed.
+
+111
+00:05:03,890 --> 00:05:05,700
+We can see they're all gone.
+
+112
+00:05:05,700 --> 00:05:09,270
+But we can limit this with a
+query and say let's only
+
+113
+00:05:09,270 --> 00:05:11,850
+remove Alice.
+
+114
+00:05:11,850 --> 00:05:14,250
+If we do that, then we should
+see that we now have four
+
+115
+00:05:14,250 --> 00:05:14,870
+documents--
+
+116
+00:05:14,870 --> 00:05:16,825
+Bobby, Cathy, David, Ethan--
+
+117
+00:05:16,825 --> 00:05:19,030
+but Alice is gone.
+
+118
+00:05:19,030 --> 00:05:22,010
+So what's a little confusing
+about update and remove is
+
+119
+00:05:22,010 --> 00:05:25,430
+that while by default update
+only updates a single
+
+120
+00:05:25,430 --> 00:05:27,870
+document, remove updates
+all the documents
+
+121
+00:05:27,870 --> 00:05:29,240
+that match the criteria.
+
+122
+00:05:29,240 --> 00:05:31,800
+And there's actually no way in
+the Java driver to tell it to
+
+123
+00:05:31,800 --> 00:05:34,150
+only remove the first
+document.
+
+124
+00:05:34,150 --> 00:05:35,800
+OK, let's go to a quiz.
+
+125
+00:05:35,800 --> 00:05:38,200
+So in this quiz you actually
+have to write some code.
+
+126
+00:05:38,200 --> 00:05:42,280
+So do be careful and maybe try
+it in an editor first before
+
+127
+00:05:42,280 --> 00:05:45,370
+you give an answer just so you
+don't have any syntax errors.
+
+128
+00:05:45,370 --> 00:05:47,070
+The question is, "In the
+following code fragment, what
+
+129
+00:05:47,070 --> 00:05:51,560
+does the Java expression in
+place of xxxx that will set
+
+130
+00:05:51,560 --> 00:05:55,630
+the field 'examiner' to the
+value 'Jones' for the document
+
+131
+00:05:55,630 --> 00:05:59,680
+with _id of 1," which we're
+already selected in the query.
+
+132
+00:05:59,680 --> 00:06:02,170
+"Please use the $set operator
+to do this."
+
+133
+00:06:02,170 --> 00:06:03,330
+Don't worry about white space.
+
+134
+00:06:03,330 --> 00:06:05,980
+The white space should be
+stripped, but do be careful
+
+135
+00:06:05,980 --> 00:06:08,220
+about capitalization
+and other things.
+
+136
+00:06:08,220 --> 00:06:10,730
+And since this is just an
+expression, you don't need a
+
+137
+00:06:10,730 --> 00:06:11,970
+semicolon at the end.
+
+138
+00:06:11,970 --> 00:06:14,410
+Just the expression that you
+would put in place here.
+
+139
+00:06:14,410 --> 00:06:15,660

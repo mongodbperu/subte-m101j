@@ -1,0 +1,428 @@
+1
+00:00:00,000 --> 00:00:00,260
+
+2
+00:00:00,260 --> 00:00:04,170
+So in the last segment, we saw
+how to use Spark to define
+
+3
+00:00:04,170 --> 00:00:06,900
+various routes for get requests,
+including wild
+
+4
+00:00:06,900 --> 00:00:10,070
+carding, and in this segment,
+we're going to look at how to
+
+5
+00:00:10,070 --> 00:00:12,670
+use Spark to handle
+form content.
+
+6
+00:00:12,670 --> 00:00:15,580
+So as you probably know, forms
+are typically handled with
+
+7
+00:00:15,580 --> 00:00:18,140
+HTTP post requests.
+
+8
+00:00:18,140 --> 00:00:20,240
+So let's look at a form.
+
+9
+00:00:20,240 --> 00:00:22,380
+I've created an application
+already, and I have it running
+
+10
+00:00:22,380 --> 00:00:26,790
+on port 4567, the default Spark
+port, and it's a very
+
+11
+00:00:26,790 --> 00:00:27,930
+simple form.
+
+12
+00:00:27,930 --> 00:00:30,490
+The homepage presents a set of
+radio buttons, letting you
+
+13
+00:00:30,490 --> 00:00:32,090
+choose your favorite fruit.
+
+14
+00:00:32,090 --> 00:00:34,912
+And the four choices are apple,
+orange, banana, and
+
+15
+00:00:34,912 --> 00:00:36,730
+peach, and then you
+can submit.
+
+16
+00:00:36,730 --> 00:00:39,600
+And the way the application
+works, if you submit without
+
+17
+00:00:39,600 --> 00:00:41,890
+selecting, it says why
+don't you pick one.
+
+18
+00:00:41,890 --> 00:00:44,740
+And otherwise, if you
+pick one, it will
+
+19
+00:00:44,740 --> 00:00:45,620
+echo it back to you.
+
+20
+00:00:45,620 --> 00:00:48,120
+So your favorite fruit
+is orange.
+
+21
+00:00:48,120 --> 00:00:50,230
+So that's the whole
+application.
+
+22
+00:00:50,230 --> 00:00:52,410
+Now, let's go look
+at the code.
+
+23
+00:00:52,410 --> 00:00:54,880
+So let's look at the
+template first.
+
+24
+00:00:54,880 --> 00:00:57,950
+This is the free marker template
+and has a title of
+
+25
+00:00:57,950 --> 00:01:01,740
+fruit picker and
+a single form.
+
+26
+00:01:01,740 --> 00:01:05,319
+The key things to note are the
+action of the form, so slash
+
+27
+00:01:05,319 --> 00:01:09,230
+favorite fruit is the form
+action, so it's going to send
+
+28
+00:01:09,230 --> 00:01:12,970
+a post request to the slash
+favorite fruit URI.
+
+29
+00:01:12,970 --> 00:01:15,960
+And the method will be post,
+and it asks what their
+
+30
+00:01:15,960 --> 00:01:20,200
+favorite fruit is, and it
+iterates through an array
+
+31
+00:01:20,200 --> 00:01:21,890
+called fruits.
+
+32
+00:01:21,890 --> 00:01:24,360
+And since that's not defined in
+this form, that's going to
+
+33
+00:01:24,360 --> 00:01:27,580
+have to be passed in to the
+map that we use when we
+
+34
+00:01:27,580 --> 00:01:29,260
+process this template.
+
+35
+00:01:29,260 --> 00:01:33,910
+So for each of the fruits in
+this list of fruits, we'll
+
+36
+00:01:33,910 --> 00:01:38,070
+create a radio button with name
+of fruit and the value of
+
+37
+00:01:38,070 --> 00:01:42,050
+fruit, and that is a
+free marker value.
+
+38
+00:01:42,050 --> 00:01:44,980
+So it's dollar, curly brace,
+fruit, end curly brace.
+
+39
+00:01:44,980 --> 00:01:48,980
+And this fruit variable will
+take on a new value for each
+
+40
+00:01:48,980 --> 00:01:51,310
+iteration through this loop.
+
+41
+00:01:51,310 --> 00:01:53,625
+So we have this list of fruits,
+and the first time it
+
+42
+00:01:53,625 --> 00:01:54,320
+will be the first fruit.
+
+43
+00:01:54,320 --> 00:01:57,960
+Second time, so we'll end up
+with, as we saw before, four
+
+44
+00:01:57,960 --> 00:01:59,730
+radio buttons, one
+for each fruit.
+
+45
+00:01:59,730 --> 00:02:02,570
+And finally, we submit
+the form using
+
+46
+00:02:02,570 --> 00:02:04,640
+input of type submit.
+
+47
+00:02:04,640 --> 00:02:07,710
+So now let's look at
+the java code.
+
+48
+00:02:07,710 --> 00:02:11,430
+So in the java code, we start
+off with our free marker
+
+49
+00:02:11,430 --> 00:02:13,070
+configuration up top.
+
+50
+00:02:13,070 --> 00:02:16,300
+So we create a new
+configuration, and then we
+
+51
+00:02:16,300 --> 00:02:17,100
+define our routes.
+
+52
+00:02:17,100 --> 00:02:20,270
+So we have a route for the get
+request, which presents the
+
+53
+00:02:20,270 --> 00:02:22,620
+form, so that's slash.
+
+54
+00:02:22,620 --> 00:02:25,320
+So here's where we create the
+map that we're going to pass
+
+55
+00:02:25,320 --> 00:02:26,650
+to this template.
+
+56
+00:02:26,650 --> 00:02:31,170
+It has a single key in the map
+called fruits, and the value
+
+57
+00:02:31,170 --> 00:02:34,660
+of that key is a list of fruits
+that we saw before,
+
+58
+00:02:34,660 --> 00:02:37,950
+apple, orange, banana,
+and peach.
+
+59
+00:02:37,950 --> 00:02:40,860
+And next thing we do is we get
+the template from the free
+
+60
+00:02:40,860 --> 00:02:42,330
+market configuration.
+
+61
+00:02:42,330 --> 00:02:44,100
+It was called fruitpicker.ftl.
+
+62
+00:02:44,100 --> 00:02:46,580
+That's the name of
+the file here.
+
+63
+00:02:46,580 --> 00:02:49,910
+So I get that template, we
+create a string writer to
+
+64
+00:02:49,910 --> 00:02:52,680
+process the template into, and
+then finally, we process the
+
+65
+00:02:52,680 --> 00:02:56,540
+template, passing the
+map and the writer.
+
+66
+00:02:56,540 --> 00:03:00,400
+And then we return the writer
+back to Spark for output.
+
+67
+00:03:00,400 --> 00:03:03,550
+So that's what presents the form
+to the user that we saw
+
+68
+00:03:03,550 --> 00:03:05,870
+before, and this is the
+part that's new.
+
+69
+00:03:05,870 --> 00:03:09,310
+This is the piece that handles
+the form when it's submitted.
+
+70
+00:03:09,310 --> 00:03:13,180
+So the last one was a get, but
+this one's a post, since we're
+
+71
+00:03:13,180 --> 00:03:15,320
+posting content to
+the website.
+
+72
+00:03:15,320 --> 00:03:18,870
+So we say Spark.post and the
+route is slash favorite fruit,
+
+73
+00:03:18,870 --> 00:03:22,355
+which aligns with the
+action in the form,
+
+74
+00:03:22,355 --> 00:03:23,790
+which we see here.
+
+75
+00:03:23,790 --> 00:03:27,290
+And the handle method gets the
+query param called fruit,
+
+76
+00:03:27,290 --> 00:03:29,490
+which was the name of the
+parameter defined
+
+77
+00:03:29,490 --> 00:03:30,920
+in the radio buttons.
+
+78
+00:03:30,920 --> 00:03:33,660
+We get the value, and if it
+wasn't set, we return why
+
+79
+00:03:33,660 --> 00:03:34,780
+don't you pick one?
+
+80
+00:03:34,780 --> 00:03:37,240
+Otherwise, we return your
+favorite fruit is
+
+81
+00:03:37,240 --> 00:03:38,740
+whatever you chose.
+
+82
+00:03:38,740 --> 00:03:41,660
+So we could have used a free
+market template here and in a
+
+83
+00:03:41,660 --> 00:03:43,820
+real application, we certainly
+would use a free market
+
+84
+00:03:43,820 --> 00:03:44,700
+template for everything.
+
+85
+00:03:44,700 --> 00:03:47,970
+But just to keep the example
+short, I chose, in this case,
+
+86
+00:03:47,970 --> 00:03:52,170
+to return just a simple string
+from this particular handler.
+
+87
+00:03:52,170 --> 00:03:55,740
+So let's go back and look at
+the application once more.
+
+88
+00:03:55,740 --> 00:03:59,120
+We pick banana and
+we submit it.
+
+89
+00:03:59,120 --> 00:04:01,590
+Your favorite fruit is banana,
+and that's the whole
+
+90
+00:04:01,590 --> 00:04:02,840
+application.
+
+91
+00:04:02,840 --> 00:04:03,140

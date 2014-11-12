@@ -1,0 +1,266 @@
+1
+00:00:00,000 --> 00:00:00,220
+
+2
+00:00:00,220 --> 00:00:02,480
+Let's go over how to
+provide hints to
+
+3
+00:00:02,480 --> 00:00:04,600
+MongoDB from within Java.
+
+4
+00:00:04,600 --> 00:00:06,330
+We're going to use the
+same collection.
+
+5
+00:00:06,330 --> 00:00:08,950
+And I've added some indexes.
+
+6
+00:00:08,950 --> 00:00:10,780
+So let's look at the
+indexes I've added.
+
+7
+00:00:10,780 --> 00:00:13,570
+I have an index on "a"--
+
+8
+00:00:13,570 --> 00:00:15,160
+you can see that here--
+
+9
+00:00:15,160 --> 00:00:20,290
+an index on "b," an index on
+"c," and an index on "d," and
+
+10
+00:00:20,290 --> 00:00:23,380
+an index on "a,"
+ascending, "b,"
+
+11
+00:00:23,380 --> 00:00:26,050
+descending, "c," ascending.
+
+12
+00:00:26,050 --> 00:00:28,470
+How would we tell
+MongoDB to use a
+
+13
+00:00:28,470 --> 00:00:30,900
+particular index from Java?
+
+14
+00:00:30,900 --> 00:00:34,300
+I've written a small program to
+illustrate how this works.
+
+15
+00:00:34,300 --> 00:00:36,990
+Let's go through it,
+line by line.
+
+16
+00:00:36,990 --> 00:00:40,610
+First we connect to MongoDB
+using Mongo Client.
+
+17
+00:00:40,610 --> 00:00:44,320
+And after that, we connect
+to the test database.
+
+18
+00:00:44,320 --> 00:00:47,510
+And then we're going to set up
+a query where we're going to
+
+19
+00:00:47,510 --> 00:00:51,355
+look for "a" being 40,000,
+"b" being 40,000,
+
+20
+00:00:51,355 --> 00:00:53,480
+and "c" being 40,000.
+
+21
+00:00:53,480 --> 00:00:56,490
+And now there's two alternative
+ways to get hints
+
+22
+00:00:56,490 --> 00:00:58,000
+within MongoDB.
+
+23
+00:00:58,000 --> 00:01:02,280
+One of them is to append hint
+onto the query, and specify
+
+24
+00:01:02,280 --> 00:01:05,480
+the string of the index name,
+which you could deduce.
+
+25
+00:01:05,480 --> 00:01:08,560
+Or you could look for it
+by doing a getIndexes.
+
+26
+00:01:08,560 --> 00:01:12,150
+And then I add explain so that
+we get a document back that is
+
+27
+00:01:12,150 --> 00:01:13,540
+the output of explain.
+
+28
+00:01:13,540 --> 00:01:17,480
+And then down here, I just
+go through that document.
+
+29
+00:01:17,480 --> 00:01:18,860
+I get its key set.
+
+30
+00:01:18,860 --> 00:01:20,600
+And then I just print
+it out line by line.
+
+31
+00:01:20,600 --> 00:01:23,110
+It's sort of a poor man's
+pretty print.
+
+32
+00:01:23,110 --> 00:01:25,975
+So if I run that, let's
+see what I get.
+
+33
+00:01:25,975 --> 00:01:27,060
+All right.
+
+34
+00:01:27,060 --> 00:01:30,280
+And you can see that the bottom
+here, a little hard to
+
+35
+00:01:30,280 --> 00:01:35,380
+read, but it's using the
+index a_b_-1_c_1,
+
+36
+00:01:35,380 --> 00:01:36,660
+the same one I specified.
+
+37
+00:01:36,660 --> 00:01:38,560
+So that's one way to do it.
+
+38
+00:01:38,560 --> 00:01:42,960
+And the alternative way to do
+it, is to build it up using a
+
+39
+00:01:42,960 --> 00:01:44,280
+basic DB object.
+
+40
+00:01:44,280 --> 00:01:47,350
+It looks a lot like a
+query in that case.
+
+41
+00:01:47,350 --> 00:01:50,440
+So what we've done here
+is I'm creating
+
+42
+00:01:50,440 --> 00:01:51,880
+something called myHint.
+
+43
+00:01:51,880 --> 00:01:55,840
+And then I've created a basic
+DB object with the first key
+
+44
+00:01:55,840 --> 00:01:57,750
+value pair being "a,1".
+
+45
+00:01:57,750 --> 00:02:01,480
+The second one appended on being
+"b, -1," and the third
+
+46
+00:02:01,480 --> 00:02:06,380
+being "c,1." And then I can call
+"find" with that query.
+
+47
+00:02:06,380 --> 00:02:10,910
+And that hint, my hint, and
+it will do the same thing.
+
+48
+00:02:10,910 --> 00:02:12,860
+I'll show you that.
+
+49
+00:02:12,860 --> 00:02:17,670
+And you can see that it's using
+the same index again,
+
+50
+00:02:17,670 --> 00:02:18,980
+right here.
+
+51
+00:02:18,980 --> 00:02:23,020
+Now, it's interesting because
+you do need to send in an
+
+52
+00:02:23,020 --> 00:02:28,990
+ordered pair for a hint, A-B-C.
+And these basic DB
+
+53
+00:02:28,990 --> 00:02:32,170
+objects are ordered, even though
+a straight map might
+
+54
+00:02:32,170 --> 00:02:33,790
+not be ordered within Java.
+
+55
+00:02:33,790 --> 00:02:36,830
+But this basic DB object
+has an order to it.
+
+56
+00:02:36,830 --> 00:02:40,100
+And it retains the ordinal
+values of the different keys.
+
+57
+00:02:40,100 --> 00:02:43,170
+And so it works as a way
+to send in a hint.
+
+58
+00:02:43,170 --> 00:02:44,420

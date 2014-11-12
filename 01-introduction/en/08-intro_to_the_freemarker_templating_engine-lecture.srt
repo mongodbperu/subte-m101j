@@ -1,0 +1,441 @@
+1
+00:00:00,000 --> 00:00:00,160
+
+2
+00:00:00,160 --> 00:00:03,110
+We've seen our web application
+framework, Spark,
+
+3
+00:00:03,110 --> 00:00:04,150
+but there's a problem.
+
+4
+00:00:04,150 --> 00:00:06,960
+So you see here, where were
+returning Hello World from
+
+5
+00:00:06,960 --> 00:00:08,250
+Spark, that's fine.
+
+6
+00:00:08,250 --> 00:00:10,800
+Spark will call to string
+on that and return
+
+7
+00:00:10,800 --> 00:00:11,720
+that as the web page.
+
+8
+00:00:11,720 --> 00:00:14,690
+But we want to put a fair amount
+of HTML in there, and
+
+9
+00:00:14,690 --> 00:00:17,830
+it's not going to be very pretty
+if we just embed HTML
+
+10
+00:00:17,830 --> 00:00:20,030
+in a big string to return
+from the handle method.
+
+11
+00:00:20,030 --> 00:00:22,770
+So we need some sort of
+templating library to use.
+
+12
+00:00:22,770 --> 00:00:25,150
+And again, there's a lot of
+templating libraries.
+
+13
+00:00:25,150 --> 00:00:28,100
+But a simple one to use with
+Spark is one called
+
+14
+00:00:28,100 --> 00:00:29,070
+FreeMarker.
+
+15
+00:00:29,070 --> 00:00:32,270
+Now FreeMarker has been around
+for quite awhile.
+
+16
+00:00:32,270 --> 00:00:33,735
+It's just a template engine.
+
+17
+00:00:33,735 --> 00:00:37,260
+As it says, it's a generic tool
+to generate text output,
+
+18
+00:00:37,260 --> 00:00:41,110
+anything from HTML to source
+code, based on templates.
+
+19
+00:00:41,110 --> 00:00:44,690
+The basic idea with it is, you
+define templates files with
+
+20
+00:00:44,690 --> 00:00:46,820
+the .ftl extension.
+
+21
+00:00:46,820 --> 00:00:50,950
+And they have place holders,
+like, in this case, $ curly
+
+22
+00:00:50,950 --> 00:00:52,680
+brace, name, curly brace.
+
+23
+00:00:52,680 --> 00:00:56,780
+And at run time you combine the
+template file with a Java
+
+24
+00:00:56,780 --> 00:01:00,610
+map, typically, which
+has keys and values.
+
+25
+00:01:00,610 --> 00:01:04,650
+And the FreeMarker processor
+combines the map with the
+
+26
+00:01:04,650 --> 00:01:07,020
+template file and
+produces output.
+
+27
+00:01:07,020 --> 00:01:10,960
+So in this case, it'll replace
+$ curly brace name with the
+
+28
+00:01:10,960 --> 00:01:14,650
+name property of the data
+map, which is Fred.
+
+29
+00:01:14,650 --> 00:01:16,900
+So let's go and write
+some code.
+
+30
+00:01:16,900 --> 00:01:18,660
+The first thing we need
+is a dependency.
+
+31
+00:01:18,660 --> 00:01:20,840
+So I have this commented
+out here.
+
+32
+00:01:20,840 --> 00:01:25,610
+I'll uncomment the dependency on
+FreeMarker in the palm.xml.
+
+33
+00:01:25,610 --> 00:01:27,430
+The group ID is org.freemarker.
+
+34
+00:01:27,430 --> 00:01:32,860
+The artifact is freemarker,
+and the version is 2.3.19.
+
+35
+00:01:32,860 --> 00:01:36,010
+So let's create a new
+application, it will be
+
+36
+00:01:36,010 --> 00:01:45,420
+HelloWorldFreemarkerstyle,
+and start writing
+
+37
+00:01:45,420 --> 00:01:46,270
+some FreeMarker code.
+
+38
+00:01:46,270 --> 00:01:48,570
+So you have to bootstrap
+yourself.
+
+39
+00:01:48,570 --> 00:01:54,310
+And you do that with a class
+called Configuration, which is
+
+40
+00:01:54,310 --> 00:01:55,580
+in the package
+FreeMarker.template.
+
+41
+00:01:55,580 --> 00:01:58,270
+So I'm going to create
+a new configuration.
+
+42
+00:01:58,270 --> 00:02:01,570
+
+43
+00:02:01,570 --> 00:02:03,710
+And I don't need to do much with
+it, but one thing I do
+
+44
+00:02:03,710 --> 00:02:06,800
+need to do is set the class
+for template loading.
+
+45
+00:02:06,800 --> 00:02:10,430
+So this is basically to tell the
+FreeMarker configuration
+
+46
+00:02:10,430 --> 00:02:12,820
+how to find the FreeMarker
+template.
+
+47
+00:02:12,820 --> 00:02:16,900
+So we're going to put our
+FreeMarker templates in the
+
+48
+00:02:16,900 --> 00:02:18,180
+class path.
+
+49
+00:02:18,180 --> 00:02:20,607
+So we're going to load the
+FreeMarker template in the
+
+50
+00:02:20,607 --> 00:02:22,490
+class path relative
+to the Hello World
+
+51
+00:02:22,490 --> 00:02:24,560
+FreeMarker style class.
+
+52
+00:02:24,560 --> 00:02:26,585
+And we'll say that
+it's in slash.
+
+53
+00:02:26,585 --> 00:02:29,690
+So we should look at the start
+of the class path.
+
+54
+00:02:29,690 --> 00:02:31,890
+So I defined a template
+already.
+
+55
+00:02:31,890 --> 00:02:35,220
+So I created a resources
+directory which Maven and
+
+56
+00:02:35,220 --> 00:02:38,710
+IntelliJ already knows to
+include in the class path.
+
+57
+00:02:38,710 --> 00:02:42,580
+And there's a simple template,
+HTML, welcome, that's the
+
+58
+00:02:42,580 --> 00:02:46,100
+title, and hello, $
+curly brace, name,
+
+59
+00:02:46,100 --> 00:02:47,320
+closed curly brace.
+
+60
+00:02:47,320 --> 00:02:50,200
+Let's go back to our
+HelloWorldFreemarkerStyle.
+
+61
+00:02:50,200 --> 00:02:53,420
+And I'm going to create a
+template called Hello
+
+62
+00:02:53,420 --> 00:03:00,600
+Template, port the class, and
+I get the template based on
+
+63
+00:03:00,600 --> 00:03:04,292
+its name, which is
+just Hello.ftl.
+
+64
+00:03:04,292 --> 00:03:05,790
+And it's going to throw
+an exception.
+
+65
+00:03:05,790 --> 00:03:09,930
+So I'm going to surround
+this with a try catch.
+
+66
+00:03:09,930 --> 00:03:11,910
+I'll just make this catch
+everything for now.
+
+67
+00:03:11,910 --> 00:03:15,550
+And I'm going to create a place
+to put the output of the
+
+68
+00:03:15,550 --> 00:03:17,270
+template in a string writer.
+
+69
+00:03:17,270 --> 00:03:20,290
+
+70
+00:03:20,290 --> 00:03:25,640
+And finally, I'm going to create
+my map, which I'm going
+
+71
+00:03:25,640 --> 00:03:30,570
+to pass to FreeMarker as the set
+of keys that I want to map
+
+72
+00:03:30,570 --> 00:03:31,820
+in my template.
+
+73
+00:03:31,820 --> 00:03:34,510
+
+74
+00:03:34,510 --> 00:03:38,810
+So if you recall, we're looking
+for a key of name.
+
+75
+00:03:38,810 --> 00:03:40,615
+So I'm going to add
+that to Hello map.
+
+76
+00:03:40,615 --> 00:03:44,380
+
+77
+00:03:44,380 --> 00:03:48,315
+And I'll add a name,
+Hello Freemarker.
+
+78
+00:03:48,315 --> 00:03:49,560
+That's everything I need.
+
+79
+00:03:49,560 --> 00:03:52,630
+And now I just have to
+process the template.
+
+80
+00:03:52,630 --> 00:03:57,230
+So I'm going to pass it the
+map and the string writer.
+
+81
+00:03:57,230 --> 00:03:59,740
+Finally, I'm going to
+print out the value
+
+82
+00:03:59,740 --> 00:04:00,440
+of the string writer.
+
+83
+00:04:00,440 --> 00:04:04,120
+And with luck, it should print
+out Hello Freemarker.
+
+84
+00:04:04,120 --> 00:04:06,960
+Well, actually, it prints out
+the whole web page, of course.
+
+85
+00:04:06,960 --> 00:04:10,740
+But inside, it says Hello
+Freemarker, because it took
+
+86
+00:04:10,740 --> 00:04:13,340
+this map with a key of name
+and a value of Freemarker,
+
+87
+00:04:13,340 --> 00:04:19,010
+processed the hello template,
+and replaced the $name with
+
+88
+00:04:19,010 --> 00:04:21,399
+Freemarker and returned
+the results.
+
+89
+00:04:21,399 --> 00:04:24,050
+And that's a basic introduction
+to FreeMarker.
+
+90
+00:04:24,050 --> 00:04:25,380
+There's a lot more
+with FreeMarker.
+
+91
+00:04:25,380 --> 00:04:28,960
+There's other directives and
+ways to process the map, and
+
+92
+00:04:28,960 --> 00:04:31,150
+access it, and loop,
+and so forth.
+
+93
+00:04:31,150 --> 00:04:32,640
+But this is enough
+to get us going.
+
+94
+00:04:32,640 --> 00:04:33,890

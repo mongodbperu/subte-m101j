@@ -1,0 +1,25 @@
+1
+00:00:00,000 --> 00:00:03,870
+And the answer is that MongoDB
+is document oriented, and
+
+2
+00:00:03,870 --> 00:00:06,150
+MongoDB has dynamic schema--
+
+3
+00:00:06,150 --> 00:00:08,790
+the different documents can
+have different schema.
+
+4
+00:00:08,790 --> 00:00:11,960
+But it does not support joins
+between collections, and it
+
+5
+00:00:11,960 --> 00:00:13,210
+does not supports SQL.
+
+6
+00:00:13,210 --> 00:00:14,190

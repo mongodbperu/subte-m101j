@@ -1,0 +1,866 @@
+1
+00:00:00,000 --> 00:00:01,480
+Hi, this is Jeff again.
+
+2
+00:00:01,480 --> 00:00:04,760
+And this is a bit of a sidebar
+about schema design to show
+
+3
+00:00:04,760 --> 00:00:08,610
+you how the flexible schema
+capabilities of MongoDB make
+
+4
+00:00:08,610 --> 00:00:11,330
+it easy to import feeds
+from around the web.
+
+5
+00:00:11,330 --> 00:00:14,250
+So the example I'll
+use is Twitter.
+
+6
+00:00:14,250 --> 00:00:16,900
+Here I have the MongoDB
+homepage for Twitter.
+
+7
+00:00:16,900 --> 00:00:21,070
+You can see the list
+of tweets, the last
+
+8
+00:00:21,070 --> 00:00:22,310
+20 tweets or so.
+
+9
+00:00:22,310 --> 00:00:24,210
+And it turns out the
+same information is
+
+10
+00:00:24,210 --> 00:00:25,760
+available in a feed.
+
+11
+00:00:25,760 --> 00:00:30,710
+So if I go to api.twitter.com,
+and so forth, and then to
+
+12
+00:00:30,710 --> 00:00:34,410
+screen name, MongoDB,
+I get a JSON feed
+
+13
+00:00:34,410 --> 00:00:36,300
+of the last 20 tweets.
+
+14
+00:00:36,300 --> 00:00:39,290
+And the structure is fairly
+straightforward.
+
+15
+00:00:39,290 --> 00:00:44,730
+It has a created a date and ID,
+the text of the tweets, a
+
+16
+00:00:44,730 --> 00:00:47,750
+nested user document that has
+information about the user who
+
+17
+00:00:47,750 --> 00:00:49,040
+did the tweet.
+
+18
+00:00:49,040 --> 00:00:51,980
+And then, at the bottom, there's
+some other things
+
+19
+00:00:51,980 --> 00:00:56,080
+about whether it was retweeted
+and so forth, retweet count.
+
+20
+00:00:56,080 --> 00:00:58,210
+And there's 20 of them
+in an array.
+
+21
+00:00:58,210 --> 00:01:01,800
+So I'm going to write a simple
+Java program to take this data
+
+22
+00:01:01,800 --> 00:01:03,880
+from the Twitter feed and
+throw it into a Mongo
+
+23
+00:01:03,880 --> 00:01:04,879
+collection.
+
+24
+00:01:04,879 --> 00:01:07,360
+So let's go over the program.
+
+25
+00:01:07,360 --> 00:01:08,430
+So I get the screen name.
+
+26
+00:01:08,430 --> 00:01:11,190
+I just default to MongoDB
+for the screen name.
+
+27
+00:01:11,190 --> 00:01:12,950
+You can also get it from the
+command line if you want,
+
+28
+00:01:12,950 --> 00:01:14,630
+through the first argument.
+
+29
+00:01:14,630 --> 00:01:17,500
+Then I call a method called get
+the latest tweets, which
+
+30
+00:01:17,500 --> 00:01:20,390
+returns a list of DB objects
+for the tweets.
+
+31
+00:01:20,390 --> 00:01:22,410
+And I'll show you that
+method in a bit.
+
+32
+00:01:22,410 --> 00:01:25,550
+Then I'll create a Mongo client,
+a DB collection for my
+
+33
+00:01:25,550 --> 00:01:28,095
+tweets collection, at
+course.twitter.
+
+34
+00:01:28,095 --> 00:01:31,410
+Finally, I'll go through my
+tweets and insert them all
+
+35
+00:01:31,410 --> 00:01:33,220
+into the database.
+
+36
+00:01:33,220 --> 00:01:36,540
+So let's first look at how we
+got the tweet feed as a list
+
+37
+00:01:36,540 --> 00:01:37,920
+of DB objects.
+
+38
+00:01:37,920 --> 00:01:39,760
+So it's fairly straightforward.
+
+39
+00:01:39,760 --> 00:01:41,640
+I have a method called
+getLatestTweets that takes the
+
+40
+00:01:41,640 --> 00:01:42,240
+screen name.
+
+41
+00:01:42,240 --> 00:01:45,710
+I construct a URL, including the
+screen name, that's passed
+
+42
+00:01:45,710 --> 00:01:46,955
+in as a parameter.
+
+43
+00:01:46,955 --> 00:01:50,340
+I open the stream, and then I
+just type the input stream
+
+44
+00:01:50,340 --> 00:01:52,140
+into a byte array
+output stream.
+
+45
+00:01:52,140 --> 00:01:54,230
+It's not the most efficient
+way of doing it, but it's
+
+46
+00:01:54,230 --> 00:01:55,940
+fairly straightforward.
+
+47
+00:01:55,940 --> 00:01:58,260
+I'm not worrying about
+performance right now.
+
+48
+00:01:58,260 --> 00:02:00,660
+And then I take the
+output stream and
+
+49
+00:02:00,660 --> 00:02:02,200
+turn it into a string.
+
+50
+00:02:02,200 --> 00:02:04,270
+And then the last step is
+where the magic happens.
+
+51
+00:02:04,270 --> 00:02:08,030
+I take that string and call a
+method called json.parse.
+
+52
+00:02:08,030 --> 00:02:09,500
+And this is part of
+the Java driver.
+
+53
+00:02:09,500 --> 00:02:12,950
+And it basically will take a
+JSON string, which can either
+
+54
+00:02:12,950 --> 00:02:16,210
+be a single document or a list,
+and return the parsed
+
+55
+00:02:16,210 --> 00:02:19,070
+results as either a DB object
+or a list of DB objects.
+
+56
+00:02:19,070 --> 00:02:20,760
+In this case, since it's
+an array, it will
+
+57
+00:02:20,760 --> 00:02:22,650
+return it as a list.
+
+58
+00:02:22,650 --> 00:02:24,230
+So I return that list.
+
+59
+00:02:24,230 --> 00:02:26,285
+Then I iterate through
+them one at a time
+
+60
+00:02:26,285 --> 00:02:27,610
+and insert each one.
+
+61
+00:02:27,610 --> 00:02:31,770
+So let's go to the shell, look
+at our document, look at a
+
+62
+00:02:31,770 --> 00:02:32,580
+sample document.
+
+63
+00:02:32,580 --> 00:02:35,134
+Let's find one.
+
+64
+00:02:35,134 --> 00:02:38,720
+And all my data is here, which
+is great, just like in the
+
+65
+00:02:38,720 --> 00:02:40,720
+feed that we saw
+in the browser.
+
+66
+00:02:40,720 --> 00:02:43,870
+But I notice something I don't
+like, which is that the ID
+
+67
+00:02:43,870 --> 00:02:47,110
+from the Twitter feed is
+in here as a number.
+
+68
+00:02:47,110 --> 00:02:49,340
+But since it's not called
+underscore, it could be the
+
+69
+00:02:49,340 --> 00:02:53,810
+driver created a _id for
+me with an object ID.
+
+70
+00:02:53,810 --> 00:02:56,400
+I don't want that though because
+what if I want to run
+
+71
+00:02:56,400 --> 00:02:58,880
+this twice, and not get
+any duplicates?
+
+72
+00:02:58,880 --> 00:03:02,190
+Since a new object id will be
+created each time, I can get
+
+73
+00:03:02,190 --> 00:03:05,430
+duplicate ids in
+my collection.
+
+74
+00:03:05,430 --> 00:03:09,810
+So a simple thing to do is just
+use this id as the _id.
+
+75
+00:03:09,810 --> 00:03:12,515
+So I wrote a method that
+will do that already.
+
+76
+00:03:12,515 --> 00:03:14,090
+And it's called massageTweetId.
+
+77
+00:03:14,090 --> 00:03:17,570
+
+78
+00:03:17,570 --> 00:03:19,360
+And it's very simple.
+
+79
+00:03:19,360 --> 00:03:24,510
+It just gets the ID, with no
+underscore, removes that ID,
+
+80
+00:03:24,510 --> 00:03:29,080
+and then puts the value
+of the id as _id.
+
+81
+00:03:29,080 --> 00:03:32,390
+And one other thing I noticed
+is that the feed does not
+
+82
+00:03:32,390 --> 00:03:34,300
+contain the screen name
+for each tweet.
+
+83
+00:03:34,300 --> 00:03:36,900
+And since I want to build a
+store tweets from multiple
+
+84
+00:03:36,900 --> 00:03:39,270
+screen names in the same
+collection, I want to add the
+
+85
+00:03:39,270 --> 00:03:41,080
+screen name here as well.
+
+86
+00:03:41,080 --> 00:03:43,255
+So let's do that up here too.
+
+87
+00:03:43,255 --> 00:03:48,840
+I'll say cur.put, screen name,
+and get my screen name.
+
+88
+00:03:48,840 --> 00:03:50,000
+And now let's run this.
+
+89
+00:03:50,000 --> 00:03:53,240
+I'm going to drop my
+collection first.
+
+90
+00:03:53,240 --> 00:03:56,010
+See what happens.
+
+91
+00:03:56,010 --> 00:03:59,510
+My tweet count is 20, and if I
+look in the database, you'll
+
+92
+00:03:59,510 --> 00:04:02,180
+see that there's a
+screen name here.
+
+93
+00:04:02,180 --> 00:04:04,530
+The screen name is MongoDB.
+
+94
+00:04:04,530 --> 00:04:08,510
+And my id is now the number
+long that came
+
+95
+00:04:08,510 --> 00:04:10,050
+from the feed itself.
+
+96
+00:04:10,050 --> 00:04:12,480
+But let's see what happens
+if I run this twice.
+
+97
+00:04:12,480 --> 00:04:13,750
+Not good-- exception.
+
+98
+00:04:13,750 --> 00:04:16,010
+I get a duplicate key exception
+because I'm trying
+
+99
+00:04:16,010 --> 00:04:19,040
+to insert the same
+document twice.
+
+100
+00:04:19,040 --> 00:04:20,170
+That's not what I want.
+
+101
+00:04:20,170 --> 00:04:23,220
+What I really want to do is, if
+that tweet doesn't already
+
+102
+00:04:23,220 --> 00:04:26,530
+exist in the collection of
+tweets, I want to insert it.
+
+103
+00:04:26,530 --> 00:04:29,540
+Otherwise, I want to,
+essentially, ignore it.
+
+104
+00:04:29,540 --> 00:04:30,680
+Just leave it alone.
+
+105
+00:04:30,680 --> 00:04:32,960
+So we already learned
+how to do this last
+
+106
+00:04:32,960 --> 00:04:34,620
+week, with an upsert.
+
+107
+00:04:34,620 --> 00:04:37,400
+So I'm going to change the
+insert to an upsert using the
+
+108
+00:04:37,400 --> 00:04:38,760
+update method.
+
+109
+00:04:38,760 --> 00:04:42,660
+The criteria will just be the
+id, which I could say just by
+
+110
+00:04:42,660 --> 00:04:47,770
+new basic DB object,
+and cur.get, id.
+
+111
+00:04:47,770 --> 00:04:50,900
+And the document will
+just be cur.
+
+112
+00:04:50,900 --> 00:04:54,460
+And then I want to say true to
+make it an upsert, and then
+
+113
+00:04:54,460 --> 00:04:55,820
+false for multi.
+
+114
+00:04:55,820 --> 00:04:59,610
+And now, when I run this, I
+get a tweet count of 20
+
+115
+00:04:59,610 --> 00:05:02,140
+because all those documents
+were there already.
+
+116
+00:05:02,140 --> 00:05:03,330
+So let's just start again.
+
+117
+00:05:03,330 --> 00:05:05,770
+I'll drop everything.
+
+118
+00:05:05,770 --> 00:05:06,910
+Tweet count is zero now.
+
+119
+00:05:06,910 --> 00:05:09,170
+I'll run it once.
+
+120
+00:05:09,170 --> 00:05:10,220
+I get a tweet count of 20.
+
+121
+00:05:10,220 --> 00:05:13,145
+I run it again, get a
+tweet count of 20.
+
+122
+00:05:13,145 --> 00:05:14,450
+That's because I'm
+doing upserts.
+
+123
+00:05:14,450 --> 00:05:16,890
+The first time I ran it, sorted
+of all the documents,
+
+124
+00:05:16,890 --> 00:05:19,300
+the next time, it didn't do
+anything, essentially.
+
+125
+00:05:19,300 --> 00:05:20,850
+So let's go back once more.
+
+126
+00:05:20,850 --> 00:05:22,990
+And there's one other
+thing I want to do.
+
+127
+00:05:22,990 --> 00:05:26,580
+I notice here that this user has
+a lot of information here
+
+128
+00:05:26,580 --> 00:05:27,480
+that I don't really care.
+
+129
+00:05:27,480 --> 00:05:29,900
+And it's going to be duplicated
+for every tweet.
+
+130
+00:05:29,900 --> 00:05:32,500
+So what I want to do is just
+keep a little bit of data
+
+131
+00:05:32,500 --> 00:05:35,080
+about the user but throw
+everything else away.
+
+132
+00:05:35,080 --> 00:05:37,150
+So I want to keep the id of the
+user, the name, and the
+
+133
+00:05:37,150 --> 00:05:38,320
+screen name.
+
+134
+00:05:38,320 --> 00:05:40,560
+And one other thing I don't like
+about this is the created
+
+135
+00:05:40,560 --> 00:05:43,630
+at field is a string
+representing a date, as
+
+136
+00:05:43,630 --> 00:05:45,790
+opposed to a date, which will
+make it harder to do data
+
+137
+00:05:45,790 --> 00:05:48,430
+arithmetic if I want
+to ever to querying
+
+138
+00:05:48,430 --> 00:05:49,565
+on the created update.
+
+139
+00:05:49,565 --> 00:05:52,585
+So I'm going to massage the
+document a little bit before I
+
+140
+00:05:52,585 --> 00:05:53,810
+put it in here.
+
+141
+00:05:53,810 --> 00:05:57,436
+And I already rewrote this
+method, which I'll show you.
+
+142
+00:05:57,436 --> 00:05:58,686
+It's massageTweet.
+
+143
+00:05:58,686 --> 00:06:00,780
+
+144
+00:06:00,780 --> 00:06:02,180
+Let's take a look.
+
+145
+00:06:02,180 --> 00:06:03,610
+I do two things.
+
+146
+00:06:03,610 --> 00:06:06,600
+I create a simple date format
+that matches that pattern.
+
+147
+00:06:06,600 --> 00:06:10,250
+And then I get the created at
+as a string and then pass it
+
+148
+00:06:10,250 --> 00:06:13,900
+to parse of simple date format,
+and reput it back as
+
+149
+00:06:13,900 --> 00:06:15,010
+the value of created at.
+
+150
+00:06:15,010 --> 00:06:17,860
+So I'm taking the string value
+created at and turning it into
+
+151
+00:06:17,860 --> 00:06:20,300
+a date, and reinserting it
+back into the document.
+
+152
+00:06:20,300 --> 00:06:24,980
+And then for my user sub
+documents, the way I get rid
+
+153
+00:06:24,980 --> 00:06:29,010
+of all the extra fields, I do a
+cur.getUser, pass that to a
+
+154
+00:06:29,010 --> 00:06:32,340
+DB object, and then I iterate
+over the key set, so all the
+
+155
+00:06:32,340 --> 00:06:34,080
+keys and user.
+
+156
+00:06:34,080 --> 00:06:39,350
+And if the key doesn't equal
+ID, name, or screen name, I
+
+157
+00:06:39,350 --> 00:06:42,680
+remove it by calling
+keyIterator.remove.
+
+158
+00:06:42,680 --> 00:06:45,725
+So let's run this again.
+
+159
+00:06:45,725 --> 00:06:47,610
+My tweet count is still 20.
+
+160
+00:06:47,610 --> 00:06:50,950
+But since I did upsert with
+replace, the documents should
+
+161
+00:06:50,950 --> 00:06:53,030
+now look the way
+I want them to.
+
+162
+00:06:53,030 --> 00:06:56,070
+So my created at field
+is now an ISO date
+
+163
+00:06:56,070 --> 00:06:58,060
+instead of a string.
+
+164
+00:06:58,060 --> 00:07:01,470
+And my user document just has
+these three fields, id, name,
+
+165
+00:07:01,470 --> 00:07:02,710
+and screen name.
+
+166
+00:07:02,710 --> 00:07:05,320
+And now I have my data, and
+I can do searches on it.
+
+167
+00:07:05,320 --> 00:07:08,270
+So I can do, let's see.
+
+168
+00:07:08,270 --> 00:07:11,470
+Since I want to find all
+documents where the retweet
+
+169
+00:07:11,470 --> 00:07:15,430
+count is greater than 5 and
+count them, I can do that with
+
+170
+00:07:15,430 --> 00:07:16,750
+a simple query.
+
+171
+00:07:16,750 --> 00:07:20,030
+Let's say I want to find all
+tweets where the text of the
+
+172
+00:07:20,030 --> 00:07:22,250
+document is the word China.
+
+173
+00:07:22,250 --> 00:07:24,090
+I can do that with a
+regular expression.
+
+174
+00:07:24,090 --> 00:07:25,730
+MongoDB is coming to China.
+
+175
+00:07:25,730 --> 00:07:29,130
+And finally, the last thing I
+wanted to show you is, I can
+
+176
+00:07:29,130 --> 00:07:30,930
+add tweets for a different
+screen name.
+
+177
+00:07:30,930 --> 00:07:34,670
+So if I change this to 10gen,
+instead of MongoDB, I'll get
+
+178
+00:07:34,670 --> 00:07:36,920
+the last 20 10gen
+tweets as well.
+
+179
+00:07:36,920 --> 00:07:39,142
+So now my tweet count is 40.
+
+180
+00:07:39,142 --> 00:07:42,092
+And let's search for tweets
+containing MongoDB.
+
+181
+00:07:42,092 --> 00:07:43,640
+And you can see them here.
+
+182
+00:07:43,640 --> 00:07:47,392
+Let's just look at screen
+name instead.
+
+183
+00:07:47,392 --> 00:07:50,690
+And you can see, there's a lot
+more tweets containing MongoDB
+
+184
+00:07:50,690 --> 00:07:54,210
+for the screen name MongoDB
+than for 10gen.
+
+185
+00:07:54,210 --> 00:07:55,420
+OK, that's it.
+
+186
+00:07:55,420 --> 00:07:56,670
+And there's no quiz.
+
+187
+00:07:56,670 --> 00:07:57,510

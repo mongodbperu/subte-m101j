@@ -1,0 +1,52 @@
+1
+00:00:00,000 --> 00:00:00,260
+
+2
+00:00:00,260 --> 00:00:03,220
+The correct answer is C, yes,
+because the removeField call
+
+3
+00:00:03,220 --> 00:00:05,810
+will remove the _id key
+added by the driver
+
+4
+00:00:05,810 --> 00:00:07,390
+in the first insert.
+
+5
+00:00:07,390 --> 00:00:09,910
+So essentially what will happen
+here is when we call
+
+6
+00:00:09,910 --> 00:00:13,540
+insert the first time, the
+driver will create an _id
+
+7
+00:00:13,540 --> 00:00:15,520
+field in that document.
+
+8
+00:00:15,520 --> 00:00:16,850
+Then we'll remove it.
+
+9
+00:00:16,850 --> 00:00:19,340
+And then when we call insert
+again on the same document,
+
+10
+00:00:19,340 --> 00:00:22,010
+there won't be an _id field and
+the driver will insert a
+
+11
+00:00:22,010 --> 00:00:24,890
+different, unique object
+id for the _id field.
+
+12
+00:00:24,890 --> 00:00:26,140

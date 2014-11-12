@@ -1,0 +1,412 @@
+1
+00:00:00,000 --> 00:00:00,120
+
+2
+00:00:00,120 --> 00:00:02,560
+Let's talk about the session
+management and how the user
+
+3
+00:00:02,560 --> 00:00:04,410
+interface works inside
+the blog.
+
+4
+00:00:04,410 --> 00:00:06,400
+You don't actually need to
+completely understand this to
+
+5
+00:00:06,400 --> 00:00:09,010
+do the problem this week, but
+it's good to have a basic
+
+6
+00:00:09,010 --> 00:00:09,760
+understanding of it.
+
+7
+00:00:09,760 --> 00:00:12,340
+So they have MongoDB, and--
+
+8
+00:00:12,340 --> 00:00:15,920
+here I'll show it as this,
+running as a mongod process.
+
+9
+00:00:15,920 --> 00:00:17,490
+And you have your application.
+
+10
+00:00:17,490 --> 00:00:19,290
+And your application
+is written in Java.
+
+11
+00:00:19,290 --> 00:00:22,350
+And inside it, it's got
+FreeMarker, which is a
+
+12
+00:00:22,350 --> 00:00:24,940
+templating engine for the views,
+which I'll show you,
+
+13
+00:00:24,940 --> 00:00:27,320
+and then Spark Application
+Server.
+
+14
+00:00:27,320 --> 00:00:30,280
+So initially you're
+going to sign up.
+
+15
+00:00:30,280 --> 00:00:33,560
+And so you're going to do a GET
+request, right here, that
+
+16
+00:00:33,560 --> 00:00:38,070
+is going to result in the page
+coming back to you, the
+
+17
+00:00:38,070 --> 00:00:40,840
+sign-up page, with a bunch
+of fields, four fields.
+
+18
+00:00:40,840 --> 00:00:42,900
+This is the reply
+from the GET.
+
+19
+00:00:42,900 --> 00:00:44,940
+And then you're going to submit
+that with a bunch of
+
+20
+00:00:44,940 --> 00:00:46,510
+information with a post.
+
+21
+00:00:46,510 --> 00:00:49,170
+And at this point, what's
+going to happen is the
+
+22
+00:00:49,170 --> 00:00:53,170
+application, if it's a valid
+sign up, is going to respond
+
+23
+00:00:53,170 --> 00:00:56,380
+with a redirect to
+the welcome page.
+
+24
+00:00:56,380 --> 00:00:58,220
+Now they'll also be
+a cookie set.
+
+25
+00:00:58,220 --> 00:01:01,240
+And this is an important part
+of the process, because the
+
+26
+00:01:01,240 --> 00:01:04,230
+application server before it
+does this redirect and after
+
+27
+00:01:04,230 --> 00:01:07,670
+it crosses your post of your
+sign-up information-- this is
+
+28
+00:01:07,670 --> 00:01:08,910
+the sign up form.
+
+29
+00:01:08,910 --> 00:01:11,560
+So when it processes this post,
+it's going to write the
+
+30
+00:01:11,560 --> 00:01:12,720
+users table.
+
+31
+00:01:12,720 --> 00:01:14,220
+So it's going to write
+the users table.
+
+32
+00:01:14,220 --> 00:01:16,380
+It's also going to write
+the sessions table
+
+33
+00:01:16,380 --> 00:01:17,820
+and start a new session.
+
+34
+00:01:17,820 --> 00:01:19,850
+And it's going to take a piece
+of information from the
+
+35
+00:01:19,850 --> 00:01:20,790
+sessions collection.
+
+36
+00:01:20,790 --> 00:01:22,610
+I should really call it a
+collection not a table, it
+
+37
+00:01:22,610 --> 00:01:23,880
+would be more accurate.
+
+38
+00:01:23,880 --> 00:01:26,080
+And it's going to set that the
+cooking in the redirect.
+
+39
+00:01:26,080 --> 00:01:30,850
+So when your browser does a
+GET of the welcome page--
+
+40
+00:01:30,850 --> 00:01:32,130
+here's the welcome page--
+
+41
+00:01:32,130 --> 00:01:33,590
+it's going to present
+that cookie.
+
+42
+00:01:33,590 --> 00:01:37,150
+So the redirect generates a GET,
+which generates a reply
+
+43
+00:01:37,150 --> 00:01:40,770
+on this page that's going to
+welcome you, individually.
+
+44
+00:01:40,770 --> 00:01:42,110
+Welcome Andrew.
+
+45
+00:01:42,110 --> 00:01:43,420
+So how does that work?
+
+46
+00:01:43,420 --> 00:01:46,780
+Well on that redirect, the
+cookie is set, and now your
+
+47
+00:01:46,780 --> 00:01:48,450
+browser is going to present
+that cookie.
+
+48
+00:01:48,450 --> 00:01:50,780
+And that cookie is going
+to be checked.
+
+49
+00:01:50,780 --> 00:01:53,550
+When the welcome page gets
+processed, the database-- the
+
+50
+00:01:53,550 --> 00:01:57,630
+application, rather, is going
+to do a read query to Mongo,
+
+51
+00:01:57,630 --> 00:01:59,890
+and say oh, do I recognize
+that session cookie.
+
+52
+00:01:59,890 --> 00:02:01,260
+And if I do, who's the user?
+
+53
+00:02:01,260 --> 00:02:03,650
+And then, show me the
+right information.
+
+54
+00:02:03,650 --> 00:02:08,160
+So all the session management
+happens via this cookie, which
+
+55
+00:02:08,160 --> 00:02:11,765
+rendezvous the information from
+request to request with
+
+56
+00:02:11,765 --> 00:02:13,140
+the user information.
+
+57
+00:02:13,140 --> 00:02:15,210
+So let me show you specifically
+what I mean.
+
+58
+00:02:15,210 --> 00:02:16,240
+So here's the blog itself.
+
+59
+00:02:16,240 --> 00:02:18,290
+And you can see it's welcomed
+me right now.
+
+60
+00:02:18,290 --> 00:02:19,460
+And I'm on the welcome page.
+
+61
+00:02:19,460 --> 00:02:20,585
+This is after I signed up.
+
+62
+00:02:20,585 --> 00:02:24,300
+I've downloaded a cookie
+utility, which you can
+
+63
+00:02:24,300 --> 00:02:25,670
+download as well, if you want.
+
+64
+00:02:25,670 --> 00:02:28,800
+And this cookie utility will
+show me the cookies the
+
+65
+00:02:28,800 --> 00:02:30,290
+browser's going to present
+to the website.
+
+66
+00:02:30,290 --> 00:02:32,360
+In this case, you can see that
+it's presenting this long
+
+67
+00:02:32,360 --> 00:02:35,140
+random string starting
+with VBL.
+
+68
+00:02:35,140 --> 00:02:39,060
+And if you look here, in
+MongoDB, you can see when we
+
+69
+00:02:39,060 --> 00:02:42,560
+looked at the sessions table,
+here was that same cookie,
+
+70
+00:02:42,560 --> 00:02:43,360
+right here.
+
+71
+00:02:43,360 --> 00:02:44,600
+The same piece of information.
+
+72
+00:02:44,600 --> 00:02:48,270
+So when the web browser
+requested the welcome page
+
+73
+00:02:48,270 --> 00:02:52,275
+with the cookie, then the
+application looked up and said
+
+74
+00:02:52,275 --> 00:02:54,730
+oh, it must be this user,
+erlichson, and then it
+
+75
+00:02:54,730 --> 00:02:56,130
+presented my information.
+
+76
+00:02:56,130 --> 00:02:59,320
+And it customized the page
+accordingly, right here.
+
+77
+00:02:59,320 --> 00:03:04,930
+So just again, if you go to the
+login page, right, what's
+
+78
+00:03:04,930 --> 00:03:08,340
+going to happen is when I type
+in one username and password
+
+79
+00:03:08,340 --> 00:03:13,200
+here, like erlichson, and if I
+type the right one, then there
+
+80
+00:03:13,200 --> 00:03:16,970
+was just a round trip, where in
+response to the post, the
+
+81
+00:03:16,970 --> 00:03:21,340
+application responded with a
+redirect to the welcome page
+
+82
+00:03:21,340 --> 00:03:24,530
+along with the cookie that
+is set properly,
+
+83
+00:03:24,530 --> 00:03:25,915
+associated with my user.
+
+84
+00:03:25,915 --> 00:03:27,760
+All right, so now that we
+understand the way the session
+
+85
+00:03:27,760 --> 00:03:30,240
+management works, then I'm going
+to go through some of
+
+86
+00:03:30,240 --> 00:03:32,090
+the way the code is structured,
+so you understand
+
+87
+00:03:32,090 --> 00:03:33,340
+the way it all fits together.
+
+88
+00:03:33,340 --> 00:03:34,170

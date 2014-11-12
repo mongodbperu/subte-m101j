@@ -1,0 +1,18 @@
+1
+00:00:00,000 --> 00:00:00,420
+
+2
+00:00:00,420 --> 00:00:02,190
+And the answer is doc--
+
+3
+00:00:02,190 --> 00:00:06,860
+which was declared here-- equals
+people.findOne, open
+
+4
+00:00:06,860 --> 00:00:08,110
+close parentheses, semicolon.
+
+5
+00:00:08,110 --> 00:00:09,357

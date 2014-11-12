@@ -1,0 +1,423 @@
+1
+00:00:00,000 --> 00:00:00,170
+
+2
+00:00:00,170 --> 00:00:00,460
+All right.
+
+3
+00:00:00,460 --> 00:00:03,150
+I've told you a little bit about
+what MongoDB is, and now
+
+4
+00:00:03,150 --> 00:00:05,780
+I want to show you end to and
+how we're going to build an
+
+5
+00:00:05,780 --> 00:00:08,240
+application using Java.
+
+6
+00:00:08,240 --> 00:00:11,140
+So over here we have MongoDB.
+
+7
+00:00:11,140 --> 00:00:14,190
+And MongoDB on your computer
+is going to
+
+8
+00:00:14,190 --> 00:00:15,590
+start a MongoDB process.
+
+9
+00:00:15,590 --> 00:00:17,600
+So that's going to be
+the process that
+
+10
+00:00:17,600 --> 00:00:19,600
+actually runs MongoDB.
+
+11
+00:00:19,600 --> 00:00:20,990
+There's a couple different
+ways to connect.
+
+12
+00:00:20,990 --> 00:00:24,170
+One of things I'm going to show
+you is the Mongo shell.
+
+13
+00:00:24,170 --> 00:00:26,380
+The Mongo shell is a standalone
+program called
+
+14
+00:00:26,380 --> 00:00:30,480
+Mongo that has a JavaScript
+shell language built inside it
+
+15
+00:00:30,480 --> 00:00:33,980
+and connects via
+TCP to MongoDB.
+
+16
+00:00:33,980 --> 00:00:35,450
+And this is a way to manipulate
+
+17
+00:00:35,450 --> 00:00:36,670
+data and inspect data.
+
+18
+00:00:36,670 --> 00:00:39,120
+But in this class, we're going
+to build Java applications.
+
+19
+00:00:39,120 --> 00:00:41,360
+So we're going to
+build a blog.
+
+20
+00:00:41,360 --> 00:00:45,590
+And the blog is going to have a
+bunch of pages for inserting
+
+21
+00:00:45,590 --> 00:00:48,390
+posts, and showing posts, and
+inserting comments, and
+
+22
+00:00:48,390 --> 00:00:49,060
+showing comments.
+
+23
+00:00:49,060 --> 00:00:51,140
+So this is the blog.
+
+24
+00:00:51,140 --> 00:00:52,680
+And this is all going
+to written in Java.
+
+25
+00:00:52,680 --> 00:00:55,170
+So this is a Java application.
+
+26
+00:00:55,170 --> 00:00:57,020
+And there's several different
+parts of this.
+
+27
+00:00:57,020 --> 00:00:58,860
+There's our application
+code itself.
+
+28
+00:00:58,860 --> 00:01:00,280
+I'll call that our code.
+
+29
+00:01:00,280 --> 00:01:04,610
+And our Java code is going to
+use two different frameworks
+
+30
+00:01:04,610 --> 00:01:06,960
+that are going to make it easier
+to write web apps.
+
+31
+00:01:06,960 --> 00:01:08,640
+One is called Spark Java.
+
+32
+00:01:08,640 --> 00:01:11,440
+And the other one is
+called Free Marker.
+
+33
+00:01:11,440 --> 00:01:16,350
+So Spark Java is a micro web
+framework inspired by Sinatra
+
+34
+00:01:16,350 --> 00:01:21,810
+that will allow us to easily set
+up routes that map to URLs
+
+35
+00:01:21,810 --> 00:01:23,960
+so that when a request comes
+in for a particular URL, we
+
+36
+00:01:23,960 --> 00:01:27,660
+can handle it and we can make
+a response via HTTP.
+
+37
+00:01:27,660 --> 00:01:29,650
+So that's what Spark
+Java does.
+
+38
+00:01:29,650 --> 00:01:32,220
+And then Free Marker is a
+templating language that
+
+39
+00:01:32,220 --> 00:01:36,350
+allows us to create HTML views
+so that we can use Model View
+
+40
+00:01:36,350 --> 00:01:40,120
+Controller type programming,
+where the view, which is the
+
+41
+00:01:40,120 --> 00:01:43,100
+UI part, is separate from the
+controller, which handles user
+
+42
+00:01:43,100 --> 00:01:46,490
+input in the model, which is
+the underlying logic of the
+
+43
+00:01:46,490 --> 00:01:47,860
+application.
+
+44
+00:01:47,860 --> 00:01:52,940
+Now, this all runs inside JVM,
+because this is Java.
+
+45
+00:01:52,940 --> 00:01:56,310
+So it's all running
+inside this JVM.
+
+46
+00:01:56,310 --> 00:02:00,900
+Now, all this code in order to
+talk to MongoDB, needs to talk
+
+47
+00:02:00,900 --> 00:02:03,650
+to the Mongo Java driver.
+
+48
+00:02:03,650 --> 00:02:06,820
+And the Mongo Java driver is a
+library that's going to be
+
+49
+00:02:06,820 --> 00:02:10,830
+linked in and that is actually
+going to be the part that is
+
+50
+00:02:10,830 --> 00:02:15,650
+making the TCP connections
+to MongoDB for you.
+
+51
+00:02:15,650 --> 00:02:18,160
+So you're going to write
+some Java code.
+
+52
+00:02:18,160 --> 00:02:20,550
+It's going to use Spark Java,
+which we'll go over.
+
+53
+00:02:20,550 --> 00:02:23,500
+And Free Marker, which will go
+over, which is a templating
+
+54
+00:02:23,500 --> 00:02:26,570
+language and then also uses the
+Mongo Java driver, which
+
+55
+00:02:26,570 --> 00:02:31,160
+is Java code meant to talk to
+MongoDB and retrieve data and
+
+56
+00:02:31,160 --> 00:02:32,940
+insert data to the database.
+
+57
+00:02:32,940 --> 00:02:36,170
+And all of this together is
+going to present this blog.
+
+58
+00:02:36,170 --> 00:02:39,640
+And then the user is on
+the other side in
+
+59
+00:02:39,640 --> 00:02:41,250
+their house or something.
+
+60
+00:02:41,250 --> 00:02:45,640
+And this user is talking
+to this process.
+
+61
+00:02:45,640 --> 00:02:48,750
+Normally for a web request,
+it would be port 80.
+
+62
+00:02:48,750 --> 00:02:52,030
+But in this class, we're often
+going to use 8082 because 80
+
+63
+00:02:52,030 --> 00:02:54,620
+is reserved, and a little
+difficult to use that port if
+
+64
+00:02:54,620 --> 00:02:56,300
+you're not root on
+the computer.
+
+65
+00:02:56,300 --> 00:02:58,330
+And then this might go through
+some sort of network address
+
+66
+00:02:58,330 --> 00:03:01,320
+translation through a Linksys
+box or something like that.
+
+67
+00:03:01,320 --> 00:03:04,470
+So in this class, we're going
+to give you most of the code
+
+68
+00:03:04,470 --> 00:03:05,480
+for the blog.
+
+69
+00:03:05,480 --> 00:03:07,890
+And you're just going to make
+fairly small modifications so
+
+70
+00:03:07,890 --> 00:03:11,050
+that you can manipulate data in
+the database, because the
+
+71
+00:03:11,050 --> 00:03:14,060
+point of this course is not to
+teach you how to be a web
+
+72
+00:03:14,060 --> 00:03:14,790
+programmer.
+
+73
+00:03:14,790 --> 00:03:17,090
+It's really to teach you
+how to use MongoDB.
+
+74
+00:03:17,090 --> 00:03:19,580
+And so the motivating example
+for some of the
+
+75
+00:03:19,580 --> 00:03:21,000
+work is this blog.
+
+76
+00:03:21,000 --> 00:03:24,300
+But we don't expect you to be
+able to create this whole
+
+77
+00:03:24,300 --> 00:03:26,830
+thing from scratch
+for this course.
+
+78
+00:03:26,830 --> 00:03:30,090
+So that's the end to end view
+of what an application might
+
+79
+00:03:30,090 --> 00:03:31,720
+look like using Java.
+
+80
+00:03:31,720 --> 00:03:35,040
+So you have Java code that's
+compiled into bytecode that
+
+81
+00:03:35,040 --> 00:03:40,450
+runs in the JVM and then also
+hooks into the Mongo driver
+
+82
+00:03:40,450 --> 00:03:45,680
+for Java and also in our case,
+uses the Spark Java framework
+
+83
+00:03:45,680 --> 00:03:49,240
+and the Free Marker templating
+language to make the whole
+
+84
+00:03:49,240 --> 00:03:52,190
+thing create a web app that
+is presented to the
+
+85
+00:03:52,190 --> 00:03:55,350
+user on port 8082.
+
+86
+00:03:55,350 --> 00:03:58,000
+Now that we know how this all
+works, let's now look at the
+
+87
+00:03:58,000 --> 00:04:01,540
+Mongo shell, this part right
+here, to see how we might add
+
+88
+00:04:01,540 --> 00:04:03,750
+a little bit of data or retrieve
+a little bit of data
+
+89
+00:04:03,750 --> 00:04:05,000
+from MongoDB.
+
+90
+00:04:05,000 --> 00:04:05,550

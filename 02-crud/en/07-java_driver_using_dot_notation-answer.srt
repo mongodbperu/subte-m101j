@@ -1,0 +1,34 @@
+1
+00:00:00,000 --> 00:00:00,150
+
+2
+00:00:00,150 --> 00:00:03,460
+The answer is the third one,
+it will return a document
+
+3
+00:00:03,460 --> 00:00:06,070
+containing a single field
+containing the document's _id.
+
+4
+00:00:06,070 --> 00:00:09,520
+Since we didn't exclude the
+_id field, and there is no
+
+5
+00:00:09,520 --> 00:00:12,940
+"media.url" field as the
+question stated, we should get
+
+6
+00:00:12,940 --> 00:00:16,370
+just a document with a single
+field representing the _id of
+
+7
+00:00:16,370 --> 00:00:17,620
+the document.
+
+8
+00:00:17,620 --> 00:00:18,330

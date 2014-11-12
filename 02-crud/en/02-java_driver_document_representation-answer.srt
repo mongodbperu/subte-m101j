@@ -1,0 +1,66 @@
+1
+00:00:00,000 --> 00:00:00,150
+
+2
+00:00:00,150 --> 00:00:04,270
+The correct answer is D, we need
+to use new BasicDBObject
+
+3
+00:00:04,270 --> 00:00:08,710
+to create our document with
+a _id field with the value
+
+4
+00:00:08,710 --> 00:00:11,690
+"user1." And we append
+an interest field
+
+5
+00:00:11,690 --> 00:00:12,970
+whose value is an array.
+
+6
+00:00:12,970 --> 00:00:16,585
+And we use Array.asList
+"basketball" and "drumming."
+
+7
+00:00:16,585 --> 00:00:17,910
+The first one's not
+right because
+
+8
+00:00:17,910 --> 00:00:19,840
+we can't use a HashMap.
+
+9
+00:00:19,840 --> 00:00:22,240
+The second one's not right
+because we can't append
+
+10
+00:00:22,240 --> 00:00:24,960
+interest with two values.
+
+11
+00:00:24,960 --> 00:00:26,730
+It can only have
+a single value.
+
+12
+00:00:26,730 --> 00:00:29,100
+The third one's not right
+because DBObject is an
+
+13
+00:00:29,100 --> 00:00:31,660
+interface not a concrete class,
+so we can't create an
+
+14
+00:00:31,660 --> 00:00:32,910
+instance of it.
+
+15
+00:00:32,910 --> 00:00:33,410

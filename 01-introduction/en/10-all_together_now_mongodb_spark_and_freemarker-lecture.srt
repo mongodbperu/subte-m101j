@@ -1,0 +1,196 @@
+1
+00:00:00,000 --> 00:00:00,140
+
+2
+00:00:00,140 --> 00:00:02,210
+So now let's put it
+all together.
+
+3
+00:00:02,210 --> 00:00:05,990
+So we have our
+HelloWorldSparkFreemarkerStyle
+
+4
+00:00:05,990 --> 00:00:06,840
+from the last lesson.
+
+5
+00:00:06,840 --> 00:00:09,710
+And then we have our
+HelloWorldMongoDBStyle.
+
+6
+00:00:09,710 --> 00:00:11,485
+Let's combine them into
+HelloWorldMongoD
+
+7
+00:00:11,485 --> 00:00:12,735
+BSparkFreemarkerStyle.
+
+8
+00:00:12,735 --> 00:00:15,010
+
+9
+00:00:15,010 --> 00:00:17,470
+So I'm just going to copy
+all the code from
+
+10
+00:00:17,470 --> 00:00:18,760
+HelloWorldSparkFreemarkerStyle.
+
+11
+00:00:18,760 --> 00:00:24,790
+So we can reuse all that, copy
+that into here, and go to
+
+12
+00:00:24,790 --> 00:00:29,930
+MongoDBStyle, and grab these
+pieces MongoClient, database,
+
+13
+00:00:29,930 --> 00:00:31,720
+and collection.
+
+14
+00:00:31,720 --> 00:00:34,850
+And copy them into here.
+
+15
+00:00:34,850 --> 00:00:38,920
+And we're going to make this
+final, since we know that the
+
+16
+00:00:38,920 --> 00:00:41,110
+compiler will complain
+if they don't.
+
+17
+00:00:41,110 --> 00:00:44,870
+Now here, we don't need our map
+anymore because what we're
+
+18
+00:00:44,870 --> 00:00:51,650
+going to do instead is get
+our DBObject and call
+
+19
+00:00:51,650 --> 00:00:55,585
+collection.findOne, like
+we did before.
+
+20
+00:00:55,585 --> 00:00:57,280
+And we're going to pass
+this document
+
+21
+00:00:57,280 --> 00:00:59,070
+right into our template.
+
+22
+00:00:59,070 --> 00:01:02,400
+Now, the reason this works is
+because the template is
+
+23
+00:01:02,400 --> 00:01:03,840
+expecting a map.
+
+24
+00:01:03,840 --> 00:01:07,550
+And while DBObject isn't a map,
+the actual concrete class
+
+25
+00:01:07,550 --> 00:01:10,990
+returned by collection.findOne
+is a class called
+
+26
+00:01:10,990 --> 00:01:13,560
+BasicDBObject.
+
+27
+00:01:13,560 --> 00:01:18,370
+And basic DBObject ultimately
+extends LinkedHashMap, which,
+
+28
+00:01:18,370 --> 00:01:21,360
+in turn, extends HashMap,
+which implements Map.
+
+29
+00:01:21,360 --> 00:01:25,600
+So Freemarker will happily take
+a DbObject from Mongo and
+
+30
+00:01:25,600 --> 00:01:28,420
+process it, just like it
+would any other Map.
+
+31
+00:01:28,420 --> 00:01:30,108
+So let's start this up.
+
+32
+00:01:30,108 --> 00:01:34,100
+
+33
+00:01:34,100 --> 00:01:35,615
+And remember what's
+in our document.
+
+34
+00:01:35,615 --> 00:01:42,460
+
+35
+00:01:42,460 --> 00:01:45,800
+We have a document with
+a name of MongoDB.
+
+36
+00:01:45,800 --> 00:01:49,180
+So we would expect this template
+to print out, "Hello,
+
+37
+00:01:49,180 --> 00:01:50,430
+MongoDB" again.
+
+38
+00:01:50,430 --> 00:01:51,790
+So let's try it.
+
+39
+00:01:51,790 --> 00:01:55,440
+We'll refresh, and
+indeed it does.
+
+40
+00:01:55,440 --> 00:02:00,190
+It says "Hello MongoDB." So in
+this exercise, we combined all
+
+41
+00:02:00,190 --> 00:02:01,270
+three of our tools--
+
+42
+00:02:01,270 --> 00:02:05,990
+MongoDB, obviously, and, Spark,
+and Freemarker into a
+
+43
+00:02:05,990 --> 00:02:07,240
+single application.
+
+44
+00:02:07,240 --> 00:02:07,810

@@ -1,0 +1,394 @@
+1
+00:00:00,000 --> 00:00:00,450
+
+2
+00:00:00,450 --> 00:00:05,000
+So in the last lesson, we
+learned how to use Maven and
+
+3
+00:00:05,000 --> 00:00:08,290
+write a simple Hello World app
+and run it from Maven on the
+
+4
+00:00:08,290 --> 00:00:14,040
+command line and also load a
+Maven project into IntelliJ
+
+5
+00:00:14,040 --> 00:00:16,640
+and run from IntelliJ.
+
+6
+00:00:16,640 --> 00:00:19,670
+So the next step is
+to bring Mongo in.
+
+7
+00:00:19,670 --> 00:00:23,630
+So in order to use Mongo from a
+job application, we need the
+
+8
+00:00:23,630 --> 00:00:24,820
+Mongo Java driver.
+
+9
+00:00:24,820 --> 00:00:27,960
+So this is going to be our first
+exposure to that driver.
+
+10
+00:00:27,960 --> 00:00:29,340
+So the first thing
+we need to do,
+
+11
+00:00:29,340 --> 00:00:31,070
+obviously, is get the driver.
+
+12
+00:00:31,070 --> 00:00:32,850
+And we're going to use
+Maven to do this.
+
+13
+00:00:32,850 --> 00:00:36,410
+So I have a commented out piece
+here, and I'm going to
+
+14
+00:00:36,410 --> 00:00:40,660
+uncomment and add a dependency
+on the Java driver.
+
+15
+00:00:40,660 --> 00:00:43,220
+So it looks like this.
+
+16
+00:00:43,220 --> 00:00:47,050
+The group ID is org.mongodb,
+the artifact ID is
+
+17
+00:00:47,050 --> 00:00:49,510
+mongo-java-driver, and the
+version we'll be using in this
+
+18
+00:00:49,510 --> 00:00:53,670
+class, which is the latest
+production release, is 2.10.1.
+
+19
+00:00:53,670 --> 00:00:56,740
+You can see that IntelliJ
+automatically added this Mongo
+
+20
+00:00:56,740 --> 00:00:58,710
+Java driver to the
+external library.
+
+21
+00:00:58,710 --> 00:01:01,280
+So let's start a new class--
+
+22
+00:01:01,280 --> 00:01:06,210
+
+23
+00:01:06,210 --> 00:01:08,300
+Hello World MongoDB style.
+
+24
+00:01:08,300 --> 00:01:09,410
+And we'll add a main.
+
+25
+00:01:09,410 --> 00:01:12,600
+And now what we're going to do
+in this class is just do the
+
+26
+00:01:12,600 --> 00:01:15,180
+simplest thing that I can think
+of, which is to find a
+
+27
+00:01:15,180 --> 00:01:17,880
+single document from a
+collection that's already
+
+28
+00:01:17,880 --> 00:01:19,660
+existing in the database.
+
+29
+00:01:19,660 --> 00:01:21,870
+So I created this collection
+earlier.
+
+30
+00:01:21,870 --> 00:01:25,230
+And it's in the course
+database.
+
+31
+00:01:25,230 --> 00:01:29,370
+And there's a collection
+called Hello.
+
+32
+00:01:29,370 --> 00:01:34,420
+And there's a single document
+there with a named property
+
+33
+00:01:34,420 --> 00:01:37,370
+equal to MongoDB.
+
+34
+00:01:37,370 --> 00:01:40,390
+So in my job application, the
+way this works is I create an
+
+35
+00:01:40,390 --> 00:01:44,685
+instance of MongoClient, which
+is the entry point into a
+
+36
+00:01:44,685 --> 00:01:46,270
+Mongo cluster-- in this
+case, a single
+
+37
+00:01:46,270 --> 00:01:49,120
+stand-alone instance of Mongo.
+
+38
+00:01:49,120 --> 00:01:53,870
+I'll create a new instance of
+MongoClient, which can throw
+
+39
+00:01:53,870 --> 00:01:57,360
+unknown host exceptions, so we
+have to catch that or throw it
+
+40
+00:01:57,360 --> 00:01:59,170
+from our method.
+
+41
+00:01:59,170 --> 00:02:01,480
+So you can see that we added
+two imports-- one is
+
+42
+00:02:01,480 --> 00:02:03,630
+com.mongodb.MongoClient
+and the other is just
+
+43
+00:02:03,630 --> 00:02:06,100
+java.net.unknownhostexception.
+
+44
+00:02:06,100 --> 00:02:10,130
+So this, by default, connects
+to local host port 27017,
+
+45
+00:02:10,130 --> 00:02:13,370
+which happens to be the default
+for MongoD, as well.
+
+46
+00:02:13,370 --> 00:02:16,730
+We can be explicit about it by
+saying local host or local
+
+47
+00:02:16,730 --> 00:02:24,955
+host 27017 or use the server
+address class and put that
+
+48
+00:02:24,955 --> 00:02:26,205
+same information here.
+
+49
+00:02:26,205 --> 00:02:28,960
+
+50
+00:02:28,960 --> 00:02:31,520
+So now we have a client, which
+is basically a logical
+
+51
+00:02:31,520 --> 00:02:33,700
+connection to a Mongo cluster.
+
+52
+00:02:33,700 --> 00:02:36,280
+And we need to get a database.
+
+53
+00:02:36,280 --> 00:02:39,350
+So the database class in
+the Java driver is
+
+54
+00:02:39,350 --> 00:02:41,620
+called DB, all caps.
+
+55
+00:02:41,620 --> 00:02:44,172
+So I'll create an
+instance of--
+
+56
+00:02:44,172 --> 00:02:45,380
+actually, I won't create
+an instance.
+
+57
+00:02:45,380 --> 00:02:48,840
+I'll get an instance
+from the client.
+
+58
+00:02:48,840 --> 00:02:51,770
+The database is called Course.
+
+59
+00:02:51,770 --> 00:02:54,530
+And then from the database we
+get a collection, and that
+
+60
+00:02:54,530 --> 00:02:58,540
+class in the Java driver
+is called DBCollection.
+
+61
+00:02:58,540 --> 00:03:00,920
+And we get that from the
+database, like this.
+
+62
+00:03:00,920 --> 00:03:05,090
+
+63
+00:03:05,090 --> 00:03:07,960
+And the final thing we want
+to do is the findOne.
+
+64
+00:03:07,960 --> 00:03:09,690
+And that looks like this.
+
+65
+00:03:09,690 --> 00:03:11,840
+We just say collection.findOne.
+
+66
+00:03:11,840 --> 00:03:14,350
+And what's the return
+type of findOne?
+
+67
+00:03:14,350 --> 00:03:17,370
+Well, it's a DB object.
+
+68
+00:03:17,370 --> 00:03:20,635
+So I'm going to store this in
+an instance of DB object.
+
+69
+00:03:20,635 --> 00:03:24,190
+
+70
+00:03:24,190 --> 00:03:27,700
+And the last thing I'll
+do is print it out.
+
+71
+00:03:27,700 --> 00:03:29,720
+I can run it from here.
+
+72
+00:03:29,720 --> 00:03:33,620
+I removed JUnit from the POM,
+so I'm going to just remove
+
+73
+00:03:33,620 --> 00:03:34,870
+this class.
+
+74
+00:03:34,870 --> 00:03:40,340
+
+75
+00:03:40,340 --> 00:03:43,730
+And it prints out the document
+in JSON format.
+
+76
+00:03:43,730 --> 00:03:47,030
+And we can also run this
+from here, as well.
+
+77
+00:03:47,030 --> 00:03:48,780
+So this class is called--
+
+78
+00:03:48,780 --> 00:03:53,470
+copy the reference and I'm going
+to change the main class
+
+79
+00:03:53,470 --> 00:03:58,420
+to Hello World MongoDB style,
+and I'll run it.
+
+80
+00:03:58,420 --> 00:03:59,560
+And, the same thing--
+
+81
+00:03:59,560 --> 00:04:01,260
+it prints out the document.
+
+82
+00:04:01,260 --> 00:04:04,580
+So that's Hello World
+Mongo style.
+
+83
+00:04:04,580 --> 00:04:08,070
+And we can see that we created
+a Mongo client to connect to
+
+84
+00:04:08,070 --> 00:04:12,380
+the server running on local host
+27017, opened the course
+
+85
+00:04:12,380 --> 00:04:16,980
+database and then the Hello
+collection, and did a findOne,
+
+86
+00:04:16,980 --> 00:04:18,230
+and printed it out.
+
+87
+00:04:18,230 --> 00:04:19,180

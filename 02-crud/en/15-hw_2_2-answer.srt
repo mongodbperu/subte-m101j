@@ -1,0 +1,429 @@
+1
+00:00:00,000 --> 00:00:00,130
+
+2
+00:00:00,130 --> 00:00:02,680
+In this problem, we asked you to
+remove the lowest homework
+
+3
+00:00:02,680 --> 00:00:05,980
+score for each student and then
+re-calculate and average
+
+4
+00:00:05,980 --> 00:00:07,330
+for all the students
+to figure out who
+
+5
+00:00:07,330 --> 00:00:08,720
+has the highest average.
+
+6
+00:00:08,720 --> 00:00:11,280
+Let's start out by looking a
+little bit at the collection.
+
+7
+00:00:11,280 --> 00:00:12,940
+So we can see what's
+inside it.
+
+8
+00:00:12,940 --> 00:00:15,880
+Here I've just done a find
+across the entire collection
+
+9
+00:00:15,880 --> 00:00:17,200
+and [? pretty ?] printed it.
+
+10
+00:00:17,200 --> 00:00:20,850
+You can see that there's one
+document for each assessment.
+
+11
+00:00:20,850 --> 00:00:23,430
+So for instance for student
+ID 4, there's a
+
+12
+00:00:23,430 --> 00:00:25,330
+quiz with this score.
+
+13
+00:00:25,330 --> 00:00:27,820
+And then there's another record
+for student ID 4 with
+
+14
+00:00:27,820 --> 00:00:29,040
+the homework.
+
+15
+00:00:29,040 --> 00:00:32,720
+Now what we're going to do is,
+we have the collection.
+
+16
+00:00:32,720 --> 00:00:35,840
+And we need to first filter
+out and look at only the
+
+17
+00:00:35,840 --> 00:00:36,620
+home-works.
+
+18
+00:00:36,620 --> 00:00:38,930
+And we're going to do that
+with a find command.
+
+19
+00:00:38,930 --> 00:00:40,940
+And that's going to get
+us a set of documents.
+
+20
+00:00:40,940 --> 00:00:44,700
+And we're going to sort those
+documents by student ID--
+
+21
+00:00:44,700 --> 00:00:47,550
+I'll put the student ID s ID--
+
+22
+00:00:47,550 --> 00:00:49,210
+and by score.
+
+23
+00:00:49,210 --> 00:00:50,940
+So that we can iterate
+through them.
+
+24
+00:00:50,940 --> 00:00:56,900
+And what we can do is
+when we see 78, 81.
+
+25
+00:00:56,900 --> 00:00:59,430
+When we see a transition in
+student ID, for instance right
+
+26
+00:00:59,430 --> 00:01:03,480
+at this boundary right here or
+this boundary right here, we
+
+27
+00:01:03,480 --> 00:01:05,060
+know that we need to remove
+the next record.
+
+28
+00:01:05,060 --> 00:01:08,540
+So we're going to remove for
+instance this record.
+
+29
+00:01:08,540 --> 00:01:10,590
+And we're going to remove
+this record.
+
+30
+00:01:10,590 --> 00:01:12,720
+And we'd remove this record.
+
+31
+00:01:12,720 --> 00:01:13,545
+And so on.
+
+32
+00:01:13,545 --> 00:01:15,660
+And that's going to be
+our basic approach.
+
+33
+00:01:15,660 --> 00:01:18,580
+We're going to do a filter
+looking for only assessment
+
+34
+00:01:18,580 --> 00:01:20,350
+type of homework.
+
+35
+00:01:20,350 --> 00:01:21,860
+So that's going to
+be our find.
+
+36
+00:01:21,860 --> 00:01:23,930
+We're going to sort
+them by student ID
+
+37
+00:01:23,930 --> 00:01:26,230
+ascending and score ascending.
+
+38
+00:01:26,230 --> 00:01:28,940
+And then every single time we
+see the student ID change,
+
+39
+00:01:28,940 --> 00:01:30,660
+we're going to assume we're
+looking at the lowest score
+
+40
+00:01:30,660 --> 00:01:33,592
+for that student, and we're
+going to remove that document.
+
+41
+00:01:33,592 --> 00:01:35,330
+Alright, let's look
+at the code.
+
+42
+00:01:35,330 --> 00:01:37,560
+So we have remove lowest.
+
+43
+00:01:37,560 --> 00:01:40,350
+First we create a new
+Mongo client.
+
+44
+00:01:40,350 --> 00:01:42,920
+And then we get the student
+database and the grades
+
+45
+00:01:42,920 --> 00:01:44,180
+collection.
+
+46
+00:01:44,180 --> 00:01:46,900
+Now we're going to create
+a sorted list here.
+
+47
+00:01:46,900 --> 00:01:49,360
+We're going to create a
+new basic DB object.
+
+48
+00:01:49,360 --> 00:01:52,520
+We're going to sort for
+student ID, score.
+
+49
+00:01:52,520 --> 00:01:55,450
+And then right here we're
+going to do the find.
+
+50
+00:01:55,450 --> 00:01:57,560
+So grades dot find.
+
+51
+00:01:57,560 --> 00:01:59,130
+New basic DB object.
+
+52
+00:01:59,130 --> 00:02:00,270
+Type homework.
+
+53
+00:02:00,270 --> 00:02:02,480
+So we're looking for only
+the homework grades.
+
+54
+00:02:02,480 --> 00:02:05,760
+Sorted by our sorted list, which
+is also expressed as a
+
+55
+00:02:05,760 --> 00:02:09,840
+basic DB object, student ID
+ascending, score ascending.
+
+56
+00:02:09,840 --> 00:02:14,390
+Now remember that these basic DB
+objects do retain an order
+
+57
+00:02:14,390 --> 00:02:15,390
+unlike a normal hash map.
+
+58
+00:02:15,390 --> 00:02:19,540
+So that's why we use them to
+express our sort criteria.
+
+59
+00:02:19,540 --> 00:02:21,880
+Now we're going to go through
+the cursor over here.
+
+60
+00:02:21,880 --> 00:02:23,690
+And we're going to
+look at each one.
+
+61
+00:02:23,690 --> 00:02:27,790
+Then we're going to see if the
+student ID has changed from
+
+62
+00:02:27,790 --> 00:02:29,090
+the previous student ID.
+
+63
+00:02:29,090 --> 00:02:31,220
+And we have a student ID here.
+
+64
+00:02:31,220 --> 00:02:32,160
+We've set it to be an object.
+
+65
+00:02:32,160 --> 00:02:34,090
+We don't really need to worry
+about what it is.
+
+66
+00:02:34,090 --> 00:02:35,130
+And we're going to run it.
+
+67
+00:02:35,130 --> 00:02:37,130
+And then we're going to see that
+every time there's a the
+
+68
+00:02:37,130 --> 00:02:39,560
+transition, we're going
+to remove that entry.
+
+69
+00:02:39,560 --> 00:02:40,400
+And this is a [INAUDIBLE]
+
+70
+00:02:40,400 --> 00:02:42,960
+value to make sure that
+we get the first one.
+
+71
+00:02:42,960 --> 00:02:46,350
+So we're going to print out
+what we remove over here.
+
+72
+00:02:46,350 --> 00:02:51,810
+And then we're going to do a
+remove, setting the criteria
+
+73
+00:02:51,810 --> 00:02:54,310
+that we want to remove the one
+with an underscore ID equal to
+
+74
+00:02:54,310 --> 00:02:58,700
+the ID found in the first one
+as the student ID changes.
+
+75
+00:02:58,700 --> 00:03:01,330
+And then over here we're just
+saying the student ID equal to
+
+76
+00:03:01,330 --> 00:03:03,185
+the next student ID
+of each record.
+
+77
+00:03:03,185 --> 00:03:05,360
+Alright, let's run it and
+see what happens.
+
+78
+00:03:05,360 --> 00:03:06,080
+OK.
+
+79
+00:03:06,080 --> 00:03:09,320
+You can see here, it has removed
+a bunch documents.
+
+80
+00:03:09,320 --> 00:03:12,530
+And now we can find out the
+answer by running that
+
+81
+00:03:12,530 --> 00:03:17,980
+aggregation query, which
+I have stored here.
+
+82
+00:03:17,980 --> 00:03:21,220
+And that aggregation query gives
+us the answer, which is
+
+83
+00:03:21,220 --> 00:03:24,270
+that student ID 124 has
+the highest average.
+
+84
+00:03:24,270 --> 00:03:25,390
+Here is the aggregation
+[INAUDIBLE] if
+
+85
+00:03:25,390 --> 00:03:26,160
+you want to see it.
+
+86
+00:03:26,160 --> 00:03:28,430
+We're going to handle
+aggregation in a later unit.
+
+87
+00:03:28,430 --> 00:03:30,720
+But if you're curious about it,
+this is the aggregation
+
+88
+00:03:30,720 --> 00:03:32,680
+command that will find the
+student with the highest
+
+89
+00:03:32,680 --> 00:03:35,060
+average once we removed
+the lowest
+
+90
+00:03:35,060 --> 00:03:36,470
+homework for each student.
+
+91
+00:03:36,470 --> 00:03:37,860
+OK, so that's how that works.
+
+92
+00:03:37,860 --> 00:03:39,110
