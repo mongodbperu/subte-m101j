@@ -1,0 +1,94 @@
+1
+00:00:00,000 --> 00:00:00,140
+ 
+
+2
+00:00:00,140 --> 00:00:02,840
+In this problem you're given a
+collection of students and
+
+3
+00:00:02,840 --> 00:00:05,440
+you're being asked to remove the
+lowest homework grade for
+
+4
+00:00:05,440 --> 00:00:06,390
+each student.
+
+5
+00:00:06,390 --> 00:00:09,350
+You can see that there's one
+document per student--
+
+6
+00:00:09,350 --> 00:00:12,300
+right here we're looking at
+Mariette Batdorf's document--
+
+7
+00:00:12,300 --> 00:00:17,500
+and that there's a scores
+key with a array of
+
+8
+00:00:17,500 --> 00:00:18,830
+assessments within it.
+
+9
+00:00:18,830 --> 00:00:21,340
+And you'll need to iterate
+through this list and then
+
+10
+00:00:21,340 --> 00:00:23,620
+find the lowest homework--
+so in this case, the
+
+11
+00:00:23,620 --> 00:00:25,270
+homework for 7.6--
+
+12
+00:00:25,270 --> 00:00:27,010
+and you'll need to remove it.
+
+13
+00:00:27,010 --> 00:00:31,720
+And the way you'll do that is
+by creating a new list and
+
+14
+00:00:31,720 --> 00:00:35,670
+then doing an update statement
+to the collection, isolating
+
+15
+00:00:35,670 --> 00:00:38,880
+the record that you're looking
+at, and updating the scores
+
+16
+00:00:38,880 --> 00:00:41,620
+collection with the new
+list of assessments.
+
+17
+00:00:41,620 --> 00:00:43,750
+And then after you're done with
+that, you're going to run
+
+18
+00:00:43,750 --> 00:00:46,300
+an aggregation command that we
+give you to find the student
+
+19
+00:00:46,300 --> 00:00:47,800
+with the highest average
+in the class.
+
+20
+00:00:47,800 --> 00:00:49,050
+ 
+
