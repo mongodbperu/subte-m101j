@@ -1,0 +1,26 @@
+[
+    {
+        "concept": "Connecting to a Replica Set from Java Driver",
+        "lecture": "GL4kika730k",
+        "answer": "E5vOOKL45pc"
+    },
+    {
+        "concept": "Bad Things Happen to Good Nodes",
+        "lecture": "0ANiUSyhG9k",
+        "answer": "VmVINcX3zQs"
+    },
+    {
+        "concept": "Write Concern",
+        "lecture": "49BPAY1Yb5w",
+        "answer": "352E66ZG0OU"
+    },
+    {
+        "concept": "Read Preferences",
+        "lecture": "lA9UIEtvfWo"
+    },
+    {
+        "concept": "Sharding + Replication",
+        "lecture": "-rtYrLb1bgY",
+        "answer": "hnuiYokdO7g"
+    }
+]

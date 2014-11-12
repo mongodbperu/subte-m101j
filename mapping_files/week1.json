@@ -1,0 +1,61 @@
+[
+    {
+        "concept": "Welcome to M101J",
+        "lecture": "kTIqocKMItU",
+        "answer": "ysg0vfgg6fI"
+    },
+    {
+        "concept": "What is MongoDB",
+        "lecture": "q2iLKZ1LgjI",
+        "answer": "CAR42sMkXEo"
+    },
+    {
+        "concept": "Overview of Building an app with Mongo",
+        "lecture": "swhH4q_2Ttc"
+    },
+    {
+        "concept": "System Requirements",
+        "lecture": "_vYz3CZwyK0"
+    },
+    {
+        "concept": "Installing and Using Maven",
+        "lecture": "72vejAmaypM"
+    },
+    {
+        "concept": "The MongoDB Java Driver",
+        "lecture": "FtyaK3pMHxw"
+    },
+    {
+        "concept": "Intro to the Spark Web Application Framework",
+        "lecture": "UH-VD_ypal8"
+    },
+    {
+        "concept": "Intro to the Freemarker Templating Engine",
+        "lecture": "_8-3K2Ds-Ok"
+    },
+    {
+        "concept": "Spark and Freemarker Together",
+        "lecture": "7fdtf9aLc2w"
+    },
+    {
+        "concept": "All together now; MongoDB, Spark and Freemarker",
+        "lecture": "8S5tvJAOYzg"
+    },
+    {
+        "concept": "Spark: Handling GET requests",
+        "lecture": "7t1IafamuVs"
+    },
+    {
+        "concept": "Spark: Handling POST requests",
+        "lecture": "jZDuxesy5cc"
+    },
+    {
+        "concept": "Insert a Document Using the Java driver",
+        "lecture": "vUMGCPbe9aM"
+    },
+    {
+        "concept": "Homework 1.3",
+        "lecture": "LRQ6WAN_w4Q",
+        "answer": "7H9ChOtsxg8"
+    }
+]

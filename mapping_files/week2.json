@@ -1,0 +1,74 @@
+[
+    {
+        "concept": "Introduction to Week 2",
+        "lecture": "dE8J3s_a-98"
+    },
+    {
+        "concept": "Java driver, document representation",
+        "lecture": "rAArRbxw0xI",
+        "answer": "3_b5ybZpero"
+    },
+    {
+        "concept": "Java driver, insert",
+        "lecture": "wAGixFmneRI",
+        "answer": "v4I5ijidFGk"
+    },
+    {
+        "concept": "Java driver, find, findOne, count",
+        "lecture": "wgTeReQW7zI",
+        "answer": "zGdqBUZYeP0"
+    },
+    {
+        "concept": "Java driver, query criteria",
+        "lecture": "5UtrLdHD06I",
+        "answer": "_Zxiwo3lo28"
+    },
+    {
+        "concept": "Java driver, using field selection",
+        "lecture": "oW-0h-Ux3hQ",
+        "answer": "F8kAQ88a3Bg"
+    },
+    {
+        "concept": "Java driver, using dot notation",
+        "lecture": "b8HWPdz9u38",
+        "answer": "hWL1otPB51w"
+    },
+    {
+        "concept": "Java driver, skip, limit and sort",
+        "lecture": "sYPs9PlBxrs",
+        "answer": "0IAeF5iN0Dw"
+    },
+    {
+        "concept": "Java driver, update",
+        "lecture": "6n9rN6vzRyg",
+        "answer": "B-w8VAvTVqE"
+    },
+    {
+        "concept": "Java driver, findAndModify",
+        "lecture": "PWZMQTsJFGs"
+    },
+    {
+        "concept": "Blog, User Interface",
+        "lecture": "cKLfVZDs9FU"
+    },
+    {
+        "concept": "Blog, Session Management",
+        "lecture": "JeyNWgk6FJc"
+    },
+    {
+        "concept": "Blog, Internals",
+        "lecture": "VdEJQPsf7gg"
+    },
+    {
+        "concept": "HW 2.1",
+        "answer": "R9KFF6rfIPY"
+    },
+    {
+        "concept": "HW 2.2",
+        "answer": "Bpz5E_L17RY"
+    },
+    {
+        "concept": "HW 2.3",
+        "answer": "sktDBIkR_pA"
+    }
+]
