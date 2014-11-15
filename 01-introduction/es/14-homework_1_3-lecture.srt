@@ -1,0 +1,49 @@
+1
+00:00:00,000 --> 00:00:03,720
+Before 1.3, we want to make
+sure that you have JDK
+
+2
+00:00:03,720 --> 00:00:07,940
+installed, Maven, and that you
+can run a Maven-based project
+
+3
+00:00:07,940 --> 00:00:10,360
+that uses the Mongo
+Java driver.
+
+4
+00:00:10,360 --> 00:00:13,970
+So you should get the tar
+zip file and expand it.
+
+5
+00:00:13,970 --> 00:00:16,940
+And then cd into the right
+directory that
+
+6
+00:00:16,940 --> 00:00:18,140
+we've mentioned here--
+
+7
+00:00:18,140 --> 00:00:19,650
+hw1-3.
+
+8
+00:00:19,650 --> 00:00:21,840
+And when you run the command, we
+said, make sure you run the
+
+9
+00:00:21,840 --> 00:00:25,450
+whole command as one line,
+or it won't work.
+
+10
+00:00:25,450 --> 00:00:26,700
+Good luck.
+
+11
+00:00:26,700 --> 00:00:27,300

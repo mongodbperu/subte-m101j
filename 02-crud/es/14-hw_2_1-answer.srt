@@ -1,0 +1,71 @@
+1
+00:00:00,000 --> 00:00:00,150
+
+2
+00:00:00,150 --> 00:00:03,160
+In this problem, we asked you to
+find all the student scores
+
+3
+00:00:03,160 --> 00:00:07,070
+where the exam grade was greater
+than or equal to 65.
+
+4
+00:00:07,070 --> 00:00:09,960
+And we asked you to sort those
+and find the student with the
+
+5
+00:00:09,960 --> 00:00:12,990
+lowest exam grade that
+is above 65.
+
+6
+00:00:12,990 --> 00:00:15,360
+So to do that, we do a Find.
+
+7
+00:00:15,360 --> 00:00:19,040
+We limit ourselves
+to Type Exam.
+
+8
+00:00:19,040 --> 00:00:22,830
+We look for scores that are
+greater than or equal to 65.
+
+9
+00:00:22,830 --> 00:00:26,170
+I'm suppressing the ID operator
+here just to make it
+
+10
+00:00:26,170 --> 00:00:27,640
+easier to read the output.
+
+11
+00:00:27,640 --> 00:00:31,180
+And then I'm sorting
+by score ascending.
+
+12
+00:00:31,180 --> 00:00:33,280
+And when you do that, you get
+the following records.
+
+13
+00:00:33,280 --> 00:00:36,180
+And you can see the student that
+is just above 65 their
+
+14
+00:00:36,180 --> 00:00:39,320
+exam grade is student ID 114.
+
+15
+00:00:39,320 --> 00:00:40,570
+And that was the answer.
+
+16
+00:00:40,570 --> 00:00:41,390

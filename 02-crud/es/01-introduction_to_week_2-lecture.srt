@@ -1,0 +1,52 @@
+1
+00:00:00,501 --> 00:00:02,771
+Welcome to week 2 
+of m101j.
+
+2
+00:00:02,771 --> 00:00:04,814
+This week we're joined 
+by Richard Kreuter
+
+3
+00:00:04,814 --> 00:00:06,377
+our lead consulting engineer.
+
+4
+00:00:06,377 --> 00:00:08,552
+And he's going to start off
+the week by going through
+
+5
+00:00:08,552 --> 00:00:10,566
+all the different CRUD operations:
+
+6
+00:00:10,566 --> 00:00:14,980
+creating, reading, updating
+and deleting data from the mongo shell.
+
+7
+00:00:15,004 --> 00:00:17,899
+Then Jeff Yemin in going to go through
+a lot of the same operations
+
+8
+00:00:17,899 --> 00:00:20,207
+but from the perspective
+of the java driver.
+
+9
+00:00:20,207 --> 00:00:22,425
+And at the very end of the week,
+
+10
+00:00:22,425 --> 00:00:25,146
+I will take you though
+the internals of the blog
+
+11
+00:00:25,146 --> 00:00:27,881
+so that you're ready for the 
+this week's homework.
+

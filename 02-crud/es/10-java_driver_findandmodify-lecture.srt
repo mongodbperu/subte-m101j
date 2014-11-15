@@ -1,0 +1,461 @@
+1
+00:00:00,000 --> 00:00:00,220
+
+2
+00:00:00,220 --> 00:00:03,940
+This is our last lecture on CRUD
+using the JAVA driver,
+
+3
+00:00:03,940 --> 00:00:07,540
+and I'm going to introduce you
+to one more technique that you
+
+4
+00:00:07,540 --> 00:00:10,560
+can use with MongoDB, which we
+actually haven't seen yet when
+
+5
+00:00:10,560 --> 00:00:14,050
+we've been in the shell, and
+it's called find and modify.
+
+6
+00:00:14,050 --> 00:00:16,530
+Find and modify provides an
+interesting capability which
+
+7
+00:00:16,530 --> 00:00:20,790
+allows you to, in one atomic
+operation, find a document,
+
+8
+00:00:20,790 --> 00:00:23,010
+modify it, and return it.
+
+9
+00:00:23,010 --> 00:00:24,440
+Again, all atomically.
+
+10
+00:00:24,440 --> 00:00:27,560
+So, to motivate the discussion
+around find and modify, I'll
+
+11
+00:00:27,560 --> 00:00:30,560
+give you an example of a service
+that you could develop
+
+12
+00:00:30,560 --> 00:00:32,290
+easily with find and modify.
+
+13
+00:00:32,290 --> 00:00:35,020
+So it's a service that provides
+unique ranges of
+
+14
+00:00:35,020 --> 00:00:37,580
+numbers for a given ID.
+
+15
+00:00:37,580 --> 00:00:41,120
+So it allows you to specify
+an ID for a counter.
+
+16
+00:00:41,120 --> 00:00:43,330
+I chose ABC to use here.
+
+17
+00:00:43,330 --> 00:00:47,700
+And the function basically takes
+a counter ID, the number
+
+18
+00:00:47,700 --> 00:00:52,180
+of numbers needed, so the size
+of the range, and then the
+
+19
+00:00:52,180 --> 00:00:54,690
+collection to store
+the counters in.
+
+20
+00:00:54,690 --> 00:00:58,550
+The method returns the first
+number in the range, and it's
+
+21
+00:00:58,550 --> 00:01:01,960
+guaranteeing that the caller
+of this method has unique
+
+22
+00:01:01,960 --> 00:01:04,430
+access, essentially, or it will
+be the only one given the
+
+23
+00:01:04,430 --> 00:01:07,770
+numbers from first up to
+num needed minus 1.
+
+24
+00:01:07,770 --> 00:01:10,990
+And I do this three times with
+the same counter ID, ABC.
+
+25
+00:01:10,990 --> 00:01:14,070
+I ask for two numbers, then
+three and 10, and I print out
+
+26
+00:01:14,070 --> 00:01:15,750
+the range for each one.
+
+27
+00:01:15,750 --> 00:01:19,970
+So the first time, it should
+print out range one to two,
+
+28
+00:01:19,970 --> 00:01:24,680
+and then three to five,
+and then six to 15.
+
+29
+00:01:24,680 --> 00:01:26,580
+I haven't actually written the
+function yet, so I'm going to
+
+30
+00:01:26,580 --> 00:01:27,640
+do that now.
+
+31
+00:01:27,640 --> 00:01:29,230
+So let's see how we
+can write getRange
+
+32
+00:01:29,230 --> 00:01:31,290
+using find and modify.
+
+33
+00:01:31,290 --> 00:01:35,800
+So, find and modify returns a
+document, I'll call it doc.
+
+34
+00:01:35,800 --> 00:01:39,410
+And I'll say
+collection.findAndModify, and
+
+35
+00:01:39,410 --> 00:01:41,820
+there's a lot of arguments to
+find and modify for this
+
+36
+00:01:41,820 --> 00:01:44,120
+particular use case,
+but the first
+
+37
+00:01:44,120 --> 00:01:46,720
+argument is always a query.
+
+38
+00:01:46,720 --> 00:01:50,790
+And I'm querying for a
+document with the ID
+
+39
+00:01:50,790 --> 00:01:52,180
+that's passed in.
+
+40
+00:01:52,180 --> 00:01:54,380
+The second argument is the
+fields I want back.
+
+41
+00:01:54,380 --> 00:01:57,060
+I'm just going to pass in null
+for fields, because I don't
+
+42
+00:01:57,060 --> 00:02:00,010
+care about getting all the
+fields back in this case.
+
+43
+00:02:00,010 --> 00:02:02,300
+The third argument is sort
+criteria, which we're not
+
+44
+00:02:02,300 --> 00:02:04,940
+going to use here, so
+just going to say
+
+45
+00:02:04,940 --> 00:02:06,480
+null for sort as well.
+
+46
+00:02:06,480 --> 00:02:10,020
+The fourth argument is whether
+the document should be removed
+
+47
+00:02:10,020 --> 00:02:11,620
+after it's modified.
+
+48
+00:02:11,620 --> 00:02:14,310
+So I'm going to say false,
+because I need to maintain the
+
+49
+00:02:14,310 --> 00:02:15,550
+value of my counter.
+
+50
+00:02:15,550 --> 00:02:17,910
+But there are use cases were
+remove is important,
+
+51
+00:02:17,910 --> 00:02:19,290
+but not this one.
+
+52
+00:02:19,290 --> 00:02:22,030
+The next argument is the actual
+update that I want to
+
+53
+00:02:22,030 --> 00:02:24,480
+do, the modification I want
+to make to this document.
+
+54
+00:02:24,480 --> 00:02:27,020
+So what do I actually
+want to do here?
+
+55
+00:02:27,020 --> 00:02:29,110
+Every document needs to maintain
+the current value of
+
+56
+00:02:29,110 --> 00:02:29,840
+the counter.
+
+57
+00:02:29,840 --> 00:02:37,510
+So what I'm going to say here
+is I want to increment the
+
+58
+00:02:37,510 --> 00:02:40,970
+value of the counter
+field by what?
+
+59
+00:02:40,970 --> 00:02:42,840
+I want to increment
+it by range.
+
+60
+00:02:42,840 --> 00:02:46,230
+So, based on how large a range
+the user's requested.
+
+61
+00:02:46,230 --> 00:02:50,240
+And the last two parameters
+are return new and upsert.
+
+62
+00:02:50,240 --> 00:02:52,690
+Find and modify lets you decide
+whether you want to get
+
+63
+00:02:52,690 --> 00:02:55,680
+the contents of the document
+either before or after the
+
+64
+00:02:55,680 --> 00:02:58,270
+modification that you perform
+through find and modify.
+
+65
+00:02:58,270 --> 00:03:01,030
+In this case, I want the value
+after, because I'm also going
+
+66
+00:03:01,030 --> 00:03:04,940
+to say true for upsert because
+if the counter doesn't already
+
+67
+00:03:04,940 --> 00:03:07,030
+exist, I want to create it.
+
+68
+00:03:07,030 --> 00:03:10,160
+So if I said false for return
+new, the first time I called
+
+69
+00:03:10,160 --> 00:03:13,990
+this method of a particular
+ID, I'd get back null.
+
+70
+00:03:13,990 --> 00:03:18,580
+I don't deal with null, so I'm
+just going to say true here.
+
+71
+00:03:18,580 --> 00:03:20,380
+Close that already.
+
+72
+00:03:20,380 --> 00:03:22,880
+And then I need to return the
+value of the counter.
+
+73
+00:03:22,880 --> 00:03:28,300
+So I'm going to return
+doc.get counter to
+
+74
+00:03:28,300 --> 00:03:29,990
+cast that to an integer.
+
+75
+00:03:29,990 --> 00:03:31,940
+But if I do that, then I'm going
+to get the value of the
+
+76
+00:03:31,940 --> 00:03:33,820
+counter after the range,
+and I want the
+
+77
+00:03:33,820 --> 00:03:35,200
+value before the range.
+
+78
+00:03:35,200 --> 00:03:39,720
+So I'm going to return counter
+minus range plus 1, just to
+
+79
+00:03:39,720 --> 00:03:42,520
+account for the off by one error
+for the subtraction.
+
+80
+00:03:42,520 --> 00:03:47,330
+So if I run this, I get
+back what I'd expect.
+
+81
+00:03:47,330 --> 00:03:51,270
+First time I call the method,
+again, with counter ID of ABC,
+
+82
+00:03:51,270 --> 00:03:56,030
+I need two, so my range
+is from one two.
+
+83
+00:03:56,030 --> 00:03:57,300
+The second time, I call
+it from three,
+
+84
+00:03:57,300 --> 00:03:58,315
+so I get three back.
+
+85
+00:03:58,315 --> 00:03:59,410
+So it's three to five.
+
+86
+00:03:59,410 --> 00:04:01,560
+And the third time, I want
+10 numbers back, so
+
+87
+00:04:01,560 --> 00:04:03,940
+I get six to 15.
+
+88
+00:04:03,940 --> 00:04:06,390
+And at the end, I print out the
+value of the collection.
+
+89
+00:04:06,390 --> 00:04:08,110
+You can see that there's a
+single document in the
+
+90
+00:04:08,110 --> 00:04:11,270
+collection whose ID is
+ABC, as we'd expect.
+
+91
+00:04:11,270 --> 00:04:14,820
+The counter now is 15.
+
+92
+00:04:14,820 --> 00:04:16,300
+And that's it with find
+and modified.
+
+93
+00:04:16,300 --> 00:04:18,260
+As you can see from the number
+of parameters, there's a lot
+
+94
+00:04:18,260 --> 00:04:20,510
+of permutations of those
+parameters that'll let you
+
+95
+00:04:20,510 --> 00:04:21,600
+achieve different effects.
+
+96
+00:04:21,600 --> 00:04:24,360
+But this is just to give you a
+flavor of the kind of things
+
+97
+00:04:24,360 --> 00:04:25,670
+you can achieve with
+find and modify.
+
+98
+00:04:25,670 --> 00:04:26,920

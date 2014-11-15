@@ -1,0 +1,376 @@
+1
+00:00:00,000 --> 00:00:00,150
+
+2
+00:00:00,150 --> 00:00:02,520
+Now we've learned about replica
+sets, let's look now
+
+3
+00:00:02,520 --> 00:00:06,910
+at how we connect to a replica
+set using the Java driver.
+
+4
+00:00:06,910 --> 00:00:09,650
+So first, I just wrote a simple
+application which
+
+5
+00:00:09,650 --> 00:00:14,390
+creates a MongoClient client
+connected to local host 27017,
+
+6
+00:00:14,390 --> 00:00:17,840
+creates a collection
+replica.test in the course
+
+7
+00:00:17,840 --> 00:00:20,770
+database, and then just inserts
+a bunch of documents,
+
+8
+00:00:20,770 --> 00:00:23,750
+one after the other, and sleeps
+for a half a second
+
+9
+00:00:23,750 --> 00:00:25,090
+between each.
+
+10
+00:00:25,090 --> 00:00:28,530
+And if we run this, it
+just looks like this.
+
+11
+00:00:28,530 --> 00:00:32,800
+And if you look in the shell,
+we see those documents.
+
+12
+00:00:32,800 --> 00:00:34,020
+And that's fine.
+
+13
+00:00:34,020 --> 00:00:36,660
+But the way I've configured this
+instance, it's actually
+
+14
+00:00:36,660 --> 00:00:37,700
+part of a replica set.
+
+15
+00:00:37,700 --> 00:00:41,190
+And we can see that by
+running rs.status.
+
+16
+00:00:41,190 --> 00:00:46,260
+You can see that 27017 is the
+primary and 27018 is the
+
+17
+00:00:46,260 --> 00:00:49,280
+secondary, and there's a couple
+more secondaries on
+
+18
+00:00:49,280 --> 00:00:53,650
+019, 020, and then
+arbiter on 021.
+
+19
+00:00:53,650 --> 00:00:58,530
+So what happens if I step
+down the primary?
+
+20
+00:00:58,530 --> 00:01:00,660
+So I say rs.stepDown.
+
+21
+00:01:00,660 --> 00:01:05,040
+And now, if you look at the
+replica [? set ?] status,
+
+22
+00:01:05,040 --> 00:01:06,300
+there's an election going on.
+
+23
+00:01:06,300 --> 00:01:09,830
+There's no primary yet.
+
+24
+00:01:09,830 --> 00:01:13,970
+And now 270120 has been
+made the primary.
+
+25
+00:01:13,970 --> 00:01:16,500
+So let's run this
+program again.
+
+26
+00:01:16,500 --> 00:01:19,730
+And let's see what happens.
+
+27
+00:01:19,730 --> 00:01:22,420
+Well, it fails, because
+it's saying it's not
+
+28
+00:01:22,420 --> 00:01:23,630
+talking to the master.
+
+29
+00:01:23,630 --> 00:01:26,900
+And that's because I'm connected
+directly to local
+
+30
+00:01:26,900 --> 00:01:29,630
+host 27017, and that's no
+longer the primary.
+
+31
+00:01:29,630 --> 00:01:31,910
+And you can only write
+to the primary.
+
+32
+00:01:31,910 --> 00:01:37,560
+So I can fix this by changing
+it to 27020.
+
+33
+00:01:37,560 --> 00:01:40,880
+And that works, but that's
+rather annoying.
+
+34
+00:01:40,880 --> 00:01:43,090
+Because you don't want to have
+to change your client
+
+35
+00:01:43,090 --> 00:01:45,110
+application every time
+that there's a
+
+36
+00:01:45,110 --> 00:01:47,110
+failover of your primary.
+
+37
+00:01:47,110 --> 00:01:49,450
+So how do we address this?
+
+38
+00:01:49,450 --> 00:01:52,210
+Well, it's actually
+very simple.
+
+39
+00:01:52,210 --> 00:01:54,680
+Instead of providing MongoClient
+with a single
+
+40
+00:01:54,680 --> 00:01:56,720
+server address, as
+we did here, we
+
+41
+00:01:56,720 --> 00:01:58,780
+provided it with a seedlist.
+
+42
+00:01:58,780 --> 00:02:00,690
+The way I could do a seedlist
+is to pass it a
+
+43
+00:02:00,690 --> 00:02:04,710
+list of server addresses.
+
+44
+00:02:04,710 --> 00:02:09,180
+So instead of just passing
+270120, I'm going to pass
+
+45
+00:02:09,180 --> 00:02:13,240
+several more from the
+same replica set.
+
+46
+00:02:13,240 --> 00:02:21,660
+So I'll pass it 017,
+018, and 019.
+
+47
+00:02:21,660 --> 00:02:22,980
+And let's see what
+happens now.
+
+48
+00:02:22,980 --> 00:02:24,590
+So the primary--
+
+49
+00:02:24,590 --> 00:02:27,050
+I stepped down, but the way
+I have my replica set
+
+50
+00:02:27,050 --> 00:02:32,420
+configured, 27017 has a higher
+priority, which you can see
+
+51
+00:02:32,420 --> 00:02:34,860
+with rs.comf.
+
+52
+00:02:34,860 --> 00:02:36,270
+It's a priority five,
+so it keeps
+
+53
+00:02:36,270 --> 00:02:38,850
+reelecting itself primary.
+
+54
+00:02:38,850 --> 00:02:41,920
+So 27017 is the primary.
+
+55
+00:02:41,920 --> 00:02:44,950
+If I run this, even if
+I don't list 27017--
+
+56
+00:02:44,950 --> 00:02:47,880
+so let's change this to 27021.
+
+57
+00:02:47,880 --> 00:02:50,420
+So notice, the primary is not
+in this list anymore.
+
+58
+00:02:50,420 --> 00:02:53,310
+If I run this, it
+works just fine.
+
+59
+00:02:53,310 --> 00:02:57,700
+And the reason is because the
+MongoClient instance will use
+
+60
+00:02:57,700 --> 00:03:01,620
+the seedlist to discover all the
+members of the replica set
+
+61
+00:03:01,620 --> 00:03:03,800
+and figure out which one's the
+primary and which are the
+
+62
+00:03:03,800 --> 00:03:04,960
+secondaries.
+
+63
+00:03:04,960 --> 00:03:07,730
+And based on that, it will
+send the inserts to the
+
+64
+00:03:07,730 --> 00:03:09,850
+correct member of the replica
+set, which in
+
+65
+00:03:09,850 --> 00:03:13,760
+this case, is 27017.
+
+66
+00:03:13,760 --> 00:03:18,550
+Doing that again, and
+it works fine.
+
+67
+00:03:18,550 --> 00:03:23,740
+And if I stepDown
+27017 again--
+
+68
+00:03:23,740 --> 00:03:25,645
+let's wait for a primary
+to be elected.
+
+69
+00:03:25,645 --> 00:03:28,320
+
+70
+00:03:28,320 --> 00:03:31,120
+Now 27019 is the primary,
+which is in my seedlist.
+
+71
+00:03:31,120 --> 00:03:34,140
+And I run it, and
+it works fine.
+
+72
+00:03:34,140 --> 00:03:35,280
+Let's do a quiz.
+
+73
+00:03:35,280 --> 00:03:37,740
+If you leave a replica set
+node out of the seedlist
+
+74
+00:03:37,740 --> 00:03:39,600
+within the driver,
+what will happen?
+
+75
+00:03:39,600 --> 00:03:42,160
+The missing node will not be
+used by the application.
+
+76
+00:03:42,160 --> 00:03:44,490
+The missing node will be
+discovered as long as you list
+
+77
+00:03:44,490 --> 00:03:46,230
+at least one valid node.
+
+78
+00:03:46,230 --> 00:03:49,010
+The missing node will be used
+for reads but not for writes.
+
+79
+00:03:49,010 --> 00:03:50,380
+Or the missing node
+will be used for
+
+80
+00:03:50,380 --> 00:03:51,630
+writes, but not for reads.
+
+81
+00:03:51,630 --> 00:03:52,720

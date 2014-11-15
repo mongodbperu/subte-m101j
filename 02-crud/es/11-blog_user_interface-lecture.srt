@@ -1,0 +1,346 @@
+1
+00:00:00,000 --> 00:00:00,150
+
+2
+00:00:00,150 --> 00:00:01,630
+Hi, this is Andrew again.
+
+3
+00:00:01,630 --> 00:00:05,320
+In this class, we're going to
+use a blog as a project that
+
+4
+00:00:05,320 --> 00:00:06,670
+we're going to use throughout
+the course.
+
+5
+00:00:06,670 --> 00:00:08,710
+And you're going to build
+different parts of it.
+
+6
+00:00:08,710 --> 00:00:11,780
+This week we're going to work on
+three different parts-- the
+
+7
+00:00:11,780 --> 00:00:15,970
+author sign up, the author log
+in, and the author log out.
+
+8
+00:00:15,970 --> 00:00:18,430
+The authors are the only ones
+who need to sign in and sign
+
+9
+00:00:18,430 --> 00:00:19,150
+out of our blog.
+
+10
+00:00:19,150 --> 00:00:22,550
+And the idea is that viewers
+can use it anonymously.
+
+11
+00:00:22,550 --> 00:00:24,730
+So let's go through what
+the user interface
+
+12
+00:00:24,730 --> 00:00:26,390
+looks like for this.
+
+13
+00:00:26,390 --> 00:00:28,690
+Here I have our web browser.
+
+14
+00:00:28,690 --> 00:00:30,810
+And we're going to be
+running the blog.
+
+15
+00:00:30,810 --> 00:00:32,140
+So here I'm going to first
+show you how to
+
+16
+00:00:32,140 --> 00:00:33,450
+get the blog started.
+
+17
+00:00:33,450 --> 00:00:36,680
+So when you download the code
+for this week's homework
+
+18
+00:00:36,680 --> 00:00:39,790
+assignment, homework problem
+three, you'll see a couple
+
+19
+00:00:39,790 --> 00:00:42,260
+different things, including
+a validation script
+
+20
+00:00:42,260 --> 00:00:43,730
+and a small run file.
+
+21
+00:00:43,730 --> 00:00:47,650
+In the run file, you'll see
+there's this mvn command that
+
+22
+00:00:47,650 --> 00:00:48,390
+will run it.
+
+23
+00:00:48,390 --> 00:00:50,880
+You can import the
+pom into an IDE.
+
+24
+00:00:50,880 --> 00:00:53,190
+So you don't necessarily need
+to run it using mvn.
+
+25
+00:00:53,190 --> 00:00:55,580
+But it should work if you
+run it using mvn.
+
+26
+00:00:55,580 --> 00:00:59,080
+So I'm going to do that.
+
+27
+00:00:59,080 --> 00:01:01,730
+So you can see here it started,
+and it started on
+
+28
+00:01:01,730 --> 00:01:03,610
+port 80/82.
+
+29
+00:01:03,610 --> 00:01:08,380
+So if we go to port 80/82 and we
+hit return, we can see that
+
+30
+00:01:08,380 --> 00:01:10,600
+we have a placeholder
+for our blog.
+
+31
+00:01:10,600 --> 00:01:13,620
+Now, we only have three
+URL routes that are
+
+32
+00:01:13,620 --> 00:01:14,590
+currently set up.
+
+33
+00:01:14,590 --> 00:01:17,180
+One of them is to sign up for
+the blog, and another one is
+
+34
+00:01:17,180 --> 00:01:18,950
+to log in, another one
+is to log out.
+
+35
+00:01:18,950 --> 00:01:21,590
+So I'm going to sign up for
+the blog right here.
+
+36
+00:01:21,590 --> 00:01:23,930
+And I'm going to type
+my user name--
+
+37
+00:01:23,930 --> 00:01:24,200
+erlichson.
+
+38
+00:01:24,200 --> 00:01:25,870
+And I'm going to give
+myself a password--
+
+39
+00:01:25,870 --> 00:01:26,910
+fubar.
+
+40
+00:01:26,910 --> 00:01:29,150
+And then I'm going
+to hit Submit.
+
+41
+00:01:29,150 --> 00:01:31,930
+And when I do that, you can see
+that I'm redirected to the
+
+42
+00:01:31,930 --> 00:01:35,290
+welcome page, which welcomes
+me by name.
+
+43
+00:01:35,290 --> 00:01:39,520
+And let's go to my home
+or to my log out page.
+
+44
+00:01:39,520 --> 00:01:43,050
+So if we just log out of the
+blog, then I can log
+
+45
+00:01:43,050 --> 00:01:45,410
+back into the blog.
+
+46
+00:01:45,410 --> 00:01:49,300
+If I type the wrong password in,
+it'll say invalid login.
+
+47
+00:01:49,300 --> 00:01:53,920
+And if I type the right password
+in, I go back here.
+
+48
+00:01:53,920 --> 00:01:55,650
+So there were three different
+URLs that
+
+49
+00:01:55,650 --> 00:01:56,500
+we implemented there--
+
+50
+00:01:56,500 --> 00:02:00,370
+log in, log out, and
+the sign up URL.
+
+51
+00:02:00,370 --> 00:02:02,760
+Now, I'm showing you a completed
+version of the
+
+52
+00:02:02,760 --> 00:02:06,360
+homework assignment where the
+code has been inserted by me
+
+53
+00:02:06,360 --> 00:02:08,979
+so that the whole thing actually
+works properly.
+
+54
+00:02:08,979 --> 00:02:11,870
+But you'll have to do that part
+yourself in the actual
+
+55
+00:02:11,870 --> 00:02:12,840
+assignment.
+
+56
+00:02:12,840 --> 00:02:17,330
+And then if you look here and
+see what happened internally--
+
+57
+00:02:17,330 --> 00:02:19,100
+I'm going to quit out of here.
+
+58
+00:02:19,100 --> 00:02:20,170
+I run Mongo.
+
+59
+00:02:20,170 --> 00:02:22,320
+I'm going to use blog.
+
+60
+00:02:22,320 --> 00:02:24,700
+And I'm going to look at
+the user's collection.
+
+61
+00:02:24,700 --> 00:02:27,070
+And you can see right here
+there's an entry in the users
+
+62
+00:02:27,070 --> 00:02:27,690
+collection--
+
+63
+00:02:27,690 --> 00:02:30,850
+id erlichson, a hash version
+of my password along with
+
+64
+00:02:30,850 --> 00:02:31,440
+[? assault ?]
+
+65
+00:02:31,440 --> 00:02:32,660
+in this users table.
+
+66
+00:02:32,660 --> 00:02:36,280
+And there's also something
+in the sessions table.
+
+67
+00:02:36,280 --> 00:02:39,650
+And the sessions code we're
+going to leave in for you.
+
+68
+00:02:39,650 --> 00:02:41,950
+But the sessions code,
+there's a long,
+
+69
+00:02:41,950 --> 00:02:44,330
+random, and my username.
+
+70
+00:02:44,330 --> 00:02:46,460
+So that's how the user interface
+works and what you
+
+71
+00:02:46,460 --> 00:02:47,800
+should see in database.
+
+72
+00:02:47,800 --> 00:02:50,460
+And so now I'm going to go over
+the overall structure of
+
+73
+00:02:50,460 --> 00:02:53,610
+this project to show you what it
+looks like so you know how
+
+74
+00:02:53,610 --> 00:02:54,860
+to work on it.
+
+75
+00:02:54,860 --> 00:02:55,240

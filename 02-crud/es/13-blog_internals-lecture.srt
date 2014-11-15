@@ -1,0 +1,388 @@
+1
+00:00:00,000 --> 00:00:00,090
+
+2
+00:00:00,090 --> 00:00:03,320
+OK, let's go over the
+blog internals now.
+
+3
+00:00:03,320 --> 00:00:06,250
+Now there's two different
+parts of this project
+
+4
+00:00:06,250 --> 00:00:07,490
+for the most part.
+
+5
+00:00:07,490 --> 00:00:11,020
+There's the view, made up of
+these as FTL templates that
+
+6
+00:00:11,020 --> 00:00:13,010
+are processed by FreeMarker.
+
+7
+00:00:13,010 --> 00:00:17,210
+And then there's the controller
+and the model,
+
+8
+00:00:17,210 --> 00:00:21,350
+which is in Java code and uses a
+Spark framework for handling
+
+9
+00:00:21,350 --> 00:00:24,350
+of the routes, in the sense that
+Spark framework is really
+
+10
+00:00:24,350 --> 00:00:25,810
+part of the view as well.
+
+11
+00:00:25,810 --> 00:00:28,750
+And so I'm going to show you
+those two different parts.
+
+12
+00:00:28,750 --> 00:00:30,920
+This is the IntelliJ IDE.
+
+13
+00:00:30,920 --> 00:00:32,549
+You are welcome to use
+whatever IDE you
+
+14
+00:00:32,549 --> 00:00:33,590
+want or none at all.
+
+15
+00:00:33,590 --> 00:00:37,040
+I started by importing the
+palm file to get in here.
+
+16
+00:00:37,040 --> 00:00:39,550
+The main class is this
+BlogController file.
+
+17
+00:00:39,550 --> 00:00:42,380
+And this BlogController
+instantiates the other
+
+18
+00:00:42,380 --> 00:00:45,500
+objects, the session data access
+object and the user
+
+19
+00:00:45,500 --> 00:00:48,440
+data access object that handle
+the session management and the
+
+20
+00:00:48,440 --> 00:00:50,320
+user data management.
+
+21
+00:00:50,320 --> 00:00:53,190
+We can see right here at the
+top, we connect to MongoDB.
+
+22
+00:00:53,190 --> 00:00:55,360
+We actually called a
+new BlogController.
+
+23
+00:00:55,360 --> 00:00:58,090
+And then in there, we
+connect to MongoDB.
+
+24
+00:00:58,090 --> 00:00:59,660
+Here's the BlogController
+right here.
+
+25
+00:00:59,660 --> 00:01:02,710
+And you can see it calls
+mongoClient and gets
+
+26
+00:01:02,710 --> 00:01:03,710
+DB("blog").
+
+27
+00:01:03,710 --> 00:01:06,740
+It creates the two other data
+access objects, the user and
+
+28
+00:01:06,740 --> 00:01:08,630
+session data access objects.
+
+29
+00:01:08,630 --> 00:01:12,040
+Also sets our port
+up to be 80, 82.
+
+30
+00:01:12,040 --> 00:01:15,940
+Now if we look at any given
+route, we can see here--
+
+31
+00:01:15,940 --> 00:01:18,870
+this is the initialized
+route command.
+
+32
+00:01:18,870 --> 00:01:20,060
+You can see that we're--
+
+33
+00:01:20,060 --> 00:01:22,480
+let's say if you're looking
+at the sign-up route, this
+
+34
+00:01:22,480 --> 00:01:27,660
+handles the post to sign up, but
+is also a GET request to
+
+35
+00:01:27,660 --> 00:01:30,990
+sign up, which is in some ways
+easier to understand.
+
+36
+00:01:30,990 --> 00:01:34,230
+It creates a new FreeMarker
+based route, tells it that it
+
+37
+00:01:34,230 --> 00:01:36,760
+handles the path "signup",
+and it presents on this
+
+38
+00:01:36,760 --> 00:01:39,230
+"signup.ftl." template.
+
+39
+00:01:39,230 --> 00:01:42,140
+And for that one, it just puts a
+bunch of starting values for
+
+40
+00:01:42,140 --> 00:01:43,650
+the form elements.
+
+41
+00:01:43,650 --> 00:01:47,500
+Now over here, we've got these
+templates, down here.
+
+42
+00:01:47,500 --> 00:01:49,510
+Let's look at one of these
+templates, for instance, the
+
+43
+00:01:49,510 --> 00:01:50,980
+welcome template.
+
+44
+00:01:50,980 --> 00:01:52,500
+The welcome template.
+
+45
+00:01:52,500 --> 00:01:56,160
+It welcomes you by name and has
+a few other links in it.
+
+46
+00:01:56,160 --> 00:01:58,010
+This is a FreeMarker
+convention.
+
+47
+00:01:58,010 --> 00:02:01,970
+So we have in the middle of an
+HTML page, $, then this curly
+
+48
+00:02:01,970 --> 00:02:06,230
+brace, and then this literal
+username, which is used to
+
+49
+00:02:06,230 --> 00:02:07,340
+look up a value.
+
+50
+00:02:07,340 --> 00:02:10,289
+So it looks it up in a hash,
+the hash that was set up
+
+51
+00:02:10,289 --> 00:02:12,300
+before the template
+was invoked.
+
+52
+00:02:12,300 --> 00:02:15,450
+If we look here in
+BlogController, you can see
+
+53
+00:02:15,450 --> 00:02:17,630
+here we're presenting the
+welcome template, this is
+
+54
+00:02:17,630 --> 00:02:19,200
+actually a GET request.
+
+55
+00:02:19,200 --> 00:02:21,860
+You can see that it gets the
+cookie out of the request, and
+
+56
+00:02:21,860 --> 00:02:24,310
+then it looks up in the
+sessions, using a session data
+
+57
+00:02:24,310 --> 00:02:26,980
+access object to find
+the full username.
+
+58
+00:02:26,980 --> 00:02:28,740
+If it can't find it, it just
+says, I'm sorry, you don't
+
+59
+00:02:28,740 --> 00:02:30,180
+seem to be logged in.
+
+60
+00:02:30,180 --> 00:02:33,680
+But if it does find it, then
+it creates a new HashMap,
+
+61
+00:02:33,680 --> 00:02:35,560
+which it puts in this
+variable route.
+
+62
+00:02:35,560 --> 00:02:38,460
+Then it puts a key
+value pair in.
+
+63
+00:02:38,460 --> 00:02:41,860
+The key is "username", and the
+value is the actual username.
+
+64
+00:02:41,860 --> 00:02:45,030
+And then it calls
+template.process passing that
+
+65
+00:02:45,030 --> 00:02:48,650
+HashMap, which the FreeMarker
+process uses to fill it in
+
+66
+00:02:48,650 --> 00:02:51,420
+when it combines the data with
+the template itself.
+
+67
+00:02:51,420 --> 00:02:54,140
+So for this week you're going to
+be filling stuff in in the
+
+68
+00:02:54,140 --> 00:02:57,570
+user data access object that's
+going to read things out of
+
+69
+00:02:57,570 --> 00:03:00,400
+the user collection and write
+things in the user collection.
+
+70
+00:03:00,400 --> 00:03:03,570
+And I'm not going to show you
+that class because it has the
+
+71
+00:03:03,570 --> 00:03:04,680
+code that you'll
+need to write.
+
+72
+00:03:04,680 --> 00:03:07,750
+So I want to keep that
+hidden right now.
+
+73
+00:03:07,750 --> 00:03:11,290
+If you look here in the blog
+itself, you can see it's just
+
+74
+00:03:11,290 --> 00:03:13,000
+this placeholder thing that you
+saw when you went to the
+
+75
+00:03:13,000 --> 00:03:15,980
+blog, which is, this is my
+placeholder for the blog.
+
+76
+00:03:15,980 --> 00:03:17,915
+And in the subsequent weeks,
+we're going to fill this in
+
+77
+00:03:17,915 --> 00:03:20,090
+with more templates that we're
+going to give you, an
+
+78
+00:03:20,090 --> 00:03:23,420
+additional class here, so that
+you can access the posts and
+
+79
+00:03:23,420 --> 00:03:26,770
+you'll be writing the code to
+do the MongoDB part of that.
+
+80
+00:03:26,770 --> 00:03:27,030
+All right.
+
+81
+00:03:27,030 --> 00:03:30,130
+So that's how the internals
+of this blog system work.
+
+82
+00:03:30,130 --> 00:03:31,380

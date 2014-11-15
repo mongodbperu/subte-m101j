@@ -1,0 +1,339 @@
+1
+00:00:00,000 --> 00:00:00,130
+
+2
+00:00:00,130 --> 00:00:03,100
+This lecture will round out our
+discussion of querying use
+
+3
+00:00:03,100 --> 00:00:04,670
+in the Java driver.
+
+4
+00:00:04,670 --> 00:00:08,260
+We'll discuss sort,
+skip and limit.
+
+5
+00:00:08,260 --> 00:00:09,880
+So it's pretty straightforward.
+
+6
+00:00:09,880 --> 00:00:13,080
+For the coding, I'm going
+to use the same document
+
+7
+00:00:13,080 --> 00:00:15,190
+structures we did with
+dot notation.
+
+8
+00:00:15,190 --> 00:00:20,640
+I have lines basically with an
+"_id," "start," with x and y,
+
+9
+00:00:20,640 --> 00:00:21,830
+and "end" with x and y.
+
+10
+00:00:21,830 --> 00:00:25,700
+And just to review, it looks
+like-- let me do a find to
+
+11
+00:00:25,700 --> 00:00:29,100
+show you what it produces
+without any criteria.
+
+12
+00:00:29,100 --> 00:00:31,854
+And you can see, each document
+has a "start" field and an
+
+13
+00:00:31,854 --> 00:00:33,020
+"end" field.
+
+14
+00:00:33,020 --> 00:00:35,620
+And "start" and "end" each have
+x- and y-coordinates.
+
+15
+00:00:35,620 --> 00:00:37,460
+And there's an "_id" as well.
+
+16
+00:00:37,460 --> 00:00:39,400
+So let's look at
+sorting first.
+
+17
+00:00:39,400 --> 00:00:43,480
+So to sort we achieve a method
+call off of find.
+
+18
+00:00:43,480 --> 00:00:46,220
+So find returns a cursor.
+
+19
+00:00:46,220 --> 00:00:50,230
+So when we do sort, we're just
+modifying the cursor before
+
+20
+00:00:50,230 --> 00:00:52,600
+the query's actually sent
+to the database.
+
+21
+00:00:52,600 --> 00:00:54,890
+So we do it by calling sort.
+
+22
+00:00:54,890 --> 00:00:56,040
+And we pass it--
+
+23
+00:00:56,040 --> 00:00:57,540
+as you might have guessed--
+
+24
+00:00:57,540 --> 00:01:00,890
+a DBObject, in this case a
+BasicDBObject, which will
+
+25
+00:01:00,890 --> 00:01:02,290
+represent our sort criteria.
+
+26
+00:01:02,290 --> 00:01:08,780
+So let's for starters sort
+"_id", but descending instead
+
+27
+00:01:08,780 --> 00:01:09,975
+of ascending.
+
+28
+00:01:09,975 --> 00:01:11,225
+So we'll say "_id", -1.
+
+29
+00:01:11,225 --> 00:01:13,610
+
+30
+00:01:13,610 --> 00:01:17,272
+And when we run it, we should
+see that the "_id"s are now
+
+31
+00:01:17,272 --> 00:01:23,000
+sorted from the highest value
+to the lowest, from 9 to 0.
+
+32
+00:01:23,000 --> 00:01:24,800
+So that's pretty
+straightforward.
+
+33
+00:01:24,800 --> 00:01:27,800
+Now, skip and limit
+are just as easy.
+
+34
+00:01:27,800 --> 00:01:30,480
+We just keep chaining method
+calls onto the cursors.
+
+35
+00:01:30,480 --> 00:01:34,410
+So let's we want to skip the
+first two documents in the
+
+36
+00:01:34,410 --> 00:01:35,140
+sort order.
+
+37
+00:01:35,140 --> 00:01:36,760
+So if we do that,
+we should expect
+
+38
+00:01:36,760 --> 00:01:40,110
+that 9 and 8 are skipped.
+
+39
+00:01:40,110 --> 00:01:41,540
+And that's indeed the case.
+
+40
+00:01:41,540 --> 00:01:44,770
+So we have 7, 6, 5 4, 3 2, 1.
+
+41
+00:01:44,770 --> 00:01:47,080
+And finally limit.
+
+42
+00:01:47,080 --> 00:01:50,280
+Let's say we want to only get
+back the first three after
+
+43
+00:01:50,280 --> 00:01:51,310
+skipping two.
+
+44
+00:01:51,310 --> 00:01:52,460
+We can do that with limit(3).
+
+45
+00:01:52,460 --> 00:01:55,860
+We run it again, and we
+should see 7, 6 and 5.
+
+46
+00:01:55,860 --> 00:01:57,480
+And indeed we do.
+
+47
+00:01:57,480 --> 00:02:02,580
+So we can also use dot notation
+and sort just like we
+
+48
+00:02:02,580 --> 00:02:05,460
+did with field selection
+and with querying.
+
+49
+00:02:05,460 --> 00:02:10,389
+So let's say we want to sort
+"start.y" descending.
+
+50
+00:02:10,389 --> 00:02:13,410
+We can do that just by
+saying "start.y".
+
+51
+00:02:13,410 --> 00:02:16,300
+And we see that now
+it's sorted by
+
+52
+00:02:16,300 --> 00:02:19,790
+"start.y" 87, 78, 77.
+
+53
+00:02:19,790 --> 00:02:23,550
+And finally, we can also have
+multiple sort criteria.
+
+54
+00:02:23,550 --> 00:02:27,610
+So if we want to sort on
+"start.x" followed by
+
+55
+00:02:27,610 --> 00:02:31,730
+"start.y" we can do that just by
+chaining those criteria in
+
+56
+00:02:31,730 --> 00:02:32,500
+the DBObject.
+
+57
+00:02:32,500 --> 00:02:37,940
+So let's "start.x", 1 and
+we append "start.y", -1.
+
+58
+00:02:37,940 --> 00:02:40,470
+
+59
+00:02:40,470 --> 00:02:42,830
+So it should sort of all the
+x's first and then when the
+
+60
+00:02:42,830 --> 00:02:45,550
+x's are equal, it
+will sort by y.
+
+61
+00:02:45,550 --> 00:02:48,810
+Let's have a little
+higher limit.
+
+62
+00:02:48,810 --> 00:02:50,310
+Just to show it.
+
+63
+00:02:50,310 --> 00:02:53,050
+So you can see that the start.x
+0s come first and then
+
+64
+00:02:53,050 --> 00:02:56,730
+within that, we're sorting by
+y, and then all the 1s, and
+
+65
+00:02:56,730 --> 00:02:58,910
+sorting descending by y.
+
+66
+00:02:58,910 --> 00:03:00,440
+OK, time for a quiz.
+
+67
+00:03:00,440 --> 00:03:03,460
+So the quiz is, suppose you had
+the following documents in
+
+68
+00:03:03,460 --> 00:03:05,610
+a collection named things.
+
+69
+00:03:05,610 --> 00:03:08,280
+"_id"s are from 0 through
+3 and then value
+
+70
+00:03:08,280 --> 00:03:10,430
+10, 5, 7, and 20.
+
+71
+00:03:10,430 --> 00:03:13,370
+If you perform the following
+query in the Java driver,
+
+72
+00:03:13,370 --> 00:03:19,270
+find, sort on value, descending,
+skip 2, limit 1,
+
+73
+00:03:19,270 --> 00:03:21,720
+which document would
+be returned?
+
+74
+00:03:21,720 --> 00:03:25,810
+Would it be document with
+_id=0 1, 2, or 3?
+
+75
+00:03:25,810 --> 00:03:27,060

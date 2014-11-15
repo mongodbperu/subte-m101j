@@ -1,0 +1,134 @@
+1
+00:00:00,000 --> 00:00:03,450
+This is Jeff, and I want to
+review the system requirements
+
+2
+00:00:03,450 --> 00:00:07,140
+for the class before we start
+installing other software.
+
+3
+00:00:07,140 --> 00:00:09,410
+So first, operating systems.
+
+4
+00:00:09,410 --> 00:00:13,330
+So we test the class on
+two operating systems.
+
+5
+00:00:13,330 --> 00:00:16,620
+We test on OS 10.8.
+
+6
+00:00:16,620 --> 00:00:19,100
+But early versions of
+OS 10 should work.
+
+7
+00:00:19,100 --> 00:00:21,150
+We just haven't tested
+with them all.
+
+8
+00:00:21,150 --> 00:00:25,430
+And we also test on Windows 7.
+
+9
+00:00:25,430 --> 00:00:27,790
+Again, earlier and later
+versions should work, but we
+
+10
+00:00:27,790 --> 00:00:29,350
+test on Windows 7.
+
+11
+00:00:29,350 --> 00:00:31,940
+And if you want to use Linux--
+
+12
+00:00:31,940 --> 00:00:34,400
+we don't test the class on
+Linux, but there's no reason
+
+13
+00:00:34,400 --> 00:00:35,490
+that it shouldn't work.
+
+14
+00:00:35,490 --> 00:00:37,400
+All the software
+that you need--
+
+15
+00:00:37,400 --> 00:00:40,520
+Mongo, Maven, Java is all
+available on Linux.
+
+16
+00:00:40,520 --> 00:00:42,350
+So that should work fine.
+
+17
+00:00:42,350 --> 00:00:47,340
+For the JDK, we require
+version 1.6.
+
+18
+00:00:47,340 --> 00:00:48,950
+And that's what we test with.
+
+19
+00:00:48,950 --> 00:00:51,670
+We also test with 1.7.
+
+20
+00:00:51,670 --> 00:00:54,410
+If you want to confirm what
+version of the JDK you have,
+
+21
+00:00:54,410 --> 00:00:56,750
+you can go to a terminal
+window and
+
+22
+00:00:56,750 --> 00:01:00,020
+type java minus version.
+
+23
+00:01:00,020 --> 00:01:02,940
+Shows that I'm running
+1.7.0, which is fine.
+
+24
+00:01:02,940 --> 00:01:06,590
+And you can also a test
+your Java C version.
+
+25
+00:01:06,590 --> 00:01:08,880
+And again, I'm running 1.7.0.
+
+26
+00:01:08,880 --> 00:01:10,960
+So that'll work, too.
+
+27
+00:01:10,960 --> 00:01:15,210
+So make sure that you have a
+recent version of OS 10, of
+
+28
+00:01:15,210 --> 00:01:21,430
+Windows, or of Linux, and you
+have either JDK 1.6 or JDK 1.7
+
+29
+00:01:21,430 --> 00:01:22,680
+installed as well.
+
+30
+00:01:22,680 --> 00:01:23,580

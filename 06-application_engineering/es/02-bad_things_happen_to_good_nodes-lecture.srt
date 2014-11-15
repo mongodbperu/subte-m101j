@@ -1,0 +1,462 @@
+1
+00:00:00,000 --> 00:00:00,140
+
+2
+00:00:00,140 --> 00:00:04,240
+In the last lesson, we saw how
+to connect to a replica set
+
+3
+00:00:04,240 --> 00:00:07,140
+using the Java driver,
+using a seed list.
+
+4
+00:00:07,140 --> 00:00:10,850
+And we'll continue with the same
+example in this lesson.
+
+5
+00:00:10,850 --> 00:00:14,720
+But here, what I want to show
+you is what could happen when
+
+6
+00:00:14,720 --> 00:00:17,700
+a node in your replica set that
+you're connected to goes
+
+7
+00:00:17,700 --> 00:00:20,320
+down, or if there's a failover
+and the primary
+
+8
+00:00:20,320 --> 00:00:21,650
+as long as the primary.
+
+9
+00:00:21,650 --> 00:00:23,220
+We saw that a little bit
+in the last lesson.
+
+10
+00:00:23,220 --> 00:00:25,030
+But let's just review here.
+
+11
+00:00:25,030 --> 00:00:26,490
+So I have the same program.
+
+12
+00:00:26,490 --> 00:00:29,535
+I have my seed list,
+and I'll run it.
+
+13
+00:00:29,535 --> 00:00:32,130
+And we'll see that we're
+inserting documents.
+
+14
+00:00:32,130 --> 00:00:36,810
+And if we go and step down the
+primary, the shell, you see
+
+15
+00:00:36,810 --> 00:00:40,090
+that the application through
+an exception--
+
+16
+00:00:40,090 --> 00:00:41,480
+a MongoException--
+
+17
+00:00:41,480 --> 00:00:46,600
+saying no replica set members
+available in the seed list for
+
+18
+00:00:46,600 --> 00:00:51,180
+mode primary, which is what
+we need to do inserts.
+
+19
+00:00:51,180 --> 00:00:54,260
+So first thing we can do to
+protect ourselves is to catch
+
+20
+00:00:54,260 --> 00:00:55,580
+the MongoException.
+
+21
+00:00:55,580 --> 00:01:00,650
+So I'm going to run this with
+try / catch, and I'm going to
+
+22
+00:01:00,650 --> 00:01:02,200
+catch MongoException.
+
+23
+00:01:02,200 --> 00:01:04,674
+And I'll just print
+out the message.
+
+24
+00:01:04,674 --> 00:01:09,130
+OK, it looks like my 27017 has
+reelected itself primary.
+
+25
+00:01:09,130 --> 00:01:11,585
+So let's run this again.
+
+26
+00:01:11,585 --> 00:01:12,750
+Now we're inserting
+a document.
+
+27
+00:01:12,750 --> 00:01:14,210
+I'll step down the
+primary again.
+
+28
+00:01:14,210 --> 00:01:17,190
+
+29
+00:01:17,190 --> 00:01:20,780
+And notice that I writes
+keep failing until
+
+30
+00:01:20,780 --> 00:01:22,030
+the election occurs.
+
+31
+00:01:22,030 --> 00:01:24,260
+
+32
+00:01:24,260 --> 00:01:26,430
+And now we're inserting
+documents again.
+
+33
+00:01:26,430 --> 00:01:31,900
+And if you look, we started
+inserting again at 41, and the
+
+34
+00:01:31,900 --> 00:01:33,440
+last successful was 6.
+
+35
+00:01:33,440 --> 00:01:36,930
+So we basically missed document
+7 through 40 while
+
+36
+00:01:36,930 --> 00:01:38,500
+the election was occurring.
+
+37
+00:01:38,500 --> 00:01:41,350
+So the first thing to note here
+is that your application
+
+38
+00:01:41,350 --> 00:01:44,410
+has to expect exceptions to
+occur during things like
+
+39
+00:01:44,410 --> 00:01:47,320
+failovers or nodes going down
+for some other reason.
+
+40
+00:01:47,320 --> 00:01:49,830
+But you can take action
+against it by doing
+
+41
+00:01:49,830 --> 00:01:51,560
+some sort of retry.
+
+42
+00:01:51,560 --> 00:01:54,810
+So let's look at one way
+to do this with insert.
+
+43
+00:01:54,810 --> 00:01:57,170
+And insert is actually a very
+easy thing to retry because
+
+44
+00:01:57,170 --> 00:01:58,650
+inserts are item potent.
+
+45
+00:01:58,650 --> 00:02:02,100
+The sense that if you insert a
+document once, inserting again
+
+46
+00:02:02,100 --> 00:02:03,750
+won't cause any harm.
+
+47
+00:02:03,750 --> 00:02:08,030
+So what we'll do here is we're
+going to put a loop in.
+
+48
+00:02:08,030 --> 00:02:10,370
+Run this over the loop.
+
+49
+00:02:10,370 --> 00:02:12,850
+And I'll just say the loop will
+be the number of retries.
+
+50
+00:02:12,850 --> 00:02:15,520
+
+51
+00:02:15,520 --> 00:02:22,000
+So I'll say retries = 0, retries
+<=2, so we'll do three
+
+52
+00:02:22,000 --> 00:02:24,190
+retries at most.
+
+53
+00:02:24,190 --> 00:02:31,330
+retries++ and then I will
+break; on success.
+
+54
+00:02:31,330 --> 00:02:36,530
+And to give the failover a
+chance to occur, I'll put a
+
+55
+00:02:36,530 --> 00:02:40,460
+little longer sleep
+in the catch.
+
+56
+00:02:40,460 --> 00:02:42,360
+So it'll sleep for
+five seconds.
+
+57
+00:02:42,360 --> 00:02:46,000
+But this is not quite right
+because in the case where I
+
+58
+00:02:46,000 --> 00:02:50,170
+have inserted the node
+successfully, but I still got
+
+59
+00:02:50,170 --> 00:02:53,460
+an exception, the second time I
+tried to insert it, I could
+
+60
+00:02:53,460 --> 00:02:56,240
+get a duplicate key exception.
+
+61
+00:02:56,240 --> 00:03:02,010
+So I'm going to put a second
+catch block in here and
+
+62
+00:03:02,010 --> 00:03:04,050
+specifically catch duplicate
+key exception.
+
+63
+00:03:04,050 --> 00:03:06,785
+
+64
+00:03:06,785 --> 00:03:14,680
+And I'll just say "Document
+already inserted."
+
+65
+00:03:14,680 --> 00:03:18,440
+So let's check who my
+primary is again.
+
+66
+00:03:18,440 --> 00:03:20,175
+27017.
+
+67
+00:03:20,175 --> 00:03:23,370
+So now let's run this.
+
+68
+00:03:23,370 --> 00:03:25,910
+Answer in my documents
+and let's step
+
+69
+00:03:25,910 --> 00:03:27,960
+down the primary again.
+
+70
+00:03:27,960 --> 00:03:31,090
+Now we can see [? it ?]
+says retrying,
+
+71
+00:03:31,090 --> 00:03:33,400
+and it's still retrying.
+
+72
+00:03:33,400 --> 00:03:36,030
+And now we can see it says
+primary switching from local
+
+73
+00:03:36,030 --> 00:03:38,910
+host 017 to 019.
+
+74
+00:03:38,910 --> 00:03:40,780
+and now we're inserting
+again--
+
+75
+00:03:40,780 --> 00:03:42,540
+10, 11, 12.
+
+76
+00:03:42,540 --> 00:03:44,490
+And notice in this case,
+we didn't skip any.
+
+77
+00:03:44,490 --> 00:03:47,270
+We have 9 and then 10.
+
+78
+00:03:47,270 --> 00:03:51,080
+So we didn't miss any
+of our inserts.
+
+79
+00:03:51,080 --> 00:03:53,140
+So how does this
+actually work?
+
+80
+00:03:53,140 --> 00:03:57,910
+Well, what's happening is that
+when you use a seed list to
+
+81
+00:03:57,910 --> 00:04:00,510
+create your Mongo clients, the
+Mongo client-- it simply
+
+82
+00:04:00,510 --> 00:04:03,230
+starts a background thread which
+monitors the status of
+
+83
+00:04:03,230 --> 00:04:04,530
+your replica set.
+
+84
+00:04:04,530 --> 00:04:07,713
+And essentially, that thread is
+pinging all of the nodes in
+
+85
+00:04:07,713 --> 00:04:10,310
+your seed list and any other
+nodes that it discovers from
+
+86
+00:04:10,310 --> 00:04:12,570
+that seed list, determine which
+node is the primary and
+
+87
+00:04:12,570 --> 00:04:14,180
+which are the secondaries.
+
+88
+00:04:14,180 --> 00:04:17,970
+So you can see some of these
+warnings here are from this
+
+89
+00:04:17,970 --> 00:04:21,670
+background thread like saying,
+warning-- server seen down.
+
+90
+00:04:21,670 --> 00:04:22,990
+27017.
+
+91
+00:04:22,990 --> 00:04:26,990
+when we step down 27017, it
+broke the connection so it
+
+92
+00:04:26,990 --> 00:04:29,380
+threw an IO exception here.
+
+93
+00:04:29,380 --> 00:04:32,270
+And then it also tells you when
+we switched primaries--
+
+94
+00:04:32,270 --> 00:04:34,890
+27017 to 27019.
+
+95
+00:04:34,890 --> 00:04:37,010
+And that's when the retries
+stopped, and the document
+
+96
+00:04:37,010 --> 00:04:39,030
+insertion began again.
+
+97
+00:04:39,030 --> 00:04:41,420
+OK, so let's do a quiz.
+
+98
+00:04:41,420 --> 00:04:43,740
+So if you use a Mongo client
+constructor that takes a seed
+
+99
+00:04:43,740 --> 00:04:46,380
+list of replicas set members,
+are guaranteed to avoid
+
+100
+00:04:46,380 --> 00:04:48,980
+application exceptions during
+a primary failover?
+
+101
+00:04:48,980 --> 00:04:50,230

@@ -1,0 +1,33 @@
+1
+00:00:00,000 --> 00:00:00,170
+
+2
+00:00:00,170 --> 00:00:01,050
+The answer is no.
+
+3
+00:00:01,050 --> 00:00:04,470
+As we saw in this example,
+you will get exceptions.
+
+4
+00:00:04,470 --> 00:00:07,100
+And it's up to you as an
+application developer to
+
+5
+00:00:07,100 --> 00:00:09,080
+determine how you want to
+respond to that exception,
+
+6
+00:00:09,080 --> 00:00:12,440
+whether you want to retry or
+propagate the error to a
+
+7
+00:00:12,440 --> 00:00:13,690
+higher level.
+
+8
+00:00:13,690 --> 00:00:14,240

@@ -1,0 +1,551 @@
+1
+00:00:00,000 --> 00:00:00,430
+
+2
+00:00:00,430 --> 00:00:04,059
+So now it's time to insert
+our first document into--
+
+3
+00:00:04,059 --> 00:00:06,270
+I'm going to be using
+the Java driver.
+
+4
+00:00:06,270 --> 00:00:09,800
+So if you recall from Document
+Representation Test, we saw
+
+5
+00:00:09,800 --> 00:00:12,055
+how to create a document
+using BasicDBObject.
+
+6
+00:00:12,055 --> 00:00:14,680
+So we'll be doing the same for
+Insert, but I'll start a new
+
+7
+00:00:14,680 --> 00:00:17,101
+class for this.
+
+8
+00:00:17,101 --> 00:00:19,550
+Call it Insert Tests.
+
+9
+00:00:19,550 --> 00:00:21,880
+And we'll create our name.
+
+10
+00:00:21,880 --> 00:00:24,330
+You might recall from last week
+how we bootstrapped our
+
+11
+00:00:24,330 --> 00:00:27,370
+self for the Java driver, but
+I'll review it again, since
+
+12
+00:00:27,370 --> 00:00:29,470
+it's been a little while.
+
+13
+00:00:29,470 --> 00:00:35,960
+We start with a MungoClient
+And it throws in a host
+
+14
+00:00:35,960 --> 00:00:39,770
+exception, so I'll add that
+to the method signature.
+
+15
+00:00:39,770 --> 00:00:42,160
+Then I need to choose
+a database.
+
+16
+00:00:42,160 --> 00:00:44,970
+Call it Course DB, and I
+can get that from the
+
+17
+00:00:44,970 --> 00:00:46,220
+client using getDB.
+
+18
+00:00:46,220 --> 00:00:49,060
+
+19
+00:00:49,060 --> 00:00:52,260
+And then I need a collection
+which is a type DB collection.
+
+20
+00:00:52,260 --> 00:00:54,010
+I'll just call this
+collection.
+
+21
+00:00:54,010 --> 00:00:56,660
+And I get the collection from
+the course database.
+
+22
+00:00:56,660 --> 00:01:01,040
+
+23
+00:01:01,040 --> 00:01:03,290
+I'll call the collection
+InsertTest.
+
+24
+00:01:03,290 --> 00:01:07,060
+And next I need an
+object to insert.
+
+25
+00:01:07,060 --> 00:01:09,100
+So I'll create a document.
+
+26
+00:01:09,100 --> 00:01:12,450
+
+27
+00:01:12,450 --> 00:01:14,250
+I'll create a very
+simple document.
+
+28
+00:01:14,250 --> 00:01:16,890
+X with value one.
+
+29
+00:01:16,890 --> 00:01:19,300
+And notice I'm storing it into
+a DB object, even though it's
+
+30
+00:01:19,300 --> 00:01:20,800
+a basic DB object.
+
+31
+00:01:20,800 --> 00:01:22,220
+That's just to prove that
+the insert method
+
+32
+00:01:22,220 --> 00:01:25,010
+can accept a DB object.
+
+33
+00:01:25,010 --> 00:01:30,104
+And finally I insert it
+with insert method.
+
+34
+00:01:30,104 --> 00:01:33,480
+I write the doc, and that's
+all there is to it.
+
+35
+00:01:33,480 --> 00:01:37,098
+But first, actually, let
+me print it out.
+
+36
+00:01:37,098 --> 00:01:40,370
+I'm going to print it out before
+I did the insert and
+
+37
+00:01:40,370 --> 00:01:41,620
+again after.
+
+38
+00:01:41,620 --> 00:01:44,540
+
+39
+00:01:44,540 --> 00:01:45,900
+So let's run it.
+
+40
+00:01:45,900 --> 00:01:49,500
+And you can see when I printed
+it out before, it just has x
+
+41
+00:01:49,500 --> 00:01:51,850
+of one, which we'd expect.
+
+42
+00:01:51,850 --> 00:01:54,360
+But when I printed it out after
+the insert, you can see
+
+43
+00:01:54,360 --> 00:01:57,030
+that it has another
+field called _id.
+
+44
+00:01:57,030 --> 00:01:59,230
+You probably remember this
+from earlier in the week.
+
+45
+00:01:59,230 --> 00:02:03,220
+Just like the shell, if you
+didn't already have an _id
+
+46
+00:02:03,220 --> 00:02:06,230
+field in the document you
+insert, the Java driver will
+
+47
+00:02:06,230 --> 00:02:11,030
+create _id field for you, and
+give it a new object ID.
+
+48
+00:02:11,030 --> 00:02:13,215
+And this just syntactic sugar.
+
+49
+00:02:13,215 --> 00:02:16,250
+It's essentially shorthand
+for this--
+
+50
+00:02:16,250 --> 00:02:18,330
+putting an ID in here
+explicitly and
+
+51
+00:02:18,330 --> 00:02:20,250
+saying New Object ID.
+
+52
+00:02:20,250 --> 00:02:22,980
+
+53
+00:02:22,980 --> 00:02:27,970
+Object ID is of type
+org.bison.types.objectid,
+
+54
+00:02:27,970 --> 00:02:29,810
+which it imported
+automatically.
+
+55
+00:02:29,810 --> 00:02:33,670
+If we do, this you'll see the
+same thing, except in this
+
+56
+00:02:33,670 --> 00:02:37,670
+case, since I put the _id
+in the basic DB object
+
+57
+00:02:37,670 --> 00:02:41,740
+explicitly, you can see that
+it's the same in both cases--
+
+58
+00:02:41,740 --> 00:02:43,160
+the same value of
+the object ID.
+
+59
+00:02:43,160 --> 00:02:45,730
+
+60
+00:02:45,730 --> 00:02:48,030
+So I can show you what it
+looks like in the shell.
+
+61
+00:02:48,030 --> 00:02:50,400
+Let me put a drop-in
+here, just so the
+
+62
+00:02:50,400 --> 00:02:52,560
+collection's empty.
+
+63
+00:02:52,560 --> 00:02:53,810
+Now let's look at the shell.
+
+64
+00:02:53,810 --> 00:02:57,760
+
+65
+00:02:57,760 --> 00:03:01,120
+And insert test, so I can
+say db.inserttest.
+
+66
+00:03:01,120 --> 00:03:04,410
+
+67
+00:03:04,410 --> 00:03:08,890
+Db.InsertTest.find, and you can
+see there's my documents
+
+68
+00:03:08,890 --> 00:03:11,930
+that I inserted.
+
+69
+00:03:11,930 --> 00:03:13,120
+I'm going to do a couple
+of other things.
+
+70
+00:03:13,120 --> 00:03:16,520
+First, what I want to do is
+show you that you can also
+
+71
+00:03:16,520 --> 00:03:20,340
+insert a list of documents using
+a single insert method
+
+72
+00:03:20,340 --> 00:03:21,480
+call, instead of just one.
+
+73
+00:03:21,480 --> 00:03:33,880
+So let's create doc2 and give it
+x2 as a field in its value.
+
+74
+00:03:33,880 --> 00:03:37,280
+And instead of inserting a
+single doc, I'll say I'll
+
+75
+00:03:37,280 --> 00:03:39,300
+insert both of them together,
+using the
+
+76
+00:03:39,300 --> 00:03:40,585
+arrays.aslist method.
+
+77
+00:03:40,585 --> 00:03:44,080
+
+78
+00:03:44,080 --> 00:03:45,240
+And let's run that.
+
+79
+00:03:45,240 --> 00:03:47,870
+And if you look in the database,
+you'll now see that
+
+80
+00:03:47,870 --> 00:03:51,210
+there's two documents, each with
+a distinct object ID and
+
+81
+00:03:51,210 --> 00:03:54,320
+a distinct value for x.
+
+82
+00:03:54,320 --> 00:03:57,780
+So the last thing I want to show
+you is the behavior of
+
+83
+00:03:57,780 --> 00:04:00,220
+insert when you insert
+a duplicate document.
+
+84
+00:04:00,220 --> 00:04:03,920
+So let's get rid of
+Document Two.
+
+85
+00:04:03,920 --> 00:04:05,535
+We'll do our insert like
+we did before.
+
+86
+00:04:05,535 --> 00:04:08,526
+
+87
+00:04:08,526 --> 00:04:11,480
+But I'm going to do it twice--
+
+88
+00:04:11,480 --> 00:04:13,600
+I'll insert the same
+document twice.
+
+89
+00:04:13,600 --> 00:04:18,870
+If we run that, we should expect
+to see an exception the
+
+90
+00:04:18,870 --> 00:04:20,230
+second time.
+
+91
+00:04:20,230 --> 00:04:20,930
+And we do.
+
+92
+00:04:20,930 --> 00:04:23,200
+And it's a section of type
+duplicate key, or
+
+93
+00:04:23,200 --> 00:04:25,940
+MungoException duplicate key,
+and it says that there's a
+
+94
+00:04:25,940 --> 00:04:28,340
+duplicate key error with
+this object ID,
+
+95
+00:04:28,340 --> 00:04:30,000
+which is as we'd expect.
+
+96
+00:04:30,000 --> 00:04:33,550
+So the first insert succeeded
+and the second one failed.
+
+97
+00:04:33,550 --> 00:04:36,080
+Whether I add the ID explicitly
+doesn't really
+
+98
+00:04:36,080 --> 00:04:41,290
+matter, so if I take that out
+and run it again, we get the
+
+99
+00:04:41,290 --> 00:04:43,086
+same error.
+
+100
+00:04:43,086 --> 00:04:44,920
+And that's pretty much
+it for inserts.
+
+101
+00:04:44,920 --> 00:04:48,770
+So we saw that we can insert
+into a collection either using
+
+102
+00:04:48,770 --> 00:04:52,160
+the single document insert form
+or a list of documents,
+
+103
+00:04:52,160 --> 00:04:56,820
+and that if we try to insert a
+document with the same _id as
+
+104
+00:04:56,820 --> 00:04:59,310
+an already-existing document in
+the collection, we'll get a
+
+105
+00:04:59,310 --> 00:05:00,870
+duplicate key exception.
+
+106
+00:05:00,870 --> 00:05:02,550
+Let's do a quiz.
+
+107
+00:05:02,550 --> 00:05:03,930
+The question is, do you
+expect the second
+
+108
+00:05:03,930 --> 00:05:06,180
+insert below to succeed?
+
+109
+00:05:06,180 --> 00:05:09,720
+So I create a basic db
+object here, with no
+
+110
+00:05:09,720 --> 00:05:11,680
+explicit _id field.
+
+111
+00:05:11,680 --> 00:05:15,030
+We insert it, then call
+removefield that will remove
+
+112
+00:05:15,030 --> 00:05:17,635
+the _id field from this
+document, and
+
+113
+00:05:17,635 --> 00:05:19,840
+then I insert again.
+
+114
+00:05:19,840 --> 00:05:23,035
+So the first option is no,
+because the _id will be a
+
+115
+00:05:23,035 --> 00:05:24,850
+duplicate in the collection.
+
+116
+00:05:24,850 --> 00:05:27,190
+Second is no, because the
+removefield call will remove
+
+117
+00:05:27,190 --> 00:05:29,210
+the entire document.
+
+118
+00:05:29,210 --> 00:05:31,290
+Third is yes, because the
+removefield call will remove
+
+119
+00:05:31,290 --> 00:05:35,090
+the _ID key added by the driver
+in the first insert.
+
+120
+00:05:35,090 --> 00:05:37,610
+And finally yes, because the
+driver always adds a unique
+
+121
+00:05:37,610 --> 00:05:38,860
+_id field on insert.
+
+122
+00:05:38,860 --> 00:05:40,242

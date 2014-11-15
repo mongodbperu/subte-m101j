@@ -1,0 +1,604 @@
+1
+00:00:00,000 --> 00:00:00,130
+
+2
+00:00:00,130 --> 00:00:02,090
+What is MongoDB?
+
+3
+00:00:02,090 --> 00:00:05,640
+At the highest level, MongoDB
+is a non-relational JSON
+
+4
+00:00:05,640 --> 00:00:07,200
+document store.
+
+5
+00:00:07,200 --> 00:00:10,050
+We'll pull apart each of
+these terms to explain
+
+6
+00:00:10,050 --> 00:00:11,810
+what MongoDB is.
+
+7
+00:00:11,810 --> 00:00:13,250
+First, it's non-relational.
+
+8
+00:00:13,250 --> 00:00:16,510
+And by non-relational, we mean
+that doesn't support the
+
+9
+00:00:16,510 --> 00:00:21,060
+relational algebra that's most
+often expressed as SQL.
+
+10
+00:00:21,060 --> 00:00:24,680
+So for instance, if you're
+familiar with Oracle or MySQL
+
+11
+00:00:24,680 --> 00:00:27,790
+or SQL server, you know that
+they support a relational
+
+12
+00:00:27,790 --> 00:00:29,360
+algebra between the tables.
+
+13
+00:00:29,360 --> 00:00:32,119
+And MongoDB does not
+support that.
+
+14
+00:00:32,119 --> 00:00:34,770
+And it's a JSON document
+store.
+
+15
+00:00:34,770 --> 00:00:36,990
+And by documents, we're not
+talking about Microsoft Word
+
+16
+00:00:36,990 --> 00:00:38,180
+documents here.
+
+17
+00:00:38,180 --> 00:00:40,680
+But we're talking about
+structured documents expressed
+
+18
+00:00:40,680 --> 00:00:44,490
+using JSON, which is a
+JavaScript Object Notation.
+
+19
+00:00:44,490 --> 00:00:47,080
+So let's first start with
+what these JSON
+
+20
+00:00:47,080 --> 00:00:48,490
+documents look like.
+
+21
+00:00:48,490 --> 00:00:50,100
+Here's a JSON document.
+
+22
+00:00:50,100 --> 00:00:52,810
+A JSON document starts with
+an opening brace.
+
+23
+00:00:52,810 --> 00:00:55,700
+And then it has keys
+and values.
+
+24
+00:00:55,700 --> 00:01:01,760
+So for instance, you might have
+a key of firstname, and
+
+25
+00:01:01,760 --> 00:01:02,670
+put a quote around that.
+
+26
+00:01:02,670 --> 00:01:05,630
+And my first name is Andrew.
+
+27
+00:01:05,630 --> 00:01:09,882
+There might be another key
+of last name, and my
+
+28
+00:01:09,882 --> 00:01:11,170
+last name is Erlichson.
+
+29
+00:01:11,170 --> 00:01:14,150
+And by the way, these are quotes
+around these keys and
+
+30
+00:01:14,150 --> 00:01:15,990
+quotes around these values.
+
+31
+00:01:15,990 --> 00:01:17,950
+And that's a comma between
+these fields.
+
+32
+00:01:17,950 --> 00:01:20,420
+And that's a colon between
+the key and the value.
+
+33
+00:01:20,420 --> 00:01:24,080
+So here we have a key, and
+here we have a value.
+
+34
+00:01:24,080 --> 00:01:28,230
+And then we might have another
+key called hobbies.
+
+35
+00:01:28,230 --> 00:01:32,650
+And in that we might have
+a list of hobbies.
+
+36
+00:01:32,650 --> 00:01:36,740
+So for me that would be
+cycling and golf and
+
+37
+00:01:36,740 --> 00:01:38,100
+photography.
+
+38
+00:01:38,100 --> 00:01:40,890
+And you can see here that I've
+expressed this as a list.
+
+39
+00:01:40,890 --> 00:01:44,290
+So these square brackets
+indicate a list.
+
+40
+00:01:44,290 --> 00:01:47,080
+Then we can close that document
+right here, the
+
+41
+00:01:47,080 --> 00:01:48,330
+closing brace.
+
+42
+00:01:48,330 --> 00:01:52,970
+And this document can be put
+directly into MongoDB, into
+
+43
+00:01:52,970 --> 00:01:54,420
+what we call a collection.
+
+44
+00:01:54,420 --> 00:01:57,830
+And MongoDB holds collections
+of documents.
+
+45
+00:01:57,830 --> 00:02:00,590
+So this might be a people
+collection, for instance.
+
+46
+00:02:00,590 --> 00:02:02,760
+So we say that it's
+a non-relational
+
+47
+00:02:02,760 --> 00:02:04,270
+JSON document store.
+
+48
+00:02:04,270 --> 00:02:07,030
+So this is JSON, and this
+is a JSON document.
+
+49
+00:02:07,030 --> 00:02:11,720
+And this is something that you
+can put directly into MongoDB.
+
+50
+00:02:11,720 --> 00:02:15,530
+Now we also say that MongoDB
+supports dynamic schema.
+
+51
+00:02:15,530 --> 00:02:18,270
+And some people say that
+it's schema-less.
+
+52
+00:02:18,270 --> 00:02:19,500
+And what do they mean by that?
+
+53
+00:02:19,500 --> 00:02:22,660
+So in particular, there could be
+a second document that you
+
+54
+00:02:22,660 --> 00:02:23,830
+put into the database.
+
+55
+00:02:23,830 --> 00:02:28,270
+For instance, I'll put one here
+with first name Jeff and
+
+56
+00:02:28,270 --> 00:02:30,580
+last name Yemin.
+
+57
+00:02:30,580 --> 00:02:33,470
+And let's say city of birth--
+
+58
+00:02:33,470 --> 00:02:35,875
+I don't actually know where he
+was born, but I'll just say it
+
+59
+00:02:35,875 --> 00:02:36,880
+was Boston.
+
+60
+00:02:36,880 --> 00:02:40,250
+And then I'll leave
+out his interests.
+
+61
+00:02:40,250 --> 00:02:43,540
+So MongoDB supports having
+documents in the same
+
+62
+00:02:43,540 --> 00:02:46,360
+collection that do not exactly
+the same schema.
+
+63
+00:02:46,360 --> 00:02:50,040
+So for instance this first
+document has a hobbies key
+
+64
+00:02:50,040 --> 00:02:51,810
+with an array of hobbies.
+
+65
+00:02:51,810 --> 00:02:55,870
+And the second document has a
+city of birth key which my
+
+66
+00:02:55,870 --> 00:02:59,200
+document lacks, and it doesn't
+have this hobbies array.
+
+67
+00:02:59,200 --> 00:03:01,770
+And of course, as you all know,
+if you're familiar with
+
+68
+00:03:01,770 --> 00:03:05,740
+relational, in the relational
+world, we've got these tables.
+
+69
+00:03:05,740 --> 00:03:10,120
+And these tables contain columns
+like first and last
+
+70
+00:03:10,120 --> 00:03:11,660
+and maybe city of birth.
+
+71
+00:03:11,660 --> 00:03:14,790
+But there's no way to store data
+in a different dimension
+
+72
+00:03:14,790 --> 00:03:16,010
+inside a relational database.
+
+73
+00:03:16,010 --> 00:03:19,250
+So this could hold Andrew, and
+it could hold Erlichson.
+
+74
+00:03:19,250 --> 00:03:22,100
+And it could hold my city of
+birth, but it couldn't hold an
+
+75
+00:03:22,100 --> 00:03:23,670
+array of hobbies.
+
+76
+00:03:23,670 --> 00:03:26,110
+It could hold an ID,
+like a person ID.
+
+77
+00:03:26,110 --> 00:03:29,160
+And there could be some other
+table that held my hobbies and
+
+78
+00:03:29,160 --> 00:03:32,850
+that would be related to that,
+but you couldn't stick the
+
+79
+00:03:32,850 --> 00:03:36,620
+hobbies into a list inside
+the same table.
+
+80
+00:03:36,620 --> 00:03:40,060
+Now what you may realize is that
+the way MongoDB stores
+
+81
+00:03:40,060 --> 00:03:44,300
+these documents is a lot
+closer to the way that
+
+82
+00:03:44,300 --> 00:03:45,820
+programs are written.
+
+83
+00:03:45,820 --> 00:03:48,180
+Because often your programs are
+object-oriented and they
+
+84
+00:03:48,180 --> 00:03:51,800
+have these hierarchical objects
+where you've got maps,
+
+85
+00:03:51,800 --> 00:03:54,710
+and in those maps you've got
+lists which are equivalent to
+
+86
+00:03:54,710 --> 00:03:57,340
+arrays, which may have other
+maps inside them.
+
+87
+00:03:57,340 --> 00:03:59,960
+And you can store one
+of those objects
+
+88
+00:03:59,960 --> 00:04:01,890
+directly inside MongoDB.
+
+89
+00:04:01,890 --> 00:04:05,120
+It can be serialized into these
+JSON objects, and within
+
+90
+00:04:05,120 --> 00:04:07,060
+a database it's actually stored
+in something called
+
+91
+00:04:07,060 --> 00:04:08,690
+BSON, which we'll
+get to later.
+
+92
+00:04:08,690 --> 00:04:11,010
+And you can't do that in
+a relational database.
+
+93
+00:04:11,010 --> 00:04:13,960
+In a relational database, you
+have to pull part everything
+
+94
+00:04:13,960 --> 00:04:16,200
+into its constituent
+pieces and put it
+
+95
+00:04:16,200 --> 00:04:17,810
+into the various tables.
+
+96
+00:04:17,810 --> 00:04:21,430
+One analogy is that if you
+were storing a car in a
+
+97
+00:04:21,430 --> 00:04:24,550
+relational database, and then
+you take it apart when it came
+
+98
+00:04:24,550 --> 00:04:25,100
+into the shop.
+
+99
+00:04:25,100 --> 00:04:27,340
+You'd store all the doors
+in the doors table.
+
+100
+00:04:27,340 --> 00:04:29,140
+You'd store all the steering
+wheels in the steering wheels
+
+101
+00:04:29,140 --> 00:04:31,690
+table, and all the engine
+in the engines table.
+
+102
+00:04:31,690 --> 00:04:34,760
+Whereas in MongoDB, you'd store
+the entire car often in
+
+103
+00:04:34,760 --> 00:04:37,640
+one collection where there would
+be hierarchy when the
+
+104
+00:04:37,640 --> 00:04:41,760
+documents expressing what's
+inside that object.
+
+105
+00:04:41,760 --> 00:04:45,870
+Now in creating this database,
+what we've done is we've also
+
+106
+00:04:45,870 --> 00:04:48,100
+removed some features
+that you would see
+
+107
+00:04:48,100 --> 00:04:49,070
+in relational databases.
+
+108
+00:04:49,070 --> 00:04:50,890
+In particular, if there
+are two collections--
+
+109
+00:04:50,890 --> 00:04:54,360
+let's say one of people and
+another one of the cities and
+
+110
+00:04:54,360 --> 00:04:56,320
+their properties, let's say.
+
+111
+00:04:56,320 --> 00:04:58,600
+We don't support Joins
+between them.
+
+112
+00:04:58,600 --> 00:05:00,170
+So we don't have Joins.
+
+113
+00:05:00,170 --> 00:05:03,380
+So there's no way to query
+both of these together.
+
+114
+00:05:03,380 --> 00:05:05,490
+We also don't have
+transactions.
+
+115
+00:05:05,490 --> 00:05:07,400
+And we don't support SQL.
+
+116
+00:05:07,400 --> 00:05:10,820
+And some people will refer to
+this class of database as a no
+
+117
+00:05:10,820 --> 00:05:15,130
+SQL database, for either it not
+supporting SQL or not only
+
+118
+00:05:15,130 --> 00:05:17,670
+SQL but we support
+something else.
+
+119
+00:05:17,670 --> 00:05:21,040
+But I think that really the
+better way to describe MongoDB
+
+120
+00:05:21,040 --> 00:05:24,900
+is as a document database, and
+in particular a JSON document
+
+121
+00:05:24,900 --> 00:05:28,086
+database, because that's really
+what it is at the end
+
+122
+00:05:28,086 --> 00:05:30,910
+of the day, a database that
+stores documents.
+
+123
+00:05:30,910 --> 00:05:34,050
+OK, so let's have a quiz.
+
+124
+00:05:34,050 --> 00:05:35,170
+Which of the following
+statements
+
+125
+00:05:35,170 --> 00:05:37,240
+are true about MongoDB?
+
+126
+00:05:37,240 --> 00:05:40,800
+MongoDB is document-oriented,
+MongoDB supports Joins,
+
+127
+00:05:40,800 --> 00:05:44,770
+MongoDB has dynamic schema,
+and MongoDB supports SQL.
+
+128
+00:05:44,770 --> 00:05:46,020
+Check all that apply.
+
+129
+00:05:46,020 --> 00:05:46,670

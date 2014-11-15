@@ -1,0 +1,151 @@
+1
+00:00:00,000 --> 00:00:00,140
+
+2
+00:00:00,140 --> 00:00:02,620
+Let's go over the answer
+to this problem.
+
+3
+00:00:02,620 --> 00:00:05,530
+All the code you needed to add,
+you can put in the user
+
+4
+00:00:05,530 --> 00:00:09,200
+DAO object, the data
+access object.
+
+5
+00:00:09,200 --> 00:00:10,780
+There were two places
+you needed to work.
+
+6
+00:00:10,780 --> 00:00:14,250
+The first one was in this
+addUser function.
+
+7
+00:00:14,250 --> 00:00:20,260
+And you would need to create a
+Basic DB Object then add the
+
+8
+00:00:20,260 --> 00:00:22,440
+key value pairs for
+the username,
+
+9
+00:00:22,440 --> 00:00:24,340
+underscore id username.
+
+10
+00:00:24,340 --> 00:00:27,560
+And the password, which is
+going to be the hashed
+
+11
+00:00:27,560 --> 00:00:29,750
+password that comes
+out of this make
+
+12
+00:00:29,750 --> 00:00:31,870
+password hash function.
+
+13
+00:00:31,870 --> 00:00:35,930
+Now, if the email is present,
+and then you also add it to
+
+14
+00:00:35,930 --> 00:00:36,690
+the document.
+
+15
+00:00:36,690 --> 00:00:38,860
+So it depends on whether or not
+the person gave an email
+
+16
+00:00:38,860 --> 00:00:40,260
+when they signed up.
+
+17
+00:00:40,260 --> 00:00:42,320
+Then you insert it right here.
+
+18
+00:00:42,320 --> 00:00:44,090
+And normally it will insert
+without a problem.
+
+19
+00:00:44,090 --> 00:00:46,660
+But if the user name has been
+used before, then you'll get a
+
+20
+00:00:46,660 --> 00:00:50,120
+Duplicate Key error which you
+handle by returning false from
+
+21
+00:00:50,120 --> 00:00:50,950
+this function.
+
+22
+00:00:50,950 --> 00:00:55,120
+Now, to check when they log in,
+you have to add code to
+
+23
+00:00:55,120 --> 00:00:56,540
+validateLogin.
+
+24
+00:00:56,540 --> 00:01:01,910
+And in that case, you simply
+find one creating a new Basic
+
+25
+00:01:01,910 --> 00:01:06,760
+BD Object with the key id
+set to the username.
+
+26
+00:01:06,760 --> 00:01:08,360
+So that's the way you'd
+find the right
+
+27
+00:01:08,360 --> 00:01:09,770
+document for the user.
+
+28
+00:01:09,770 --> 00:01:11,610
+And then, you check right here
+to see if it's null.
+
+29
+00:01:11,610 --> 00:01:13,600
+And if it's null, then
+you return null.
+
+30
+00:01:13,600 --> 00:01:14,570
+And that's it.
+
+31
+00:01:14,570 --> 00:01:17,030
+So we gave you a lot of this
+code, and that's all you
+
+32
+00:01:17,030 --> 00:01:20,790
+needed to do to make the blog
+work for sign up and sign out.
+
+33
+00:01:20,790 --> 00:01:22,040

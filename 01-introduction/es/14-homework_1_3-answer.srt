@@ -1,0 +1,42 @@
+1
+00:00:00,000 --> 00:00:02,550
+And the answer is 366.
+
+2
+00:00:02,550 --> 00:00:05,090
+So let me just demonstrate
+how it works.
+
+3
+00:00:05,090 --> 00:00:06,740
+So here's the zip file.
+
+4
+00:00:06,740 --> 00:00:08,900
+I'm going to unzip it.
+
+5
+00:00:08,900 --> 00:00:12,835
+And cd into the directory.
+
+6
+00:00:12,835 --> 00:00:14,270
+You see there's a
+pom file there.
+
+7
+00:00:14,270 --> 00:00:20,217
+And then I'm going to go back
+and copy this Maven command
+
+8
+00:00:20,217 --> 00:00:22,165
+and execute it.
+
+9
+00:00:22,165 --> 00:00:23,630
+And it runs.
+
+10
+00:00:23,630 --> 00:00:26,000
+You can see the answer is 366.

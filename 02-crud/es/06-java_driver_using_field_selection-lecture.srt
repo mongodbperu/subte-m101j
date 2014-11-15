@@ -1,0 +1,272 @@
+1
+00:00:00,000 --> 00:00:00,220
+
+2
+00:00:00,220 --> 00:00:04,370
+OK, so in this lecture, we're
+going to talk about selecting
+
+3
+00:00:04,370 --> 00:00:07,640
+the fields from documents
+in your queries.
+
+4
+00:00:07,640 --> 00:00:11,320
+So the code that I have here is
+similar to what we saw in
+
+5
+00:00:11,320 --> 00:00:12,620
+the last lecture.
+
+6
+00:00:12,620 --> 00:00:15,440
+Just to make the code shorter,
+I broke out the random number
+
+7
+00:00:15,440 --> 00:00:16,520
+to the top.
+
+8
+00:00:16,520 --> 00:00:20,170
+And I've added a third the
+field to the document, z,
+
+9
+00:00:20,170 --> 00:00:23,520
+which is a number between
+zero and 999.
+
+10
+00:00:23,520 --> 00:00:26,260
+I'm using the same queries using
+query builder, querying
+
+11
+00:00:26,260 --> 00:00:30,240
+for documents where x is 0, and
+y is greater than 10, and
+
+12
+00:00:30,240 --> 00:00:31,620
+less than 70.
+
+13
+00:00:31,620 --> 00:00:34,120
+Let's just run it to
+make sure it works.
+
+14
+00:00:34,120 --> 00:00:35,120
+It only matched one document.
+
+15
+00:00:35,120 --> 00:00:36,100
+Let's run it once more.
+
+16
+00:00:36,100 --> 00:00:42,290
+Still one and zero.
+
+17
+00:00:42,290 --> 00:00:43,040
+All right, that's better.
+
+18
+00:00:43,040 --> 00:00:44,850
+So this matched three
+documents.
+
+19
+00:00:44,850 --> 00:00:48,730
+And you see we have the ID
+fields and x, y, and z.
+
+20
+00:00:48,730 --> 00:00:53,390
+But it's kind of silly to get
+the x field because we're
+
+21
+00:00:53,390 --> 00:00:57,380
+querying for x is zero, so why
+bother selecting x, since we
+
+22
+00:00:57,380 --> 00:00:59,070
+know it's going to be zero?
+
+23
+00:00:59,070 --> 00:01:02,920
+So can we get rid of x from
+our query results?
+
+24
+00:01:02,920 --> 00:01:04,610
+The answer is yes.
+
+25
+00:01:04,610 --> 00:01:08,390
+We do that using the second
+parameter to the find method
+
+26
+00:01:08,390 --> 00:01:11,650
+to select the fields that we
+want to have returned.
+
+27
+00:01:11,650 --> 00:01:13,810
+So there's a few ways
+to do this.
+
+28
+00:01:13,810 --> 00:01:18,100
+But since what we're trying to
+do here is get everything but
+
+29
+00:01:18,100 --> 00:01:23,270
+x, we can do it by saying
+x is false.
+
+30
+00:01:23,270 --> 00:01:26,240
+So we create a document where
+x is false, and that just
+
+31
+00:01:26,240 --> 00:01:30,170
+means return everything but
+x, and let's run it again.
+
+32
+00:01:30,170 --> 00:01:33,080
+And now we have the ID,
+and we have y, and we
+
+33
+00:01:33,080 --> 00:01:35,070
+have z, but no x.
+
+34
+00:01:35,070 --> 00:01:39,070
+Now let's say that what we
+actually want is only y.
+
+35
+00:01:39,070 --> 00:01:41,420
+We don't want z or x.
+
+36
+00:01:41,420 --> 00:01:44,690
+So rather than saying x false,
+y false, we can just change
+
+37
+00:01:44,690 --> 00:01:49,470
+this to y and true
+to get only y.
+
+38
+00:01:49,470 --> 00:01:51,110
+And x and z are gone.
+
+39
+00:01:51,110 --> 00:01:52,250
+And we have y.
+
+40
+00:01:52,250 --> 00:01:53,910
+But we also have this ID.
+
+41
+00:01:53,910 --> 00:01:55,520
+And usually, we're going
+to want the ID.
+
+42
+00:01:55,520 --> 00:01:58,820
+But in the cases where we don't,
+we can exclude it by
+
+43
+00:01:58,820 --> 00:02:05,130
+appending _id, false, saying we
+do not want the id field.
+
+44
+00:02:05,130 --> 00:02:08,479
+And if we run that again,
+we only get y,
+
+45
+00:02:08,479 --> 00:02:10,060
+which is what we wanted.
+
+46
+00:02:10,060 --> 00:02:12,130
+OK, now let's do a quiz.
+
+47
+00:02:12,130 --> 00:02:14,375
+So given a variable, name
+students, of type
+
+48
+00:02:14,375 --> 00:02:17,320
+DBCollection, so we have a
+DBCollection of student
+
+49
+00:02:17,320 --> 00:02:20,050
+documents, which of the
+following lines of code can be
+
+50
+00:02:20,050 --> 00:02:23,280
+used to find all documents in
+the collection, retrieving
+
+51
+00:02:23,280 --> 00:02:25,240
+only the phone number field.
+
+52
+00:02:25,240 --> 00:02:27,960
+So we have student.find,
+a new basic DBObject.
+
+53
+00:02:27,960 --> 00:02:33,180
+Phone number 1, a pen
+idea of zero.
+
+54
+00:02:33,180 --> 00:02:36,920
+Students.find new basic DBObject
+phone number one,
+
+55
+00:02:36,920 --> 00:02:41,160
+students.find new basic
+DBObject, new basic DBObject
+
+56
+00:02:41,160 --> 00:02:45,240
+phone number 1, append id 0,
+and students.find new basic
+
+57
+00:02:45,240 --> 00:02:49,110
+DBObject, phone number
+1, append ID of
+
+58
+00:02:49,110 --> 00:02:50,530
+0, new basic DBObject.
+
+59
+00:02:50,530 --> 00:02:51,780

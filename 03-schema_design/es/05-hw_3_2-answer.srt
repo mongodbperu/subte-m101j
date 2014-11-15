@@ -1,0 +1,284 @@
+1
+00:00:00,000 --> 00:00:00,180
+
+2
+00:00:00,180 --> 00:00:03,910
+In this problem, we asked you
+to make changes to your blog
+
+3
+00:00:03,910 --> 00:00:06,150
+so that it can accept
+blog posts.
+
+4
+00:00:06,150 --> 00:00:11,740
+All the work you needed to do is
+in the blog post DAO class,
+
+5
+00:00:11,740 --> 00:00:14,120
+and I'm going to show you the
+changes that you need to make.
+
+6
+00:00:14,120 --> 00:00:16,050
+There were three of them.
+
+7
+00:00:16,050 --> 00:00:19,070
+The first is that you want to
+be able to add posts, so you
+
+8
+00:00:19,070 --> 00:00:21,260
+had to work in this
+add post function.
+
+9
+00:00:21,260 --> 00:00:22,490
+We gave you some hints.
+
+10
+00:00:22,490 --> 00:00:25,690
+The permalink was already
+created for you and the other
+
+11
+00:00:25,690 --> 00:00:28,720
+items came in as parameters
+in the function.
+
+12
+00:00:28,720 --> 00:00:33,140
+Now you create a new basic
+DBObject, and then you put all
+
+13
+00:00:33,140 --> 00:00:35,080
+these keys and values
+inside it.
+
+14
+00:00:35,080 --> 00:00:38,250
+You'll see here that the title
+is put into the title, the
+
+15
+00:00:38,250 --> 00:00:40,100
+author is the author,
+et cetera.
+
+16
+00:00:40,100 --> 00:00:42,530
+The permalink is the permalink
+created above.
+
+17
+00:00:42,530 --> 00:00:45,870
+The tags, you could actually
+add to this object without
+
+18
+00:00:45,870 --> 00:00:48,690
+making any changes because tags
+already implements the
+
+19
+00:00:48,690 --> 00:00:52,490
+right interface, so that
+basically the object can use
+
+20
+00:00:52,490 --> 00:00:53,840
+it directly.
+
+21
+00:00:53,840 --> 00:00:57,820
+And then in the comments part,
+you need an empty set of
+
+22
+00:00:57,820 --> 00:01:00,800
+comments, and so what we've done
+here is I've created a
+
+23
+00:01:00,800 --> 00:01:03,430
+new java util array list, which
+is going to an empty
+
+24
+00:01:03,430 --> 00:01:05,319
+list, and then I added
+it as the value
+
+25
+00:01:05,319 --> 00:01:07,830
+for this key comments.
+
+26
+00:01:07,830 --> 00:01:10,850
+And then for the date part,
+I just used today's date.
+
+27
+00:01:10,850 --> 00:01:13,280
+And I do an insert right here.
+
+28
+00:01:13,280 --> 00:01:15,660
+I do it in a try, catch block
+to make sure that there's no
+
+29
+00:01:15,660 --> 00:01:19,310
+error, and I return
+the permalink.
+
+30
+00:01:19,310 --> 00:01:21,670
+Now you also need to retrieve
+the post in
+
+31
+00:01:21,670 --> 00:01:23,090
+two different places.
+
+32
+00:01:23,090 --> 00:01:25,340
+The first is for
+the blog index.
+
+33
+00:01:25,340 --> 00:01:27,330
+The number of posts you want
+to retrieve comes in as a
+
+34
+00:01:27,330 --> 00:01:30,580
+limit, which is a parameter,
+so we're just going to do a
+
+35
+00:01:30,580 --> 00:01:34,080
+find and we're going to
+sort by this date.
+
+36
+00:01:34,080 --> 00:01:37,030
+And you can see the way that
+works is you need to create a
+
+37
+00:01:37,030 --> 00:01:41,660
+basic DBObject and append the
+name date, so that it knows
+
+38
+00:01:41,660 --> 00:01:44,690
+which key you are sorting by
+with a value of minus 1 for
+
+39
+00:01:44,690 --> 00:01:48,560
+descending, and then you can
+just call limit on it.
+
+40
+00:01:48,560 --> 00:01:50,850
+Limit is the number that
+came in as a perimeter.
+
+41
+00:01:50,850 --> 00:01:53,510
+It's usually set to 10,
+and the caller.
+
+42
+00:01:53,510 --> 00:01:56,730
+You can see I've created a list
+of DBObjects right here,
+
+43
+00:01:56,730 --> 00:02:00,590
+and I do the find, and then I
+can convert the entire results
+
+44
+00:02:00,590 --> 00:02:03,480
+of the find, the cursor, to an
+array in one call using this
+
+45
+00:02:03,480 --> 00:02:04,870
+to array, call.
+
+46
+00:02:04,870 --> 00:02:08,039
+Then I put it in posts, and I
+return it, and I close the
+
+47
+00:02:08,039 --> 00:02:09,320
+cursor on finally.
+
+48
+00:02:09,320 --> 00:02:12,640
+Now the next and last part is
+that when you're on the blog
+
+49
+00:02:12,640 --> 00:02:16,040
+entry page, that is retrieved by
+permalink, you're going to
+
+50
+00:02:16,040 --> 00:02:19,400
+need to pick up just the one
+post out of the database that
+
+51
+00:02:19,400 --> 00:02:21,450
+corresponds to a particular
+permalink.
+
+52
+00:02:21,450 --> 00:02:23,670
+You can see we've done that
+here, created a new basic
+
+53
+00:02:23,670 --> 00:02:27,420
+DBObject to specify our
+criteria with the key
+
+54
+00:02:27,420 --> 00:02:29,070
+permalink set to permalink,
+which came
+
+55
+00:02:29,070 --> 00:02:31,410
+in inside this parameter.
+
+56
+00:02:31,410 --> 00:02:35,220
+And then I just set that equal
+to post, and return post.
+
+57
+00:02:35,220 --> 00:02:36,045
+This works very naturally.
+
+58
+00:02:36,045 --> 00:02:38,900
+If it returned nothing, it would
+return null, and so that
+
+59
+00:02:38,900 --> 00:02:40,150
+works just fine.
+
+60
+00:02:40,150 --> 00:02:40,890

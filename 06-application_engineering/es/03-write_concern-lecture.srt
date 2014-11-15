@@ -1,0 +1,914 @@
+1
+00:00:00,000 --> 00:00:03,040
+Now that we've learned about
+replica sets and we've seen
+
+2
+00:00:03,040 --> 00:00:05,850
+how to connect to a replica
+set from the Java driver,
+
+3
+00:00:05,850 --> 00:00:08,710
+let's back up and talk a little
+bit about the anatomy
+
+4
+00:00:08,710 --> 00:00:11,380
+of a write operation when
+you're connected
+
+5
+00:00:11,380 --> 00:00:12,620
+to a replica set.
+
+6
+00:00:12,620 --> 00:00:15,350
+So this picture shows a client
+application that's connected
+
+7
+00:00:15,350 --> 00:00:18,280
+to the primary of replica set.
+
+8
+00:00:18,280 --> 00:00:20,990
+It's also connected to the
+secondary, so we'll draw some
+
+9
+00:00:20,990 --> 00:00:22,600
+lines there as well.
+
+10
+00:00:22,600 --> 00:00:24,000
+But the writes go
+to the primary.
+
+11
+00:00:24,000 --> 00:00:27,580
+So this is showing a client
+application setting, an insert
+
+12
+00:00:27,580 --> 00:00:30,020
+message, to the primary.
+
+13
+00:00:30,020 --> 00:00:32,400
+So what happens when
+it gets there?
+
+14
+00:00:32,400 --> 00:00:35,980
+Well, the primary will take the
+insert message and it will
+
+15
+00:00:35,980 --> 00:00:38,240
+figure out what changes need
+to be made and write those
+
+16
+00:00:38,240 --> 00:00:39,720
+changes into RAM.
+
+17
+00:00:39,720 --> 00:00:42,720
+Specifically, the memory map
+files representing the files
+
+18
+00:00:42,720 --> 00:00:44,260
+in the data directory.
+
+19
+00:00:44,260 --> 00:00:46,450
+So it'll write it two places--
+there, and also to the
+
+20
+00:00:46,450 --> 00:00:49,030
+operation log, called the
+oplog, which is the
+
+21
+00:00:49,030 --> 00:00:50,960
+secondaries are replicating
+off of.
+
+22
+00:00:50,960 --> 00:00:53,050
+So that's the first
+thing it does.
+
+23
+00:00:53,050 --> 00:00:54,250
+It writes them to RAM.
+
+24
+00:00:54,250 --> 00:00:57,860
+And then at that point, there
+is an asynchronous process
+
+25
+00:00:57,860 --> 00:01:00,760
+where the writes into
+RAM are journaled.
+
+26
+00:01:00,760 --> 00:01:02,040
+So the written to
+the write-ahead
+
+27
+00:01:02,040 --> 00:01:04,280
+log, called the journal.
+
+28
+00:01:04,280 --> 00:01:07,290
+And separately, they're written
+to the data directory.
+
+29
+00:01:07,290 --> 00:01:09,510
+So the memory map files
+are fsynced
+
+30
+00:01:09,510 --> 00:01:11,310
+into the data directory.
+
+31
+00:01:11,310 --> 00:01:13,730
+Both of these give us
+durability, but the journal
+
+32
+00:01:13,730 --> 00:01:16,520
+gives us recoverability in
+the case of a crash.
+
+33
+00:01:16,520 --> 00:01:18,620
+So writes are done to the
+journal first, then to the
+
+34
+00:01:18,620 --> 00:01:19,930
+data directory.
+
+35
+00:01:19,930 --> 00:01:22,180
+At the same time, the
+secondaries are replicating
+
+36
+00:01:22,180 --> 00:01:24,930
+off of the primary from
+the oplog and
+
+37
+00:01:24,930 --> 00:01:26,080
+applying the writes--
+
+38
+00:01:26,080 --> 00:01:27,430
+in this case, an insert--
+
+39
+00:01:27,430 --> 00:01:28,605
+the same with the
+primary does.
+
+40
+00:01:28,605 --> 00:01:33,050
+Into RAM first and then to its
+own oplog, to the journal, and
+
+41
+00:01:33,050 --> 00:01:34,330
+to its own data directory.
+
+42
+00:01:34,330 --> 00:01:37,370
+That will happen on
+both secondaries.
+
+43
+00:01:37,370 --> 00:01:41,220
+So how does the client
+application actually determine
+
+44
+00:01:41,220 --> 00:01:43,180
+whether the write succeeded
+or not?
+
+45
+00:01:43,180 --> 00:01:47,030
+Well, it's not as simple as
+it might appear at first.
+
+46
+00:01:47,030 --> 00:01:50,520
+So the way this works in MongoDB
+is that the insert
+
+47
+00:01:50,520 --> 00:01:53,610
+message that's sent from the
+client application does not
+
+48
+00:01:53,610 --> 00:01:54,940
+expect a response.
+
+49
+00:01:54,940 --> 00:01:57,610
+So the client application, if
+you were just writing directly
+
+50
+00:01:57,610 --> 00:02:00,250
+to the wire protocol, you'd send
+the insert message and
+
+51
+00:02:00,250 --> 00:02:02,300
+there'd be no response
+from the server.
+
+52
+00:02:02,300 --> 00:02:04,860
+If you want to know whether
+your write succeeded, the
+
+53
+00:02:04,860 --> 00:02:06,990
+client application has
+to send an additional
+
+54
+00:02:06,990 --> 00:02:08,310
+command to the server.
+
+55
+00:02:08,310 --> 00:02:11,110
+And that command is called
+getLastError, which we
+
+56
+00:02:11,110 --> 00:02:13,430
+typically shorten to gle.
+
+57
+00:02:13,430 --> 00:02:16,770
+And it's a separate message that
+we send to the server.
+
+58
+00:02:16,770 --> 00:02:20,130
+And the getLastError message,
+it allows the client
+
+59
+00:02:20,130 --> 00:02:24,440
+application to determine the
+durability of the write before
+
+60
+00:02:24,440 --> 00:02:26,460
+getting acknowledgement back.
+
+61
+00:02:26,460 --> 00:02:27,940
+So what does that mean?
+
+62
+00:02:27,940 --> 00:02:29,350
+Well, you have a bunch
+of options.
+
+63
+00:02:29,350 --> 00:02:34,290
+So by default, getLastError will
+wait for acknowledgement
+
+64
+00:02:34,290 --> 00:02:36,810
+from the primary to
+write into RAM.
+
+65
+00:02:36,810 --> 00:02:40,660
+And that is called w=1.
+
+66
+00:02:40,660 --> 00:02:43,350
+So it's waiting for the single
+server-- in this case the
+
+67
+00:02:43,350 --> 00:02:46,090
+primary, of course, since we're
+writing to the primary--
+
+68
+00:02:46,090 --> 00:02:48,352
+to complete its write to RAM.
+
+69
+00:02:48,352 --> 00:02:50,240
+We'll come back to
+w in a minute.
+
+70
+00:02:50,240 --> 00:02:52,170
+The next is j.
+
+71
+00:02:52,170 --> 00:02:55,510
+j basically means that the write
+won't be acknowledged.
+
+72
+00:02:55,510 --> 00:02:58,920
+In other words, the gle command
+won't return until the
+
+73
+00:02:58,920 --> 00:03:02,590
+insert was written to RAM but
+also written to the journal.
+
+74
+00:03:02,590 --> 00:03:04,330
+The third is fsync.
+
+75
+00:03:04,330 --> 00:03:07,230
+And what this means is that the
+getLastError command wont
+
+76
+00:03:07,230 --> 00:03:10,950
+return until the insert has been
+written to RAM and also
+
+77
+00:03:10,950 --> 00:03:12,900
+synced to the data directory.
+
+78
+00:03:12,900 --> 00:03:15,730
+So that covers all the options
+for the primary, for
+
+79
+00:03:15,730 --> 00:03:17,400
+durability on the primary.
+
+80
+00:03:17,400 --> 00:03:20,620
+But in some applications, you
+want to make sure that your
+
+81
+00:03:20,620 --> 00:03:23,250
+write is not only durable
+on the primary, but also
+
+82
+00:03:23,250 --> 00:03:25,640
+replicated to one or
+more secondaries.
+
+83
+00:03:25,640 --> 00:03:28,320
+You use this by changing
+the w parameters.
+
+84
+00:03:28,320 --> 00:03:32,550
+So w can be a number, any number
+which corresponding to
+
+85
+00:03:32,550 --> 00:03:35,800
+the number of servers in your
+replica set that the write
+
+86
+00:03:35,800 --> 00:03:38,110
+should be replicated to before
+it's acknowledged.
+
+87
+00:03:38,110 --> 00:03:41,550
+So let's say I want the client
+application for this insert to
+
+88
+00:03:41,550 --> 00:03:46,330
+wait for both the primary and
+one of the secondaries to save
+
+89
+00:03:46,330 --> 00:03:48,220
+this insert into RAM.
+
+90
+00:03:48,220 --> 00:03:51,340
+You do that by changing
+w to 2.
+
+91
+00:03:51,340 --> 00:03:55,020
+And then the final parameter
+you can use is wtimeout.
+
+92
+00:03:55,020 --> 00:04:00,580
+By default, say you set w=2
+for your getLastError.
+
+93
+00:04:00,580 --> 00:04:02,490
+Well, the timeout is infinite.
+
+94
+00:04:02,490 --> 00:04:05,720
+So the getLastError command will
+not return until at least
+
+95
+00:04:05,720 --> 00:04:08,670
+one of the secondaries
+acknowledges the write.
+
+96
+00:04:08,670 --> 00:04:12,130
+But you can set wtimeout to
+indicate how long you're
+
+97
+00:04:12,130 --> 00:04:13,700
+willing to wait.
+
+98
+00:04:13,700 --> 00:04:15,310
+That is a millisecond value.
+
+99
+00:04:15,310 --> 00:04:18,910
+So if you wanted to wait
+for one second, you
+
+100
+00:04:18,910 --> 00:04:21,060
+could set that to 1,000.
+
+101
+00:04:21,060 --> 00:04:24,850
+So let's see how this looks in
+Java, how you actually send a
+
+102
+00:04:24,850 --> 00:04:27,800
+getLastError command in
+a Java application.
+
+103
+00:04:27,800 --> 00:04:33,230
+So here is a basic application
+connected to a Mongo client
+
+104
+00:04:33,230 --> 00:04:36,010
+with our seed list,
+three nodes.
+
+105
+00:04:36,010 --> 00:04:37,850
+I get a database,
+a collection.
+
+106
+00:04:37,850 --> 00:04:40,770
+I drop the collection
+and I do a write.
+
+107
+00:04:40,770 --> 00:04:44,840
+So by default, in the Java
+driver and all of our other
+
+108
+00:04:44,840 --> 00:04:49,610
+drivers, the default
+is w=1 and timeout
+
+109
+00:04:49,610 --> 00:04:51,420
+of 0, which is infinite.
+
+110
+00:04:51,420 --> 00:04:54,660
+So by default, this write
+will be acknowledged.
+
+111
+00:04:54,660 --> 00:04:58,170
+And we can see that by doing
+the write again.
+
+112
+00:04:58,170 --> 00:05:07,290
+So if I do the insert again, if
+we run this, we'll see that
+
+113
+00:05:07,290 --> 00:05:11,250
+the second insert fails due to
+a duplicate key error, which
+
+114
+00:05:11,250 --> 00:05:13,400
+is what we'd expect.
+
+115
+00:05:13,400 --> 00:05:15,610
+So if we want to be explicit
+about this--
+
+116
+00:05:15,610 --> 00:05:18,030
+actually, let's say we want
+journaled writes.
+
+117
+00:05:18,030 --> 00:05:19,470
+How do we specify that
+in the driver?
+
+118
+00:05:19,470 --> 00:05:21,660
+Well, it turns out there's
+a number of ways.
+
+119
+00:05:21,660 --> 00:05:23,910
+You can do it at the
+very top level.
+
+120
+00:05:23,910 --> 00:05:29,080
+So if I want all my writes to
+default to journaled, I can
+
+121
+00:05:29,080 --> 00:05:31,260
+set it at the Mongo
+client level.
+
+122
+00:05:31,260 --> 00:05:33,600
+And the way I do that is by
+calling this setWriteConcern
+
+123
+00:05:33,600 --> 00:05:36,920
+method and pass it
+WriteConcern.JOURNALED, which
+
+124
+00:05:36,920 --> 00:05:38,030
+is a constant.
+
+125
+00:05:38,030 --> 00:05:41,090
+And if we look at what that
+constant is, it's just the new
+
+126
+00:05:41,090 --> 00:05:44,310
+WriteConcern, 1,
+0, false, true.
+
+127
+00:05:44,310 --> 00:05:47,610
+If we look at what those
+parameters are, we see the 1
+
+128
+00:05:47,610 --> 00:05:53,350
+is w, timeout is 0, fsync
+is false, and j is true.
+
+129
+00:05:53,350 --> 00:05:54,570
+And there's a number
+of constants that
+
+130
+00:05:54,570 --> 00:05:55,950
+we'll see in a moment.
+
+131
+00:05:55,950 --> 00:05:58,180
+So I can set it at
+the client level.
+
+132
+00:05:58,180 --> 00:06:00,570
+That will be the default
+for all users
+
+133
+00:06:00,570 --> 00:06:02,000
+of this Mongo client.
+
+134
+00:06:02,000 --> 00:06:05,720
+I can also set it at the DB
+level, which means that all
+
+135
+00:06:05,720 --> 00:06:07,760
+writes to this db will
+have a default
+
+136
+00:06:07,760 --> 00:06:09,080
+WriteConcern of journaled.
+
+137
+00:06:09,080 --> 00:06:11,920
+I can do it at the collection
+level as well.
+
+138
+00:06:11,920 --> 00:06:15,800
+
+139
+00:06:15,800 --> 00:06:17,440
+And finally, I can do
+it at the level of
+
+140
+00:06:17,440 --> 00:06:18,690
+the individual insert.
+
+141
+00:06:18,690 --> 00:06:22,800
+
+142
+00:06:22,800 --> 00:06:25,630
+So there's a number of constants
+that you can use.
+
+143
+00:06:25,630 --> 00:06:30,960
+So if we look at WriteConcern,
+you can see that there's
+
+144
+00:06:30,960 --> 00:06:35,940
+ACKNOWLEDGED, which is the
+default, a WriteConcern of 1.
+
+145
+00:06:35,940 --> 00:06:38,510
+There's JOURNALED.
+
+146
+00:06:38,510 --> 00:06:40,340
+And then there's something
+called REPLICA_ACKNOWLEDGED,
+
+147
+00:06:40,340 --> 00:06:43,890
+which is essentially w=2.
+
+148
+00:06:43,890 --> 00:06:46,680
+And then there's also--
+
+149
+00:06:46,680 --> 00:06:48,920
+there's a number these which are
+deprecated, you can see,
+
+150
+00:06:48,920 --> 00:06:51,720
+because we've changed the names
+recently to standardize
+
+151
+00:06:51,720 --> 00:06:54,070
+them across all the drivers.
+
+152
+00:06:54,070 --> 00:06:59,160
+There's also MAJORITY, which
+means that the write needs to
+
+153
+00:06:59,160 --> 00:07:01,750
+be acknowledged by a majority
+of the members
+
+154
+00:07:01,750 --> 00:07:03,510
+of the replica set.
+
+155
+00:07:03,510 --> 00:07:06,680
+And finally, there's a funny
+one, which is UNACKNOWLEDGED.
+
+156
+00:07:06,680 --> 00:07:08,770
+UNACKNOWLEDGED basically
+means, don't send a
+
+157
+00:07:08,770 --> 00:07:10,840
+getLastError at all.
+
+158
+00:07:10,840 --> 00:07:14,130
+And you might wonder why
+you'd ever do that.
+
+159
+00:07:14,130 --> 00:07:15,850
+And the reason is because there
+are some obligations
+
+160
+00:07:15,850 --> 00:07:18,860
+that are willing to sacrifice
+durability
+
+161
+00:07:18,860 --> 00:07:21,000
+for really fast writes.
+
+162
+00:07:21,000 --> 00:07:23,815
+So if you look back to our
+picture, if you're just
+
+163
+00:07:23,815 --> 00:07:28,360
+sending a lot of inserts and you
+don't ever send a gle, a
+
+164
+00:07:28,360 --> 00:07:30,600
+getLastError command, the
+write's going to be really
+
+165
+00:07:30,600 --> 00:07:31,810
+fast, because I don't
+have to wait for a
+
+166
+00:07:31,810 --> 00:07:33,060
+response from the server.
+
+167
+00:07:33,060 --> 00:07:35,850
+Once you send a getLastError,
+you have to wait for a round
+
+168
+00:07:35,850 --> 00:07:36,710
+trip to occur.
+
+169
+00:07:36,710 --> 00:07:38,650
+So there are certain
+applications where it makes
+
+170
+00:07:38,650 --> 00:07:41,700
+sense to use unacknowledged
+writes.
+
+171
+00:07:41,700 --> 00:07:44,480
+And you can see how that
+would work here.
+
+172
+00:07:44,480 --> 00:07:47,970
+If I change this one to
+UNACKNOWLEDGED, what we should
+
+173
+00:07:47,970 --> 00:07:50,120
+see is we're not going
+to get an exception.
+
+174
+00:07:50,120 --> 00:07:52,830
+And the reason is because if we
+look back at our picture,
+
+175
+00:07:52,830 --> 00:07:55,090
+the second time we sent the
+insert, we didn't wait for an
+
+176
+00:07:55,090 --> 00:07:56,590
+acknowledgement.
+
+177
+00:07:56,590 --> 00:07:59,390
+Therefore, there's no way for
+the client application to know
+
+178
+00:07:59,390 --> 00:08:00,980
+that there was a duplicate
+key exception.
+
+179
+00:08:00,980 --> 00:08:03,860
+The duplicate key exceptions is
+actually contained in the
+
+180
+00:08:03,860 --> 00:08:06,760
+gle response stalk.
+
+181
+00:08:06,760 --> 00:08:09,490
+So since we didn't send a
+getLastError command, we're
+
+182
+00:08:09,490 --> 00:08:10,410
+not going to get
+that response.
+
+183
+00:08:10,410 --> 00:08:13,030
+And therefore, the client
+application is not notified
+
+184
+00:08:13,030 --> 00:08:14,640
+that there was a duplicate
+key exception and
+
+185
+00:08:14,640 --> 00:08:15,930
+that the write failed.
+
+186
+00:08:15,930 --> 00:08:18,000
+So let's go to a quiz.
+
+187
+00:08:18,000 --> 00:08:20,700
+What are the w and j settings
+required to guarantee that and
+
+188
+00:08:20,700 --> 00:08:23,550
+insert, update, or delete--
+so any write operation--
+
+189
+00:08:23,550 --> 00:08:25,320
+has been persisted to disk?
+
+190
+00:08:25,320 --> 00:08:28,140
+Is it w=0, j=0?
+
+191
+00:08:28,140 --> 00:08:32,280
+By the way, w=0 is a shorthand
+for saying that getLastError
+
+192
+00:08:32,280 --> 00:08:34,330
+command is not sent at all.
+
+193
+00:08:34,330 --> 00:08:36,419
+w=1, j=1?
+
+194
+00:08:36,419 --> 00:08:37,669
+w=2, j=0?
+
+195
+00:08:37,669 --> 00:08:39,034

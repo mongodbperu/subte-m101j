@@ -1,0 +1,21 @@
+1
+00:00:00,000 --> 00:00:03,440
+So the answer is we need to
+create a new basic DB object
+
+2
+00:00:03,440 --> 00:00:07,097
+whose field is $set, and then
+the value is another basic DB
+
+3
+00:00:07,097 --> 00:00:10,086
+object where we specify
+the field examiner
+
+4
+00:00:10,086 --> 00:00:11,336
+should be set to Jones.
+
+5
+00:00:11,336 --> 00:00:12,530

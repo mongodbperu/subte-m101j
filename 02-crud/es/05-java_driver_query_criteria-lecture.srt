@@ -1,0 +1,529 @@
+1
+00:00:00,000 --> 00:00:00,220
+
+2
+00:00:00,220 --> 00:00:00,760
+Hi again.
+
+3
+00:00:00,760 --> 00:00:03,500
+So in the last segment, we
+learned how to do find one
+
+4
+00:00:03,500 --> 00:00:08,109
+find and count, but we didn't
+look at how to limit the
+
+5
+00:00:08,109 --> 00:00:10,930
+results based on any sort
+of query criteria.
+
+6
+00:00:10,930 --> 00:00:13,790
+So that's what we're going
+to do in this segment.
+
+7
+00:00:13,790 --> 00:00:17,450
+So just to start things off, I
+wrote a little program, which
+
+8
+00:00:17,450 --> 00:00:18,800
+we're going to modify.
+
+9
+00:00:18,800 --> 00:00:21,610
+We create a Mongo client, a
+DB and a DB collection.
+
+10
+00:00:21,610 --> 00:00:24,960
+Drop the collection, just
+like we've been doing.
+
+11
+00:00:24,960 --> 00:00:27,560
+And I changed the insert
+a little bit.
+
+12
+00:00:27,560 --> 00:00:30,720
+I'm still inserting 10
+documents, but I'm inserting
+
+13
+00:00:30,720 --> 00:00:33,980
+documents with two fields now,
+just so we can construct some
+
+14
+00:00:33,980 --> 00:00:35,600
+more interesting queries.
+
+15
+00:00:35,600 --> 00:00:39,480
+There's a field x, and its
+value is a random integer
+
+16
+00:00:39,480 --> 00:00:41,400
+between 0 and 1.
+
+17
+00:00:41,400 --> 00:00:44,370
+And a second field y, which
+is a random integer
+
+18
+00:00:44,370 --> 00:00:46,430
+between 0 and 99.
+
+19
+00:00:46,430 --> 00:00:49,810
+And towards the bottom of the
+program, I'm counting the
+
+20
+00:00:49,810 --> 00:00:51,790
+number of documents
+in the collection.
+
+21
+00:00:51,790 --> 00:00:54,550
+And I'm finding them all and
+proofing out each one by
+
+22
+00:00:54,550 --> 00:00:59,150
+creating a cursor and calling
+has next and while loop, and
+
+23
+00:00:59,150 --> 00:01:01,410
+calling next for each
+document, and
+
+24
+00:01:01,410 --> 00:01:02,590
+then closing the cursor.
+
+25
+00:01:02,590 --> 00:01:06,160
+So let's run this, and we should
+expect a count of 10,
+
+26
+00:01:06,160 --> 00:01:08,400
+and 10 documents.
+
+27
+00:01:08,400 --> 00:01:09,850
+So let's see what
+it looks like.
+
+28
+00:01:09,850 --> 00:01:13,560
+And we do have a count of 10,
+and 10 documents you can see x
+
+29
+00:01:13,560 --> 00:01:17,980
+is either 0 or 1, and y falls
+between 0 and 99.
+
+30
+00:01:17,980 --> 00:01:20,950
+So now let's limit
+the results.
+
+31
+00:01:20,950 --> 00:01:24,530
+And we're going to do that
+with a criteria, which is
+
+32
+00:01:24,530 --> 00:01:27,130
+represented as a document.
+
+33
+00:01:27,130 --> 00:01:30,120
+And we know that in Java, when
+we want to create a document
+
+34
+00:01:30,120 --> 00:01:32,420
+we use basic DB object.
+
+35
+00:01:32,420 --> 00:01:36,300
+So I can say DB object,
+call it query equals
+
+36
+00:01:36,300 --> 00:01:39,640
+new, basic DB object.
+
+37
+00:01:39,640 --> 00:01:46,360
+And let's query for documents
+where the value of x is 0.
+
+38
+00:01:46,360 --> 00:01:49,340
+So I've created a simple,
+basic DB object.
+
+39
+00:01:49,340 --> 00:01:52,830
+Basically a query by example,
+where there's a field x with a
+
+40
+00:01:52,830 --> 00:01:54,330
+value of 0.
+
+41
+00:01:54,330 --> 00:01:58,180
+And now I'm going to take that
+query and plug it into my
+
+42
+00:01:58,180 --> 00:01:58,910
+method calls.
+
+43
+00:01:58,910 --> 00:02:05,100
+So I'm just going to put count
+of query and find query.
+
+44
+00:02:05,100 --> 00:02:08,120
+And on average, since we're
+using a random number
+
+45
+00:02:08,120 --> 00:02:10,889
+generator, we should expect to
+see around five documents.
+
+46
+00:02:10,889 --> 00:02:13,660
+But it will vary based on the
+random number generator.
+
+47
+00:02:13,660 --> 00:02:17,795
+So in this case we found four
+matching documents, all of
+
+48
+00:02:17,795 --> 00:02:21,870
+them have 0 for x, and
+presumably all the other
+
+49
+00:02:21,870 --> 00:02:25,460
+documents have got a
+value of 1 for x.
+
+50
+00:02:25,460 --> 00:02:28,600
+So a simple query which limited
+the results, both for
+
+51
+00:02:28,600 --> 00:02:31,090
+count and for find.
+
+52
+00:02:31,090 --> 00:02:33,670
+We can also create
+a compound query.
+
+53
+00:02:33,670 --> 00:02:36,070
+And similar to the shell, we're
+going to do that just by
+
+54
+00:02:36,070 --> 00:02:39,640
+appending to this document,
+representing our criteria.
+
+55
+00:02:39,640 --> 00:02:42,480
+So let's say I want to select,
+I want to query for all
+
+56
+00:02:42,480 --> 00:02:47,420
+documents where x is 0 and
+y is greater than 10
+
+57
+00:02:47,420 --> 00:02:49,280
+and less than 90.
+
+58
+00:02:49,280 --> 00:02:55,330
+So I can do that by appending a
+query criteria for y, where
+
+59
+00:02:55,330 --> 00:03:00,300
+the value of the criteria is
+another basic DB object where
+
+60
+00:03:00,300 --> 00:03:06,280
+y is greater than 10
+and less than 90.
+
+61
+00:03:06,280 --> 00:03:09,100
+So let's run this again, and we
+should expect to see only
+
+62
+00:03:09,100 --> 00:03:14,380
+documents where x is 0 and
+y is between 10 and 90.
+
+63
+00:03:14,380 --> 00:03:15,150
+And that is the case.
+
+64
+00:03:15,150 --> 00:03:18,750
+We run it, we can run it several
+times so we can see
+
+65
+00:03:18,750 --> 00:03:21,850
+that y is always falling
+between that range.
+
+66
+00:03:21,850 --> 00:03:24,700
+The number of documents returned
+varies based on the
+
+67
+00:03:24,700 --> 00:03:26,020
+random number generator, but it
+
+68
+00:03:26,020 --> 00:03:27,910
+always matches the criteria.
+
+69
+00:03:27,910 --> 00:03:31,970
+Now, there's one other way
+that the driver offers to
+
+70
+00:03:31,970 --> 00:03:35,620
+query, because you can see here
+that we're using these
+
+71
+00:03:35,620 --> 00:03:39,880
+strings, greater than, dollar
+GT and dollar LT.
+
+72
+00:03:39,880 --> 00:03:43,860
+And in some cases it would be
+nicer to use a class that gave
+
+73
+00:03:43,860 --> 00:03:45,850
+you some more helper
+methods for
+
+74
+00:03:45,850 --> 00:03:47,700
+commonly used query operators.
+
+75
+00:03:47,700 --> 00:03:50,394
+And the Java driver does have
+such a class, and it's called
+
+76
+00:03:50,394 --> 00:03:51,240
+Query Builder.
+
+77
+00:03:51,240 --> 00:03:54,950
+And I'll show you how to use
+this by creating a query using
+
+78
+00:03:54,950 --> 00:03:57,230
+Query Builder that is equivalent
+to the query we
+
+79
+00:03:57,230 --> 00:03:59,580
+just created with
+basic DB object.
+
+80
+00:03:59,580 --> 00:04:01,860
+So we do it like this.
+
+81
+00:04:01,860 --> 00:04:06,490
+Say Query Builder dot start,
+and we'll say x.
+
+82
+00:04:06,490 --> 00:04:10,660
+And if we want to just do an
+equality match, we use is.
+
+83
+00:04:10,660 --> 00:04:16,120
+And we could say 0, so we're
+saying x is 0, and because
+
+84
+00:04:16,120 --> 00:04:18,980
+query criteria are implicitly
+entered together, but here we
+
+85
+00:04:18,980 --> 00:04:23,750
+have an explicit method
+and, and we'll say y
+
+86
+00:04:23,750 --> 00:04:27,000
+greater than 10.
+
+87
+00:04:27,000 --> 00:04:29,570
+Less than, we'll change
+it to 70 this time.
+
+88
+00:04:29,570 --> 00:04:33,700
+And if we go down here, we
+can change our method
+
+89
+00:04:33,700 --> 00:04:35,430
+calls to say builder.
+
+90
+00:04:35,430 --> 00:04:38,640
+But we can't pass a builder to
+count because it's expecting a
+
+91
+00:04:38,640 --> 00:04:40,180
+DB object for the criteria.
+
+92
+00:04:40,180 --> 00:04:44,065
+But the builder can create a DB
+object using the get method
+
+93
+00:04:44,065 --> 00:04:45,690
+of the builder.
+
+94
+00:04:45,690 --> 00:04:50,270
+So we change that to builder dot
+get, builder dot get here,
+
+95
+00:04:50,270 --> 00:04:53,380
+and we're no longer using query,
+but I'll just leave
+
+96
+00:04:53,380 --> 00:04:56,120
+that in, and we'll rerun it.
+
+97
+00:04:56,120 --> 00:04:57,650
+In this case, we only
+have one match.
+
+98
+00:04:57,650 --> 00:05:00,880
+We can run it a few
+more times.
+
+99
+00:05:00,880 --> 00:05:04,690
+This time we have four, but
+essentially the same results
+
+100
+00:05:04,690 --> 00:05:07,660
+using Query Builder
+as for DB object.
+
+101
+00:05:07,660 --> 00:05:09,690
+So it really depends
+on what you like.
+
+102
+00:05:09,690 --> 00:05:12,690
+Some people like to just use
+basic DB object, and some
+
+103
+00:05:12,690 --> 00:05:15,040
+people like to use Query
+Builder, but it's really your
+
+104
+00:05:15,040 --> 00:05:17,900
+choice which one you
+want to use.
+
+105
+00:05:17,900 --> 00:05:18,990
+All right, let's
+go to the quiz.
+
+106
+00:05:18,990 --> 00:05:22,130
+So the quiz is given a
+collection of documents with
+
+107
+00:05:22,130 --> 00:05:25,650
+two fields named Type and Score,
+what is the correct
+
+108
+00:05:25,650 --> 00:05:29,790
+line of code to find all
+documents where type is equal
+
+109
+00:05:29,790 --> 00:05:34,320
+to Quiz and score is greater
+than 20 and less than 90?
+
+110
+00:05:34,320 --> 00:05:36,500
+And this is multiple choice, but
+you can select more than
+
+111
+00:05:36,500 --> 00:05:37,750
+one answer.
+
+112
+00:05:37,750 --> 00:05:38,320

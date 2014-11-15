@@ -1,0 +1,60 @@
+1
+00:00:00,000 --> 00:00:00,200
+
+2
+00:00:00,200 --> 00:00:02,350
+OK, and the answer is
+that only the third
+
+3
+00:00:02,350 --> 00:00:03,660
+one is actually true.
+
+4
+00:00:03,660 --> 00:00:06,200
+GridFS stores large blobs
+in two collections.
+
+5
+00:00:06,200 --> 00:00:07,700
+The first one says that it
+stores it in a single
+
+6
+00:00:07,700 --> 00:00:09,300
+collection, which is not true.
+
+7
+00:00:09,300 --> 00:00:11,840
+Each GridFS document is not
+given a unique file name.
+
+8
+00:00:11,840 --> 00:00:13,950
+And it turns out that GridFS
+does not compress
+
+9
+00:00:13,950 --> 00:00:15,200
+your file on disk.
+
+10
+00:00:15,200 --> 00:00:18,080
+So I don't know if you realized
+that, but it did not
+
+11
+00:00:18,080 --> 00:00:18,580
+compress it.
+
+12
+00:00:18,580 --> 00:00:20,550
+So if you want to compress your
+file you'll have to do it
+
+13
+00:00:20,550 --> 00:00:21,890
+before you send it to GridFS.
+
+14
+00:00:21,890 --> 00:00:23,140

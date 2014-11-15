@@ -1,0 +1,418 @@
+1
+00:00:00,000 --> 00:00:00,690
+
+2
+00:00:00,690 --> 00:00:04,420
+So in the last lecture, we
+talked about how to insert
+
+3
+00:00:04,420 --> 00:00:07,330
+data into Mongo DB using
+the Java driver.
+
+4
+00:00:07,330 --> 00:00:09,600
+And now we're going to talk
+about how to do simple
+
+5
+00:00:09,600 --> 00:00:12,880
+queries, including review of
+Find one, how to find all the
+
+6
+00:00:12,880 --> 00:00:15,418
+documents in a collection, and
+how to count the documents in
+
+7
+00:00:15,418 --> 00:00:16,260
+a collection.
+
+8
+00:00:16,260 --> 00:00:19,730
+So as not to waste time, I
+already wrote the boilerplate
+
+9
+00:00:19,730 --> 00:00:24,030
+code, same as last time,
+creating a client database and
+
+10
+00:00:24,030 --> 00:00:25,880
+a collection, then dropping
+the collection.
+
+11
+00:00:25,880 --> 00:00:29,150
+And since we're querying, I also
+wrote a little code to
+
+12
+00:00:29,150 --> 00:00:31,100
+insert some documents
+into the collection.
+
+13
+00:00:31,100 --> 00:00:36,740
+So I'm inserting 10 documents,
+each with an object ID for the
+
+14
+00:00:36,740 --> 00:00:41,000
+_id, and a field x with a random
+integer between 0 and
+
+15
+00:00:41,000 --> 00:00:43,110
+99 as a value.
+
+16
+00:00:43,110 --> 00:00:46,010
+And now let's go
+to the queries.
+
+17
+00:00:46,010 --> 00:00:49,510
+So let's look at a
+simple Find one.
+
+18
+00:00:49,510 --> 00:00:51,660
+Again, this is review
+from last week.
+
+19
+00:00:51,660 --> 00:00:53,945
+So we can say DBObject.doc,
+or one=collection.findone.
+
+20
+00:00:53,945 --> 00:01:00,570
+
+21
+00:01:00,570 --> 00:01:02,550
+And we can print it out.
+
+22
+00:01:02,550 --> 00:01:04,210
+Let's see what that does.
+
+23
+00:01:04,210 --> 00:01:05,750
+Here's the printout.
+
+24
+00:01:05,750 --> 00:01:08,070
+Remember that the _id
+will be created
+
+25
+00:01:08,070 --> 00:01:09,250
+automatically by the driver.
+
+26
+00:01:09,250 --> 00:01:12,150
+And here's the random
+x value of 86.
+
+27
+00:01:12,150 --> 00:01:14,680
+OK, so that's Find one--
+pretty simple.
+
+28
+00:01:14,680 --> 00:01:18,920
+Now let's look at Find, which is
+a little bit more verbose,
+
+29
+00:01:18,920 --> 00:01:21,000
+and I'll explain why
+in a moment.
+
+30
+00:01:21,000 --> 00:01:25,740
+For Find, we actually have
+to create a cursor.
+
+31
+00:01:25,740 --> 00:01:28,960
+So we call collection.find,
+which returns a cursor.
+
+32
+00:01:28,960 --> 00:01:32,350
+And as you learn from Richard
+earlier, there's actually a
+
+33
+00:01:32,350 --> 00:01:34,510
+cursor on the server.
+
+34
+00:01:34,510 --> 00:01:36,640
+The reason we have to save it
+like this is because we're
+
+35
+00:01:36,640 --> 00:01:38,030
+going to need to close
+it in a while.
+
+36
+00:01:38,030 --> 00:01:41,420
+So I'm going to put this inside
+a finally block--
+
+37
+00:01:41,420 --> 00:01:42,890
+try finally, rather--
+
+38
+00:01:42,890 --> 00:01:47,080
+and say cursor.close here, to
+make sure the cursor gets
+
+39
+00:01:47,080 --> 00:01:50,570
+closed even if I exit up
+normally from the try.
+
+40
+00:01:50,570 --> 00:01:55,890
+And inside the cursor, I'll say
+while (cursor.hasNext),
+
+41
+00:01:55,890 --> 00:01:59,245
+and then DBObject
+cur=cursor.next.
+
+42
+00:01:59,245 --> 00:02:02,802
+
+43
+00:02:02,802 --> 00:02:05,890
+And then I'll print it out.
+
+44
+00:02:05,890 --> 00:02:07,540
+Let's see what this does first,
+and then we'll talk a
+
+45
+00:02:07,540 --> 00:02:08,820
+little bit more about it.
+
+46
+00:02:08,820 --> 00:02:12,570
+So it prints out all
+the documents--
+
+47
+00:02:12,570 --> 00:02:15,140
+all 10 documents-- in
+the collection.
+
+48
+00:02:15,140 --> 00:02:16,900
+The cursor is an iterator.
+
+49
+00:02:16,900 --> 00:02:20,600
+So if you look at DBCursor you
+can see that it's an iterator
+
+50
+00:02:20,600 --> 00:02:21,930
+of DBObject.
+
+51
+00:02:21,930 --> 00:02:25,450
+So that's where that hasNext and
+the Next method come from.
+
+52
+00:02:25,450 --> 00:02:28,640
+And they have the semantics
+of Java iterators.
+
+53
+00:02:28,640 --> 00:02:31,950
+So the hasNext method will
+return true if calling x will
+
+54
+00:02:31,950 --> 00:02:33,510
+actual return a document.
+
+55
+00:02:33,510 --> 00:02:35,580
+Otherwise it will
+return false.
+
+56
+00:02:35,580 --> 00:02:37,310
+And next will return
+a document.
+
+57
+00:02:37,310 --> 00:02:40,660
+And if you call next when
+hasNext returned false, it's
+
+58
+00:02:40,660 --> 00:02:42,050
+going to throw an exception.
+
+59
+00:02:42,050 --> 00:02:44,460
+And one important thing to
+remember is that you need to
+
+60
+00:02:44,460 --> 00:02:45,830
+call close.
+
+61
+00:02:45,830 --> 00:02:47,900
+With 10 documents, it doesn't
+matter, because there won't be
+
+62
+00:02:47,900 --> 00:02:49,140
+a cursor on the server.
+
+63
+00:02:49,140 --> 00:02:51,460
+But if you are iterating through
+hundreds of documents
+
+64
+00:02:51,460 --> 00:02:54,740
+or thousands, you have to
+remember to close the cursor,
+
+65
+00:02:54,740 --> 00:02:57,000
+especially if your loop
+terminates abnormally--
+
+66
+00:02:57,000 --> 00:02:59,720
+like if you throw an exception
+within this wild loop, you
+
+67
+00:02:59,720 --> 00:03:02,100
+want to make sure that cursor is
+closed, even if you didn't
+
+68
+00:03:02,100 --> 00:03:05,720
+exhaust it on the server.
+
+69
+00:03:05,720 --> 00:03:07,050
+Finally, let's talk
+about count.
+
+70
+00:03:07,050 --> 00:03:09,560
+
+71
+00:03:09,560 --> 00:03:10,670
+Count's very simple, also.
+
+72
+00:03:10,670 --> 00:03:13,220
+You can just say
+collection.count, we
+
+73
+00:03:13,220 --> 00:03:16,350
+can print it out.
+
+74
+00:03:16,350 --> 00:03:17,480
+Let's see what that does.
+
+75
+00:03:17,480 --> 00:03:20,290
+Should print out 10.
+
+76
+00:03:20,290 --> 00:03:22,250
+And it does.
+
+77
+00:03:22,250 --> 00:03:22,880
+And that's it.
+
+78
+00:03:22,880 --> 00:03:27,150
+That's the basics of Findone,
+Find, and Count.
+
+79
+00:03:27,150 --> 00:03:30,150
+In the next lesson, we'll talk
+about how to limit the results
+
+80
+00:03:30,150 --> 00:03:31,820
+based on a query.
+
+81
+00:03:31,820 --> 00:03:33,830
+OK, let's look at a quiz.
+
+82
+00:03:33,830 --> 00:03:36,770
+In the following code snippet,
+please enter the simplest one
+
+83
+00:03:36,770 --> 00:03:41,230
+line of Java code that would be
+needed in place the XXXX to
+
+84
+00:03:41,230 --> 00:03:43,830
+make it print one document from
+the people collection
+
+85
+00:03:43,830 --> 00:03:46,820
+created here, assuming there
+is a document there.
+
+86
+00:03:46,820 --> 00:03:48,310
+Don't worry about white space.
+
+87
+00:03:48,310 --> 00:03:51,220
+I believe it will be script, but
+don't put any extra things
+
+88
+00:03:51,220 --> 00:03:53,550
+in there, like comments
+or anything like that.
+
+89
+00:03:53,550 --> 00:03:56,470
+And notice also that the print
+line is already in the bottom,
+
+90
+00:03:56,470 --> 00:03:58,110
+so you don't have to actually
+print it yourself.
+
+91
+00:03:58,110 --> 00:03:59,360

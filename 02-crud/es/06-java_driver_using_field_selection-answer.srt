@@ -1,0 +1,49 @@
+1
+00:00:00,000 --> 00:00:00,220
+
+2
+00:00:00,220 --> 00:00:03,880
+So the correct answer is the
+third one because with find
+
+3
+00:00:03,880 --> 00:00:07,850
+the first parameter to find
+is the query criteria.
+
+4
+00:00:07,850 --> 00:00:09,240
+So we're looking
+for everything.
+
+5
+00:00:09,240 --> 00:00:13,110
+So we have to still give it an
+empty query criteria, which is
+
+6
+00:00:13,110 --> 00:00:15,640
+why we have this new
+Basic DB object
+
+7
+00:00:15,640 --> 00:00:17,120
+that's am empty document.
+
+8
+00:00:17,120 --> 00:00:21,340
+And then, the second parameter
+is the field selection, and we
+
+9
+00:00:21,340 --> 00:00:24,450
+have a Basic DB object phone
+number of one, but then we
+
+10
+00:00:24,450 --> 00:00:26,970
+have to exclude ID explicitly
+by saying ID is zero.
+
+11
+00:00:26,970 --> 00:00:28,220

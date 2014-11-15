@@ -1,0 +1,71 @@
+1
+00:00:00,000 --> 00:00:00,380
+
+2
+00:00:00,380 --> 00:00:03,920
+OK, and for this problem we
+asked you to figure out the
+
+3
+00:00:03,920 --> 00:00:07,400
+author that has the most
+comments posted.
+
+4
+00:00:07,400 --> 00:00:09,690
+This is the author
+of a comment.
+
+5
+00:00:09,690 --> 00:00:14,620
+Now to do this, we will unwind
+the comments array that is
+
+6
+00:00:14,620 --> 00:00:16,720
+inside each of the blog posts.
+
+7
+00:00:16,720 --> 00:00:20,190
+And then we'll group by the
+comment author right here.
+
+8
+00:00:20,190 --> 00:00:22,830
+And then we'll just sum them
+up and count them.
+
+9
+00:00:22,830 --> 00:00:25,510
+And then we're going to sort
+by num comments minus 1
+
+10
+00:00:25,510 --> 00:00:27,860
+descending and limit by 10.
+
+11
+00:00:27,860 --> 00:00:31,070
+And if we do that, and we run
+it-- and I already ran it.
+
+12
+00:00:31,070 --> 00:00:34,490
+You can see here the results,
+we can see that the person
+
+13
+00:00:34,490 --> 00:00:38,760
+with the most comments posted
+on to the blog posts is
+
+14
+00:00:38,760 --> 00:00:42,110
+Mikaela Meidinger at 493.
+
+15
+00:00:42,110 --> 00:00:43,360
+And that is the answer.
+
+16
+00:00:43,360 --> 00:00:44,460

@@ -1,0 +1,193 @@
+1
+00:00:00,000 --> 00:00:00,140
+
+2
+00:00:00,140 --> 00:00:02,710
+In this problem, you were asked
+to change the code to
+
+3
+00:00:02,710 --> 00:00:05,590
+support adding a comment
+to a post.
+
+4
+00:00:05,590 --> 00:00:08,780
+Again, you're going to be
+working in the blog post DAO
+
+5
+00:00:08,780 --> 00:00:13,250
+class, and you only needed to
+work on the code that adds the
+
+6
+00:00:13,250 --> 00:00:15,480
+comment because the comments are
+already going to come out
+
+7
+00:00:15,480 --> 00:00:18,360
+of the posts automatically
+in the retrieval code.
+
+8
+00:00:18,360 --> 00:00:20,240
+And the template will
+pick them out.
+
+9
+00:00:20,240 --> 00:00:22,155
+And so you didn't need to make
+any other changes to make sure
+
+10
+00:00:22,155 --> 00:00:24,510
+that you pulled them when you
+pulled the document out, which
+
+11
+00:00:24,510 --> 00:00:28,120
+is a nice side effect of the
+way this document oriented
+
+12
+00:00:28,120 --> 00:00:29,240
+database works.
+
+13
+00:00:29,240 --> 00:00:31,410
+So we gave you some hints,
+again, that the email is
+
+14
+00:00:31,410 --> 00:00:33,340
+optional, but it could
+come in as NULL.
+
+15
+00:00:33,340 --> 00:00:35,550
+Basically, we're going to create
+a new comment, which is
+
+16
+00:00:35,550 --> 00:00:37,100
+the basic DB object.
+
+17
+00:00:37,100 --> 00:00:41,010
+It has an author, which is the
+name that comes in here so
+
+18
+00:00:41,010 --> 00:00:41,685
+name is author.
+
+19
+00:00:41,685 --> 00:00:43,100
+You had to figure that out.
+
+20
+00:00:43,100 --> 00:00:44,640
+The body is the body.
+
+21
+00:00:44,640 --> 00:00:45,830
+Email, a little tricky.
+
+22
+00:00:45,830 --> 00:00:47,870
+You needed to make sure
+it wasn't NULL and
+
+23
+00:00:47,870 --> 00:00:49,060
+that it wasn't blank.
+
+24
+00:00:49,060 --> 00:00:50,390
+And if it wasn't either
+of those two things,
+
+25
+00:00:50,390 --> 00:00:51,460
+you'd append it.
+
+26
+00:00:51,460 --> 00:00:54,150
+The validation script doesn't
+use the email parameter, so
+
+27
+00:00:54,150 --> 00:00:55,135
+this will come in as NULL.
+
+28
+00:00:55,135 --> 00:00:56,860
+And if you didn't protect
+this, you
+
+29
+00:00:56,860 --> 00:00:58,420
+could get an exception.
+
+30
+00:00:58,420 --> 00:01:01,130
+And then, this is probably the
+trickiest part right here.
+
+31
+00:01:01,130 --> 00:01:03,340
+You need to call the
+update command.
+
+32
+00:01:03,340 --> 00:01:06,740
+The criteria is this permalink
+that came in, so you're only
+
+33
+00:01:06,740 --> 00:01:09,270
+going to update the document
+with that permalink.
+
+34
+00:01:09,270 --> 00:01:12,970
+But you had to use this push
+command to push this comment
+
+35
+00:01:12,970 --> 00:01:17,980
+object that you've created on to
+the array of comments, the
+
+36
+00:01:17,980 --> 00:01:20,700
+list of comments, inside
+the document
+
+37
+00:01:20,700 --> 00:01:22,630
+with this push command.
+
+38
+00:01:22,630 --> 00:01:25,480
+And then, upsert false,
+multifalse.
+
+39
+00:01:25,480 --> 00:01:28,900
+So that's how you do it, and
+that will push this one
+
+40
+00:01:28,900 --> 00:01:32,170
+comment on to the list of
+comments inside this
+
+41
+00:01:32,170 --> 00:01:33,420
+particular blog post.
+
+42
+00:01:33,420 --> 00:01:34,640

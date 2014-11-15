@@ -1,0 +1,43 @@
+1
+00:00:00,000 --> 00:00:00,130
+
+2
+00:00:00,130 --> 00:00:02,820
+And the answer is w equals
+1, j equals 1.
+
+3
+00:00:02,820 --> 00:00:05,260
+j equals 1 is the only option
+given here which actually
+
+4
+00:00:05,260 --> 00:00:08,180
+waits for acknowledgements
+of the write to disk.
+
+5
+00:00:08,180 --> 00:00:10,520
+You could also use f sync
+equals 1 as well.
+
+6
+00:00:10,520 --> 00:00:12,870
+But now that we have journaling,
+f sync is not
+
+7
+00:00:12,870 --> 00:00:14,500
+really necessary.
+
+8
+00:00:14,500 --> 00:00:16,560
+Journaling provides us an
+equivalent amount of
+
+9
+00:00:16,560 --> 00:00:17,810
+durability.
+
+10
+00:00:17,810 --> 00:00:18,110
