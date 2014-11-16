@@ -3,447 +3,437 @@
 
 2
 00:00:00,290 --> 00:00:01,100
-Hi, this is Jeff.
+Hola, soy Jeff.
 
 3
 00:00:01,100 --> 00:00:06,380
-So since this is a class MongoDB
-using Java, we need to
+Como ésta es una clase de MongoDB
+con Java, tenemos que configurar
 
 4
 00:00:06,380 --> 00:00:08,109
-get our Java environment
-set up.
+nuestro ambiente de desarrollo Java.
 
 5
 00:00:08,109 --> 00:00:12,390
-So we're going to use a couple
-of tools in the lectures and
+Vamos a usar algunas herramientas
+en las lecciones y en las tareas
 
 6
 00:00:12,390 --> 00:00:16,050
-in the homeworks, and I want
-to introduce them today.
+y quiero introducirlas hoy.
 
 7
 00:00:16,050 --> 00:00:18,350
-So the first thing we
-need is some sort of
+Lo primero que necesitamos es
+una herramienta que nos ayude
 
 8
 00:00:18,350 --> 00:00:19,780
-build automation tool.
+a automatizar la construcción
+de nuestra aplicación.
+
 
 9
 00:00:19,780 --> 00:00:22,140
-There's a couple to choose
-from, but for this class,
+Hay un par que podríamos escoger,
+pero para esta clase, vamos a
 
 10
 00:00:22,140 --> 00:00:23,880
-we're going to use Maven.
+utilizar Maven.
 
 11
 00:00:23,880 --> 00:00:26,360
-So you probably already have
-Maven on your system, but if
+Probablemente ya tienes Maven
+en tu sistema, pero si no,
+
 
 12
 00:00:26,360 --> 00:00:28,550
-you don't, you can
-download it.
+lo puedes descargar.
 
 13
 00:00:28,550 --> 00:00:33,540
-Just search for Maven in
-a web browser and go to
+Simplemente haz una búsqueda por
+"Maven" en tu navegador web y
 
 14
 00:00:33,540 --> 00:00:35,800
-the Download link.
+sigue el enlace de descarga.
 
 15
 00:00:35,800 --> 00:00:38,100
-And you can download
-the tar.gz.
+Puedes descargar el tar.gz.
 
 16
 00:00:38,100 --> 00:00:42,140
-I'll download the zip file.
+Yo voy a descargar el archivo zip.
 
 17
 00:00:42,140 --> 00:00:45,870
-And I'll cd to my Downloads
-directory--
+Y luego voy a cd a mi
+directorio "Downloads",
 
 18
 00:00:45,870 --> 00:00:47,155
-there it is--
+ahí está,
 
 19
 00:00:47,155 --> 00:00:51,350
-and I'll unzip it
-just in place.
+y voy a descomprimir el
+archivo en su mismo sitio.
 
 20
 00:00:51,350 --> 00:00:54,470
-And you'll see that there
-is an apache-maven-3.0.4
+Verás que hay un directorio
+"apache-maven-3.0.4"
 
 21
 00:00:54,470 --> 00:01:00,460
-directory, and inside there
-is a bin directory.
+que contiene un directorio "bin".
 
 22
 00:01:00,460 --> 00:01:02,740
-Wherever you installed Maven,
-you should just add that to
+Donde sea que instales Maven,
+debes simplemente agregar ese
 
 23
 00:01:02,740 --> 00:01:06,910
-your path in whatever is
-appropriate for your platform.
+directorio a tu "path" de la
+manera apropiada para tu sistema.
 
 24
 00:01:06,910 --> 00:01:11,380
-So it's already in my path, so
-I'm not going to do anymore.
+Ya está en mi "path", así que
+no lo voy a volver a hacer.
 
 25
 00:01:11,380 --> 00:01:14,190
-I'm going to go back to my home
-directory, and the first
+Voy a regresar a mi directorio
+"home" y lo primero que voy
 
 26
 00:01:14,190 --> 00:01:18,280
-I'm going to do is create
-a new Maven project.
+a hacer es crear un nuevo
+proyecto Maven.
 
 27
 00:01:18,280 --> 00:01:22,660
-Maven uses a Project Object
-Model called a pom.xml.
+Maven utiliza un modelo de
+objeto proyecto llamado pom.xml.
 
 28
 00:01:22,660 --> 00:01:24,420
-And you can create on by hand,
-but I'm going to use this
+Lo puedes crear a mano, pero
+yo voy a utilizar un plugin
 
 29
 00:01:24,420 --> 00:01:28,930
-handy plugin for Maven called
-Archetype to create a new,
+muy útil para Maven llamado
+Archetype para crear un nuevo
 
 30
 00:01:28,930 --> 00:01:32,250
-empty Maven project.
+proyecto Maven vacío.
 
 31
 00:01:32,250 --> 00:01:36,420
-So I type mvn, which is the
-executable for Maven,
+Entonces si ingreso "mvn", el
+cual es el ejecutable para Maven,
 
 32
 00:01:36,420 --> 00:01:40,380
-archetype:generate.
+"archetype:generate".
 
 33
 00:01:40,380 --> 00:01:42,740
-And there's a lot of archetypes
-to choose from, but
+Hay varios arquetipos de los
+cuales podemos escoger, pero
 
 34
 00:01:42,740 --> 00:01:46,750
-it gives you a default, 251,
-which is one of the ones
+te da uno por defecto, 251,
+el cual es uno de los que
 
 35
 00:01:46,750 --> 00:01:47,800
-provided by Maven.
+provee Maven.
 
 36
 00:01:47,800 --> 00:01:52,240
-I'm just going to choose that,
-choose 6 for the latest
+Simplemente voy a elegir ése
+y escoger 6 para la versión
 
 37
 00:01:52,240 --> 00:01:54,160
-version of that archetype.
+más reciente de ese arquetipo.
 
 38
 00:01:54,160 --> 00:01:58,290
-I'm going to use com.10gen
-as the groupID.
+Voy a utilizar "com.10gen"
+como el "groupId".
 
 39
 00:01:58,290 --> 00:02:01,940
-The artifactID will be
-M101J for the class.
+El "artifactId" va a ser
+M101J para la clase.
 
 40
 00:02:01,940 --> 00:02:03,850
-The version will
-be the default.
+La versión será la que venga por defecto.
 
 41
 00:02:03,850 --> 00:02:06,270
-It will give me a default
-Java package.
+Me va a dar un paquete Java por defecto.
 
 42
 00:02:06,270 --> 00:02:08,989
-10gen is not a valid package
-name, so I'm going to change
+"10gen" no es un nombre de paquete
+válido, así que lo voy a cambiar
 
 43
 00:02:08,989 --> 00:02:11,230
-it to tengen--
+a "tengen",
 
 44
 00:02:11,230 --> 00:02:18,310
-T-E-N. I'll say OK, and it
-created a new directory for me
+T, E, N. Voy a poner OK y me
+ha creado un nuevo directorio
 
 45
 00:02:18,310 --> 00:02:21,580
-based on the artifact ID.
+basado en el nombre del "artifactId".
 
 46
 00:02:21,580 --> 00:02:25,510
-And in there is a
-couple things.
+Ahí hay un par de cosas.
 
 47
 00:02:25,510 --> 00:02:27,640
-One is this pom.xml,
-which we'll take a
+Una es el pom.xml,
+el cual vamos a ver
 
 48
 00:02:27,640 --> 00:02:28,420
-look at in a minute.
+en un minuto.
 
 49
 00:02:28,420 --> 00:02:32,850
-And then it created a source
-directory for me with two
+Luego creó un directorio
+"src" con dos subdirectorios
 
 50
 00:02:32,850 --> 00:02:37,670
-subdirectories, main and test,
-and inside of the those, java.
+"main" y "test", y dentro
+de cada uno de ellos, "java".
 
 51
 00:02:37,670 --> 00:02:40,220
-And then it created the default
-package that I told
+Luego creó el paquete por
+defecto que le proveí,
 
 52
 00:02:40,220 --> 00:02:41,220
-it, com.tengen.
+"com.tengen".
 
 53
 00:02:41,220 --> 00:02:46,030
-It even created an App.java for
-me and an AppTest.java.
+Hasta creó un "App.java"
+y un "AppTest.java".
 
 54
 00:02:46,030 --> 00:02:48,130
-So I can run App.java.
+Puedo ejecutar "App.java"
 
 55
 00:02:48,130 --> 00:02:49,190
-And you can look at it.
+y lo puedes ver.
 
 56
 00:02:49,190 --> 00:02:50,860
-I'll show you what it actually
-put in there--
+Te mostraré exactamente qué puso ahí.
 
 57
 00:02:50,860 --> 00:02:53,560
 
 58
 00:02:53,560 --> 00:02:55,320
-just Hello World.
+Simplemente "Hello World".
 
 59
 00:02:55,320 --> 00:03:01,110
-So I can run this using a plugin
-called exec for Maven.
+Puedo ejecutar esto utilizando
+un plugin llamado "exec" para Maven.
 
 60
 00:03:01,110 --> 00:03:04,380
-So I say Maven, compile,
-to compile the files.
+Digo "mvn compile", para
+compilar los archivos y
 
 61
 00:03:04,380 --> 00:03:06,880
-And I say exec a Java program.
+luego "exec" un programa Java
 
 62
 00:03:06,880 --> 00:03:10,560
-And the main class is
-com.tengen.App.
+y la clase principal
+es "com.tengen.App".
 
 63
 00:03:10,560 --> 00:03:13,450
-So I specify that with the
-System Properties.
+Así que especifico eso en las
+propiedades del sistema "-D"
 
 64
 00:03:13,450 --> 00:03:16,750
-And then the Property Name,
-exec.mainClass, and then the
+y luego en el nombre de la propiedad,
+"exec.mainClass" y luego el
 
 65
 00:03:16,750 --> 00:03:17,770
-name of the mainClass--
+nombre de la clase principal
 
 66
 00:03:17,770 --> 00:03:21,620
-and I can run that like this.
+y puedo ejecutar eso así.
 
 67
 00:03:21,620 --> 00:03:23,690
-And you can see it printed
-out Hello World.
+Puedes ver que ha impreso "Hello World".
 
 68
 00:03:23,690 --> 00:03:27,140
-But for this class, it's going
-to be easier to demonstrate
+Pero para esta clase, va a ser
+más fácil hacer demostraciones
 
 69
 00:03:27,140 --> 00:03:28,900
-things if I use an IDE.
+si utilizo un IDE.
 
 70
 00:03:28,900 --> 00:03:32,210
-So the IDE that I've been
-using for a long time is
+El IDE que llevo utilizando
+por mucho tiempo se llama
 
 71
 00:03:32,210 --> 00:03:35,720
-called IntelliJ IDEA, so that's
-what I'll be using for
+IntelliJ IDEA, así que ése
+es el que vamos a utilizar
 
 72
 00:03:35,720 --> 00:03:37,110
-the lectures.
+para las lecciones.
 
 73
 00:03:37,110 --> 00:03:40,250
-So IntelliJ has very nice
-support for Maven.
+IntelliJ tiene muy buen
+soporte para Maven.
 
 74
 00:03:40,250 --> 00:03:43,620
-And the way you can load a
-Maven project if you open
+La manera en que cargas un
+proyecto Maven es abriendo
 
 75
 00:03:43,620 --> 00:03:46,660
-IntelliJ, and use
-Import Project.
+IntelliJ y utilizando "Import Project".
 
 76
 00:03:46,660 --> 00:03:51,340
-I've already done this before,
-so it's on my directory that I
+Yo ya hice esto antes, así que
+está en el directorio que acabo
 
 77
 00:03:51,340 --> 00:03:53,510
-just created, M101J/pom.xml.
+de crear, M101J/pom.xml.
 
 78
 00:03:53,510 --> 00:03:56,086
-And I select the pom file.
+Y selecciono el archivo pom.
 
 79
 00:03:56,086 --> 00:03:58,860
-And I want it to import projects
-automatically so that
+Y quiero que importe proyectos
+automáticamente para que si
 
 80
 00:03:58,860 --> 00:04:01,400
-if I update dependencies,
-it will
+actualizo las dependencias
 
 81
 00:04:01,400 --> 00:04:03,650
-automatically reimport it.
+las vuelva a importar automáticamente.
 
 82
 00:04:03,650 --> 00:04:05,130
-And I want to download
-sources and
+Quiero descargar el código fuente
 
 83
 00:04:05,130 --> 00:04:06,580
-documentation if available.
+y la documentación si está disponible.
 
 84
 00:04:06,580 --> 00:04:09,200
 
 85
 00:04:09,200 --> 00:04:15,110
-I am going to select JDK
-1.6, and project name
+Voy a seleccionar JDK 1.6 y el
+nombre del proyecto será
 
 86
 00:04:15,110 --> 00:04:16,029
-will default to M101J.
+M101J por defecto.
 
 87
 00:04:16,029 --> 00:04:18,310
-And then I finish.
+Y ahí termino.
 
 88
 00:04:18,310 --> 00:04:21,570
-And you can see here I have my
-POM, which was created by
+Puedes ver acá que tengo mi POM,
+que fue creado por el plugin
 
 89
 00:04:21,570 --> 00:04:26,410
-Archetype plugin, and here's
-my source directory.
+Archetype y aquí está
+mi directorio "src".
 
 90
 00:04:26,410 --> 00:04:27,770
-And here's the app
-that we ran.
+Y aquí está la aplicación
+que ejecutamos.
 
 91
 00:04:27,770 --> 00:04:28,890
-And we can also run this,
+También podemos ejecutar esto,
 
 92
 00:04:28,890 --> 00:04:31,040
-obviously, from inside IntelliJ.
+obviamente, desde IntelliJ.
 
 93
 00:04:31,040 --> 00:04:32,570
-And it prints out Hello World.
+E imprime "Hello World".
 
 94
 00:04:32,570 --> 00:04:37,580
-So we saw in this lecture how to
-create a simple Hello World
+Entonces en esta lección vimos
+cómo crear un programa "Hello World"
 
 95
 00:04:37,580 --> 00:04:43,100
-with Maven, using Maven to
-create a simple pom.xml using
+simple con Maven, utilizando
+Maven para crear un simple pom.xml
 
 96
 00:04:43,100 --> 00:04:46,320
-the Archetype plugin, and
-then to run a class
+usando el plugin Archetype y
+luego como ejectuar una clase
 
 97
 00:04:46,320 --> 00:04:47,570
-using the Exec plugin.
+con el plugin Exec.
 
 98
 00:04:47,570 --> 00:04:48,670
