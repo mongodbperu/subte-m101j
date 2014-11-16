@@ -46,3 +46,9 @@ Thumbs.db
 *.webm
 *.3gp
 *.flv
+
+# IntelliJ files #
+##################
+.idea
+*.iml
+
