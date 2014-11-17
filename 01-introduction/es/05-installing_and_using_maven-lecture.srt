@@ -21,7 +21,7 @@ en las lecciones y en las tareas
 
 6
 00:00:12,390 --> 00:00:16,050
-y quiero introducirlas hoy.
+y quiero presentarlas hoy.
 
 7
 00:00:16,050 --> 00:00:18,350
@@ -32,7 +32,6 @@ una herramienta que nos ayude
 00:00:18,350 --> 00:00:19,780
 a automatizar la construcción
 de nuestra aplicación.
-
 
 9
 00:00:19,780 --> 00:00:22,140
@@ -47,7 +46,6 @@ utilizar Maven.
 00:00:23,880 --> 00:00:26,360
 Probablemente ya tienes Maven
 en tu sistema, pero si no,
-
 
 12
 00:00:26,360 --> 00:00:28,550
@@ -121,7 +119,7 @@ proyecto Maven.
 27
 00:01:18,280 --> 00:01:22,660
 Maven utiliza un modelo de
-objeto proyecto llamado pom.xml.
+objeto proyecto llamado "pom.xml".
 
 28
 00:01:22,660 --> 00:01:24,420
@@ -131,7 +129,7 @@ yo voy a utilizar un plugin
 29
 00:01:24,420 --> 00:01:28,930
 muy útil para Maven llamado
-Archetype para crear un nuevo
+"Archetype" para crear un nuevo
 
 30
 00:01:28,930 --> 00:01:32,250
