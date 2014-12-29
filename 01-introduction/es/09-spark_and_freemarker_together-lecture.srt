@@ -55,7 +55,7 @@ aunque realmente no
 
 14
 00:00:34,890 --> 00:00:36,030
-marcará la diferencia.
+marcará ninguna diferencia.
 
 15
 00:00:36,030 --> 00:00:39,360
