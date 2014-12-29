@@ -41,8 +41,8 @@ todo el código de
 
 11
 00:00:18,760 --> 00:00:24,790
-de forma que podamos reutilizar todo,
-copio eso aquí dentro, y voy a
+de forma que podamos reutilizar todo.
+Copio eso aquí dentro y voy a
 
 12
 00:00:24,790 --> 00:00:29,930
