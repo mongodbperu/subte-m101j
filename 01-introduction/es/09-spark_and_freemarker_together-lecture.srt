@@ -3,233 +3,228 @@
 
 2
 00:00:00,380 --> 00:00:03,670
-So we've seen Spark, our web
-framework, and Freemarket, are
+Ya hemos visto Spark, nuestro
+framework web, y Freemarker,
 
 3
 00:00:03,670 --> 00:00:05,430
-our templating engine.
+nuestro motor de plantillas.
 
 4
 00:00:05,430 --> 00:00:07,570
-Let's try now to put
-them together.
+Ahora vamos a intentar combinarlos.
 
 5
 00:00:07,570 --> 00:00:11,130
-So I'm going to steal this code
-from HelloWorldSparkStyle
+Voy a robar el código
+de "HelloWorldSparkStyle"
 
 6
 00:00:11,130 --> 00:00:15,070
-and copy it into a
-new class called
+y copiarlo en una
+nueva clase llamada
 
 7
 00:00:15,070 --> 00:00:16,320
-HelloWorldSparkFreemarkerStyle.
+"HelloWorldSparkFreemarkerStyle".
 
 8
 00:00:16,320 --> 00:00:18,330
 
 9
 00:00:18,330 --> 00:00:19,630
-So we have Spark.
+Así que tenemos Spark.
 
 10
 00:00:19,630 --> 00:00:25,250
-Now let's go back to our
-Freemarker code and take this
+Ahora volvamos a nuestro
+código Freemarker y tomemos
 
 11
 00:00:25,250 --> 00:00:27,980
-piece, our Freemarker
-configuration.
+este trozo, nuestra
+configuración de Freemarker.
 
 12
 00:00:27,980 --> 00:00:33,070
 
 13
 00:00:33,070 --> 00:00:34,890
-Change that to this class,
-although it it won't really
+Cambio eso en esta clase,
+aunque realmente no
 
 14
 00:00:34,890 --> 00:00:36,030
-make a difference.
+marcará ninguna diferencia.
 
 15
 00:00:36,030 --> 00:00:39,360
-So in my route, I'm going
-to take the code from
+Voy a tomar el código de
 
 16
 00:00:39,360 --> 00:00:42,435
-HelloWorldSparkFreemarkerStyle
-and copy it into my route.
+"HelloWorldSparkFreemarkerStyle"
+y voy a copiarlo en mi ruta.
 
 17
 00:00:42,435 --> 00:00:47,010
 
 18
 00:00:47,010 --> 00:00:48,680
-Let's clean this up
-a little bit.
+Vamos a limpiar esto un poco.
 
 19
 00:00:48,680 --> 00:00:52,060
 
 20
 00:00:52,060 --> 00:00:54,480
-So I now have my route with my
-Freemarker template created
+Ahora tengo mi ruta con mi
+plantilla Freemarker creada
 
 21
 00:00:54,480 --> 00:00:55,140
-within the route.
+dentro de la ruta.
 
 22
 00:00:55,140 --> 00:00:58,010
-It's complaining that the
-configuration is not final
+Se está quejando de que
+la configuración no es "final",
 
 23
 00:00:58,010 --> 00:01:01,170
-because I'm accessing it from
-within an inner class.
+ya que estoy accediendo a ella
+dentro de una clase interna.
 
 24
 00:01:01,170 --> 00:01:03,080
-So I'm going to make
-that final.
+Así que voy a hacerla "final".
 
 25
 00:01:03,080 --> 00:01:06,410
-And it's also complaint not
-return anything from the
+También se está quejando de
+que el método "handle" no
 
 26
 00:01:06,410 --> 00:01:10,030
-Handle method, so I'm going to
-bring the writer out and just
+devuelve nada, así que voy
+a sacar el objeto "writer"
 
 27
 00:01:10,030 --> 00:01:14,570
-return writer on the bottom
-outside of the try block.
+para hacer abajo un "return writer",
+fuera del bloque "try".
 
 28
 00:01:14,570 --> 00:01:17,490
-And I'm going to put
-a halt in here.
+Y voy a poner un
+"halt" aquí.
 
 29
 00:01:17,490 --> 00:01:19,070
-Is telling Spark that
-there's a problem.
+Le está indicando a Spark
+que existe un problema.
 
 30
 00:01:19,070 --> 00:01:21,090
-We should return a 500 error.
+Deberíamos devolver un error 500.
 
 31
 00:01:21,090 --> 00:01:23,105
-So this looks good.
+Así que esto parece que está bien.
 
 32
 00:01:23,105 --> 00:01:24,470
-And let's try to run it.
+Vamos a intentar ejecutarlo.
 
 33
 00:01:24,470 --> 00:01:27,720
 
 34
 00:01:27,720 --> 00:01:30,575
-So we'll got to our web browser
-and we'll refresh
+Iremos a nuestro navegador web
+y recargaremos esto,
 
 35
 00:01:30,575 --> 00:01:34,590
-that, and it says "Hello
-Freemarker" now in the web
+y ahora la aplicación web dice
 
 36
 00:01:34,590 --> 00:01:35,380
-application.
+"Hello Freemarker".
 
 37
 00:01:35,380 --> 00:01:36,740
-And let's review.
+Vamos a repasar.
 
 38
 00:01:36,740 --> 00:01:40,390
-So in this class,
-HelloWorldSparkFreemarkerStyle,
+En esta clase,
+"HelloWorldSparkFreemarkerStyle",
 
 39
 00:01:40,390 --> 00:01:43,430
-we created our Freemarker
-configuration, here.
+creamos nuestra configuración
+de Freemarker, aquí.
 
 40
 00:01:43,430 --> 00:01:46,310
-We defined a route for
-the slash, the
+Definimos una ruta para
+la barra (/), la
 
 41
 00:01:46,310 --> 00:01:47,810
-route path of our website.
+raíz de nuestro sitio web.
 
 42
 00:01:47,810 --> 00:01:51,150
-The handle method create
-a template for
+El método "handle" crea
+una plantilla para
 
 43
 00:01:51,150 --> 00:01:54,200
-hello.ftl, which is here.
+"hello.ftl", que está aquí.
 
 44
 00:01:54,200 --> 00:01:58,430
-We also create a string writer
-that Freemarker processes the
+También creamos un "StringWriter",
+dentro del cual Freemarker procesa
 
 45
 00:01:58,430 --> 00:01:59,930
-template into.
+la plantilla.
 
 46
 00:01:59,930 --> 00:02:03,020
-We define a map with a name
-key, and a value of
+Definimos un "Map" con una clave
+"name" y "Freemarker"
 
 47
 00:02:03,020 --> 00:02:04,200
-Freemarker.
+como valor.
 
 48
 00:02:04,200 --> 00:02:07,680
-We process the template,
-passing the map and the
+Procesamos la plantilla,
+pasándole el mapa y el
 
 49
 00:02:07,680 --> 00:02:11,009
-writer, and we return the
-writer at the end.
+objeto "writer", y finalmente
+devolvemos este objeto "writer".
 
 50
 00:02:11,009 --> 00:02:13,623
-The system.out.print line
-is not relevant.
+La línea "System.out.println"
+no es relevante,
 
 51
 00:02:13,623 --> 00:02:15,390
-So I'll just get rid of that.
+por lo que simplemente la eliminaré.
 
 52
 00:02:15,390 --> 00:02:19,320
-And that is a basic Spark and
-Freemarker-based website.
+Y esto es un sitio web básico
+basado en Spark y Freemarker.
 
 53
 00:02:19,320 --> 00:02:20,570
