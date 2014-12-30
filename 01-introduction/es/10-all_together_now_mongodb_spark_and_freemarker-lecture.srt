@@ -3,194 +3,192 @@
 
 2
 00:00:00,140 --> 00:00:02,210
-So now let's put it
-all together.
+Ahora vamos a juntarlo todo.
 
 3
 00:00:02,210 --> 00:00:05,990
-So we have our
-HelloWorldSparkFreemarkerStyle
+Tenemos nuestra clase
+"HelloWorldSparkFreemarkerStyle"
 
 4
 00:00:05,990 --> 00:00:06,840
-from the last lesson.
+de la última lección,
 
 5
 00:00:06,840 --> 00:00:09,710
-And then we have our
-HelloWorldMongoDBStyle.
+y nuestra clase
+"HelloWorldMongoDBStyle".
 
 6
 00:00:09,710 --> 00:00:11,485
-Let's combine them into
-HelloWorldMongoD
+Vamos a combinarlas en la clase
 
 7
 00:00:11,485 --> 00:00:12,735
-BSparkFreemarkerStyle.
+"HelloWorldMongoDBSparkFreemarkerStyle".
 
 8
 00:00:12,735 --> 00:00:15,010
 
 9
 00:00:15,010 --> 00:00:17,470
-So I'm just going to copy
-all the code from
+Simplemente voy a copiar
+todo el código de
 
 10
 00:00:17,470 --> 00:00:18,760
-HelloWorldSparkFreemarkerStyle.
+"HelloWorldSparkFreemarkerStyle",
 
 11
 00:00:18,760 --> 00:00:24,790
-So we can reuse all that, copy
-that into here, and go to
+de forma que podamos reutilizar todo.
+Copio eso aquí dentro y voy a
 
 12
 00:00:24,790 --> 00:00:29,930
-MongoDBStyle, and grab these
-pieces MongoClient, database,
+"MongoDBStyle", cogemos estos
+trozos, "MongoClient", "database",
 
 13
 00:00:29,930 --> 00:00:31,720
-and collection.
+y "collection".
 
 14
 00:00:31,720 --> 00:00:34,850
-And copy them into here.
+Y los copiamos aquí dentro.
 
 15
 00:00:34,850 --> 00:00:38,920
-And we're going to make this
-final, since we know that the
+Vamos a hacer que esto sea
+"final", ya que sabemos que
 
 16
 00:00:38,920 --> 00:00:41,110
-compiler will complain
-if they don't.
+el compilador se quejará
+si no lo hacemos.
 
 17
 00:00:41,110 --> 00:00:44,870
-Now here, we don't need our map
-anymore because what we're
+Ahora no necesitamos más nuestro
+mapa, porque lo que vamos a
 
 18
 00:00:44,870 --> 00:00:51,650
-going to do instead is get
-our DBObject and call
+hacer es usar en su lugar nuestro
+"DBObject" y llamaremos a
 
 19
 00:00:51,650 --> 00:00:55,585
-collection.findOne, like
-we did before.
+"collection.findOne()", como
+hicimos antes.
 
 20
 00:00:55,585 --> 00:00:57,280
-And we're going to pass
-this document
+Y vamos a pasar
+este documento
 
 21
 00:00:57,280 --> 00:00:59,070
-right into our template.
+directamente a nuestra plantilla.
 
 22
 00:00:59,070 --> 00:01:02,400
-Now, the reason this works is
-because the template is
+Ahora, la razón por la que esto
+funciona es que la plantilla
 
 23
 00:01:02,400 --> 00:01:03,840
-expecting a map.
+está esperando un mapa.
 
 24
 00:01:03,840 --> 00:01:07,550
-And while DBObject isn't a map,
-the actual concrete class
+Y aunque "DBObject" no es un mapa,
+la clase concreta real
 
 25
 00:01:07,550 --> 00:01:10,990
-returned by collection.findOne
-is a class called
+que devuelve "collection.findOne()"
+se llama
 
 26
 00:01:10,990 --> 00:01:13,560
-BasicDBObject.
+"BasicDBObject".
 
 27
 00:01:13,560 --> 00:01:18,370
-And basic DBObject ultimately
-extends LinkedHashMap, which,
+Y "BasicDBObject" al final
+hereda de "LinkedHashMap", la cual,
 
 28
 00:01:18,370 --> 00:01:21,360
-in turn, extends HashMap,
-which implements Map.
+a su vez, hereda de "HashMap",
+que implementa la interfaz "Map".
 
 29
 00:01:21,360 --> 00:01:25,600
-So Freemarker will happily take
-a DbObject from Mongo and
+Por lo tanto, Freemarker recibirá
+un "DBObject" de Mongo y
 
 30
 00:01:25,600 --> 00:01:28,420
-process it, just like it
-would any other Map.
+lo procesará, como si fuera
+cualquier otro mapa.
 
 31
 00:01:28,420 --> 00:01:30,108
-So let's start this up.
+Así que vamos a ejecutar esto.
 
 32
 00:01:30,108 --> 00:01:34,100
 
 33
 00:01:34,100 --> 00:01:35,615
-And remember what's
-in our document.
+Y recuerda qué tenemos
+en nuestro documento.
 
 34
 00:01:35,615 --> 00:01:42,460
 
 35
 00:01:42,460 --> 00:01:45,800
-We have a document with
-a name of MongoDB.
+Tenemos un documento con
+"name" igual a "MongoDB".
 
 36
 00:01:45,800 --> 00:01:49,180
-So we would expect this template
-to print out, "Hello,
+Por lo que esperaríamos que esta
+plantilla imprimiera de nuevo:
 
 37
 00:01:49,180 --> 00:01:50,430
-MongoDB" again.
+"Hello, MongoDB".
 
 38
 00:01:50,430 --> 00:01:51,790
-So let's try it.
+Vamos a probarlo.
 
 39
 00:01:51,790 --> 00:01:55,440
-We'll refresh, and
-indeed it does.
+Actualizamos, y
+de hecho lo hace.
 
 40
 00:01:55,440 --> 00:02:00,190
-It says "Hello MongoDB." So in
-this exercise, we combined all
+Dice: "Hello MongoDB".
+En este ejercicio hemos combinado
 
 41
 00:02:00,190 --> 00:02:01,270
-three of our tools--
+tres de nuestras herramientas,
 
 42
 00:02:01,270 --> 00:02:05,990
-MongoDB, obviously, and, Spark,
-and Freemarker into a
+MongoDB, obviamente, Spark,
+y Freemarker en una
 
 43
 00:02:05,990 --> 00:02:07,240
-single application.
+única aplicación.
 
 44
 00:02:07,240 --> 00:02:07,810
