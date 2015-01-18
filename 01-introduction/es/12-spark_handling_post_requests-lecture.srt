@@ -3,426 +3,424 @@
 
 2
 00:00:00,260 --> 00:00:04,170
-So in the last segment, we saw
-how to use Spark to define
+En el último vídeo vimos
+cómo usar Spark para definir
 
 3
 00:00:04,170 --> 00:00:06,900
-various routes for get requests,
-including wild
+varias rutas para peticiones
+GET, incluyendo comodines,
 
 4
 00:00:06,900 --> 00:00:10,070
-carding, and in this segment,
-we're going to look at how to
+y en este vídeo,
+vamos a examinar cómo
 
 5
 00:00:10,070 --> 00:00:12,670
-use Spark to handle
-form content.
+usar Spark para manejar
+contenidos de formularios.
 
 6
 00:00:12,670 --> 00:00:15,580
-So as you probably know, forms
-are typically handled with
+Como probablemente sabes, los
+formularios normalmente se tratan
 
 7
 00:00:15,580 --> 00:00:18,140
-HTTP post requests.
+con peticiones HTTP POST.
 
 8
 00:00:18,140 --> 00:00:20,240
-So let's look at a form.
+Echemos un vistazo a un formulario.
 
 9
 00:00:20,240 --> 00:00:22,380
-I've created an application
-already, and I have it running
+Ya he creado una aplicación
+y la tengo en ejecución en
 
 10
 00:00:22,380 --> 00:00:26,790
-on port 4567, the default Spark
-port, and it's a very
+el puerto 4567, el puerto por
+defecto de Spark, y es
 
 11
 00:00:26,790 --> 00:00:27,930
-simple form.
+un formulario muy simple.
 
 12
 00:00:27,930 --> 00:00:30,490
-The homepage presents a set of
-radio buttons, letting you
+La página de inicio presenta un
+conjunto de botones de opción,
 
 13
 00:00:30,490 --> 00:00:32,090
-choose your favorite fruit.
+que te permiten elegir tu
+fruta favorita.
 
 14
 00:00:32,090 --> 00:00:34,912
-And the four choices are apple,
-orange, banana, and
+Las cuatro opciones son "apple",
+"orange", "banana" y
 
 15
 00:00:34,912 --> 00:00:36,730
-peach, and then you
-can submit.
+"peach", y entonces
+puedes enviar el formulario.
 
 16
 00:00:36,730 --> 00:00:39,600
-And the way the application
-works, if you submit without
+La forma en que la aplicación
+funciona, si envías sin
 
 17
 00:00:39,600 --> 00:00:41,890
-selecting, it says why
-don't you pick one.
+seleccionar nada, dice
+"Why don't you pick one?".
 
 18
 00:00:41,890 --> 00:00:44,740
-And otherwise, if you
-pick one, it will
+En caso contrario,
+si eliges una,
 
 19
 00:00:44,740 --> 00:00:45,620
-echo it back to you.
+te la devolverá:
 
 20
 00:00:45,620 --> 00:00:48,120
-So your favorite fruit
-is orange.
+"Your favorite fruit is orange".
 
 21
 00:00:48,120 --> 00:00:50,230
-So that's the whole
-application.
+Y esa es la aplicación.
 
 22
 00:00:50,230 --> 00:00:52,410
-Now, let's go look
-at the code.
+Ahora, echemos un vistazo
+al código.
 
 23
 00:00:52,410 --> 00:00:54,880
-So let's look at the
-template first.
+Examinemos primero
+la plantilla.
 
 24
 00:00:54,880 --> 00:00:57,950
-This is the free marker template
-and has a title of
+Esta es la plantilla de Freemarker
+y tiene como título
 
 25
 00:00:57,950 --> 00:01:01,740
-fruit picker and
-a single form.
+"Fruit Picker" y un
+formulario sencillo.
 
 26
 00:01:01,740 --> 00:01:05,319
-The key things to note are the
-action of the form, so slash
+Las piezas clave a notar aquí
+son el "action" del formulario,
 
 27
 00:01:05,319 --> 00:01:09,230
-favorite fruit is the form
-action, so it's going to send
+"/favorite_fruit" es el "action"
+del formulario, por lo que va a
 
 28
 00:01:09,230 --> 00:01:12,970
-a post request to the slash
-favorite fruit URI.
+enviar una petición POST a la
+URI "/favorite_fruit".
 
 29
 00:01:12,970 --> 00:01:15,960
-And the method will be post,
-and it asks what their
+El método será POST,
+y pregunta cuál es
 
 30
 00:01:15,960 --> 00:01:20,200
-favorite fruit is, and it
-iterates through an array
+tu fruta favorita e
+itera por un array
 
 31
 00:01:20,200 --> 00:01:21,890
-called fruits.
+llamado "fruits".
 
 32
 00:01:21,890 --> 00:01:24,360
-And since that's not defined in
-this form, that's going to
+Y como eso no está definido
+en este formulario, vamos a
 
 33
 00:01:24,360 --> 00:01:27,580
-have to be passed in to the
-map that we use when we
+tener que pasarlo en el
+mapa que usemos cuando
 
 34
 00:01:27,580 --> 00:01:29,260
-process this template.
+procese esta plantilla.
 
 35
 00:01:29,260 --> 00:01:33,910
-So for each of the fruits in
-this list of fruits, we'll
+Entonces, por cada fruta en
+esta lista de frutas,
 
 36
 00:01:33,910 --> 00:01:38,070
-create a radio button with name
-of fruit and the value of
+crearemos un botón de opción con
+nombre igual a "fruit" y valor
 
 37
 00:01:38,070 --> 00:01:42,050
-fruit, and that is a
-free marker value.
+igual a "${fruit}", y esto es
+un valor de Freemarker.
 
 38
 00:01:42,050 --> 00:01:44,980
-So it's dollar, curly brace,
-fruit, end curly brace.
+Consiste en signo de dólar, llave
+inicial, "fruit", y llave final.
 
 39
 00:01:44,980 --> 00:01:48,980
-And this fruit variable will
-take on a new value for each
+Esta variable "fruit" tomará
+un nuevo valor por cada
 
 40
 00:01:48,980 --> 00:01:51,310
-iteration through this loop.
+iteración del bucle.
 
 41
 00:01:51,310 --> 00:01:53,625
-So we have this list of fruits,
-and the first time it
+Entonces tenemos esta lista de
+frutas, y la primera vez será
 
 42
 00:01:53,625 --> 00:01:54,320
-will be the first fruit.
+la primera fruta.
 
 43
 00:01:54,320 --> 00:01:57,960
-Second time, so we'll end up
-with, as we saw before, four
+La segunda vez, terminaremos con,
+como vimos antes, cuatro
 
 44
 00:01:57,960 --> 00:01:59,730
-radio buttons, one
-for each fruit.
+botones de opción, uno
+por cada fruta.
 
 45
 00:01:59,730 --> 00:02:02,570
-And finally, we submit
-the form using
+Y por último, enviamos
+el formulario usando
 
 46
 00:02:02,570 --> 00:02:04,640
-input of type submit.
+"input type='submit'".
 
 47
 00:02:04,640 --> 00:02:07,710
-So now let's look at
-the java code.
+Echemos un vistazo al
+código java.
 
 48
 00:02:07,710 --> 00:02:11,430
-So in the java code, we start
-off with our free marker
+En el código java comenzamos
+con nuestra configuración
 
 49
 00:02:11,430 --> 00:02:13,070
-configuration up top.
+de Freemarker, aquí arriba.
 
 50
 00:02:13,070 --> 00:02:16,300
-So we create a new
-configuration, and then we
+Creamos una nueva
+configuración,
 
 51
 00:02:16,300 --> 00:02:17,100
-define our routes.
+y definimos nuestras rutas.
 
 52
 00:02:17,100 --> 00:02:20,270
-So we have a route for the get
-request, which presents the
+Tenemos una ruta para las
+peticiones GET, la cual
 
 53
 00:02:20,270 --> 00:02:22,620
-form, so that's slash.
+presenta esta forma, "/".
 
 54
 00:02:22,620 --> 00:02:25,320
-So here's where we create the
-map that we're going to pass
+Aquí es donde creamos el
+mapa que vamos a pasar
 
 55
 00:02:25,320 --> 00:02:26,650
-to this template.
+a esta plantilla.
 
 56
 00:02:26,650 --> 00:02:31,170
-It has a single key in the map
-called fruits, and the value
+Tiene una única clave en el mapa,
+llamada "fruits", cuyo valor
 
 57
 00:02:31,170 --> 00:02:34,660
-of that key is a list of fruits
-that we saw before,
+es la lista de frutas
+que vimos antes,
 
 58
 00:02:34,660 --> 00:02:37,950
-apple, orange, banana,
-and peach.
+"apple", "orange", "banana",
+y "peach".
 
 59
 00:02:37,950 --> 00:02:40,860
-And next thing we do is we get
-the template from the free
+Lo siguiente que hacemos es recuperar
+la plantilla de la configuración de
 
 60
 00:02:40,860 --> 00:02:42,330
-market configuration.
+Freemarker.
 
 61
 00:02:42,330 --> 00:02:44,100
-It was called fruitpicker.ftl.
+Se llama "fruitPicker.ftl".
 
 62
 00:02:44,100 --> 00:02:46,580
-That's the name of
-the file here.
+Ese es el nombre
+del fichero aquí.
 
 63
 00:02:46,580 --> 00:02:49,910
-So I get that template, we
-create a string writer to
+Así que obtenemos la plantilla,
+creamos un "StringWriter" en el
 
 64
 00:02:49,910 --> 00:02:52,680
-process the template into, and
-then finally, we process the
+que procesar la plantilla,
+y por último la procesamos,
 
 65
 00:02:52,680 --> 00:02:56,540
-template, passing the
-map and the writer.
+pasando el mapa
+y el objeto "writer".
 
 66
 00:02:56,540 --> 00:03:00,400
-And then we return the writer
-back to Spark for output.
+A continuación devolvemos el
+objeto "writer" a Spark.
 
 67
 00:03:00,400 --> 00:03:03,550
-So that's what presents the form
-to the user that we saw
+Eso es lo que presenta al usuario
+el formulario que vimos antes,
 
 68
 00:03:03,550 --> 00:03:05,870
-before, and this is the
-part that's new.
+y esta es la parte nueva.
 
 69
 00:03:05,870 --> 00:03:09,310
-This is the piece that handles
-the form when it's submitted.
+Este es el trozo que maneja el
+formulario cuando es enviado.
 
 70
 00:03:09,310 --> 00:03:13,180
-So the last one was a get, but
-this one's a post, since we're
+La última ruta era para una petición
+GET, pero esta es POST, ya que
 
 71
 00:03:13,180 --> 00:03:15,320
-posting content to
-the website.
+estamos enviando contenidos
+al sitio web.
 
 72
 00:03:15,320 --> 00:03:18,870
-So we say Spark.post and the
-route is slash favorite fruit,
+Por lo tanto ponemos "Spark.post"
+y como ruta "/favorite_fruit",
 
 73
 00:03:18,870 --> 00:03:22,355
-which aligns with the
-action in the form,
+que concuerda con el valor
+del "action" del formulario,
 
 74
 00:03:22,355 --> 00:03:23,790
-which we see here.
+como vemos aquí.
 
 75
 00:03:23,790 --> 00:03:27,290
-And the handle method gets the
-query param called fruit,
+Y el método "handle" obtiene
+el parámetro llamado "fruit",
 
 76
 00:03:27,290 --> 00:03:29,490
-which was the name of the
-parameter defined
+que era el nombre del
+parámetro que definimos
 
 77
 00:03:29,490 --> 00:03:30,920
-in the radio buttons.
+en los botones de opción.
 
 78
 00:03:30,920 --> 00:03:33,660
-We get the value, and if it
-wasn't set, we return why
+Recuperamos el valor, y si
+no existe, devolvemos
 
 79
 00:03:33,660 --> 00:03:34,780
-don't you pick one?
+"Why don't you pick one?"
 
 80
 00:03:34,780 --> 00:03:37,240
-Otherwise, we return your
-favorite fruit is
+En caso contrario, devolvemos
+"Your favorite fruit is" y
 
 81
 00:03:37,240 --> 00:03:38,740
-whatever you chose.
+lo que sea que seleccionaras.
 
 82
 00:03:38,740 --> 00:03:41,660
-So we could have used a free
-market template here and in a
+Podríamos haber usado aquí una
+plantilla de Freemarker, de hecho,
 
 83
 00:03:41,660 --> 00:03:43,820
-real application, we certainly
-would use a free market
+en una aplicación real,
+usaríamos una plantilla de
 
 84
 00:03:43,820 --> 00:03:44,700
-template for everything.
+Freemarker para todo.
 
 85
 00:03:44,700 --> 00:03:47,970
-But just to keep the example
-short, I chose, in this case,
+Pero sólo por mantener el ejemplo
+sencillo, en este caso decidí
 
 86
 00:03:47,970 --> 00:03:52,170
-to return just a simple string
-from this particular handler.
+devolver simplemente una cadena
+de texto en este manejador particular.
 
 87
 00:03:52,170 --> 00:03:55,740
-So let's go back and look at
-the application once more.
+Volvamos y echemos un vistazo
+a la aplicación una vez más.
 
 88
 00:03:55,740 --> 00:03:59,120
-We pick banana and
-we submit it.
+Seleccionamos "banana" y
+lo enviamos.
 
 89
 00:03:59,120 --> 00:04:01,590
-Your favorite fruit is banana,
-and that's the whole
+"Your favorite fruit is banana",
+y en eso consiste
 
 90
 00:04:01,590 --> 00:04:02,840
-application.
+la aplicación.
 
 91
 00:04:02,840 --> 00:04:03,140
