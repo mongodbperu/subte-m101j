@@ -3,519 +3,515 @@
 
 2
 00:00:00,210 --> 00:00:02,690
-So we've taken a tour
-through a little
+Bien, hemos hecho un recorrido
 
 3
 00:00:02,690 --> 00:00:06,580
-HelloWorldMongoDBStyle as well
-as Spark and Free Marker and
+por "HelloWorldMongoDBStyle",
+Spark y Freemarker,
 
 4
 00:00:06,580 --> 00:00:10,110
-combining the three together
-into a single application.
+combinando los tres en
+en una única aplicación.
 
 5
 00:00:10,110 --> 00:00:12,780
-Now, we get to go into a little
-bit more detail about
+Ahora vamos a ver con un
+poco más de detalle cómo
 
 6
 00:00:12,780 --> 00:00:14,920
-using MongoDB from Java.
+usar MongoDB desde Java.
 
 7
 00:00:14,920 --> 00:00:19,200
-So this is the example we had
-before HelloWorldMongoDBStyle
+Éste es el ejemplo que teníamos
+antes, "HelloWorldMongoDBStyle",
 
 8
 00:00:19,200 --> 00:00:22,960
-where we created our MongoClient
-and got a database
+donde creamos nuestro "MongoClient"
+y nos conectamos a una base de datos
 
 9
 00:00:22,960 --> 00:00:25,090
-from that client, the
-course database.
+desde ese cliente, la
+base de datos "course".
 
 10
 00:00:25,090 --> 00:00:27,730
-And then, from that database
-we got a collection called
+Luego, obtenemos una colección
+de esa base de datos llamada
 
 11
 00:00:27,730 --> 00:00:31,190
-hello and then, we retrieved
-one document from that
+"hello" y, por último, recuperamos
+un documento de esa
 
 12
 00:00:31,190 --> 00:00:33,290
-collection and printed it out.
+colección y lo imprimimos.
 
 13
 00:00:33,290 --> 00:00:36,720
-So we're going to take some of
-the scaffolding and do a
+Vamos a tomar parte de este
+código como base para construir
 
 14
 00:00:36,720 --> 00:00:40,320
-simple application to insert a
-document into collections.
+una aplicación simple que inserte
+un documento en una colección.
 
 15
 00:00:40,320 --> 00:00:43,960
-I'm going to create a new Java
-class called simple insert
+Voy a crear una nueva clase
+Java llamada "SimpleInsertTest",
 
 16
 00:00:43,960 --> 00:00:49,570
-test, and I'll create
-my MongocClients.
+y crearé mi "MongoClient".
 
 17
 00:00:49,570 --> 00:00:54,550
 
 18
 00:00:54,550 --> 00:00:59,210
-And we'll just use the default
-here of local host 2717, and
+Usaré aquí los valores por
+defecto, "localhost:27017",
 
 19
 00:00:59,210 --> 00:01:03,130
-add that host exception
-to my signature.
+y añadiré a mi método la excepción
+"UnknownHostException".
 
 20
 00:01:03,130 --> 00:01:06,180
-And I don't need the database,
-so I'm just going to shorten
+No necesito la base de datos,
+así que voy a simplificar esto,
 
 21
 00:01:06,180 --> 00:01:13,620
-this to just people collection
-equals clients dot get DB
+"peopleCollection =
+client.getDB("course")
 
 22
 00:01:13,620 --> 00:01:17,910
-course dot get collection.
+.getCollection("people");".
 
 23
 00:01:17,910 --> 00:01:22,090
-So if you recall, before
-HelloWorldMongoDBStyle, when
+Si recuerdas de
+"HelloWorldMongoDBStyle",
 
 24
 00:01:22,090 --> 00:01:24,840
-we did a find one, the return
-value of find one
+cuando hicimos un "findOne" el
+valor de retorno es de
 
 25
 00:01:24,840 --> 00:01:26,860
-is of type db object.
+tipo "DBObject".
 
 26
 00:01:26,860 --> 00:01:29,500
-And db object is an interface.
+Y "DBObject" es una interfaz.
 
 27
 00:01:29,500 --> 00:01:32,850
-So when we're inserting
-documents into a collection,
+Cuando estamos insertando
+documentos en una colección,
 
 28
 00:01:32,850 --> 00:01:35,190
-we have to create the document
-first in order to insert it.
+primero tenemos que crear el
+documento para poder insertarlo.
 
 29
 00:01:35,190 --> 00:01:38,150
-And we can't create an instance
-of an interface, so
+Pero no podemos crear una instancia
+de una interfaz, por lo que
 
 30
 00:01:38,150 --> 00:01:40,700
-we need a concrete class that
-implements db object.
+necesitamos una clase concreta que
+implemente "DBObject".
 
 31
 00:01:40,700 --> 00:01:43,500
-And the Mongo Java driver
-provides a class called
+Y el driver de Mongo para Java
+proporciona una clase llamada
 
 32
 00:01:43,500 --> 00:01:46,180
-BasicDBObject, which implements
-DBObject.
+"BasicDBObject", que implementa
+"DBObject".
 
 33
 00:01:46,180 --> 00:01:48,990
-And that's what we'll use when
-we're creating new documents
+Ésa es la clase que usaremos para
+crear nuevos documentos e
 
 34
 00:01:48,990 --> 00:01:51,210
-to insert into the database.
+insertarlos en la base de datos.
 
 35
 00:01:51,210 --> 00:01:55,280
-So we'll call it personDoc
-equals new basic DBObject.
+Lo llamaremos "personDoc",
+"personDoc = new BasicDBObject()".
 
 36
 00:01:55,280 --> 00:01:57,890
-Let's create the simplest person
-doc that we can think
+Vamos a crear la persona más
+simple que se nos ocurra,
 
 37
 00:01:57,890 --> 00:02:03,370
-of, which is id yeminj,
-and insert it.
+por ejemplo "("_id", "yeminj")",
+y la insertamos.
 
 38
 00:02:03,370 --> 00:02:05,860
-And the way I insert it is I
-say, people collection because
+La forma de hacerlo es a través
+del objeto "peopleCollection",
 
 39
 00:02:05,860 --> 00:02:07,330
-I want to insert it
-into the people
+ya que quiero insertarlo
+en la colección
 
 40
 00:02:07,330 --> 00:02:09,770
-collection and I call insert.
+"people", y llamo al método "insert",
 
 41
 00:02:09,770 --> 00:02:12,880
-And I pass a person doc.
+pasándole "personDoc".
 
 42
 00:02:12,880 --> 00:02:15,640
-So what's interesting about
-this document is the field
+Lo que resulta interesante de
+este documento es el nombre
 
 43
 00:02:15,640 --> 00:02:18,820
-name of the one field I
-created, which is id.
+del campo que he creado,
+que es "_id".
 
 44
 00:02:18,820 --> 00:02:22,600
-So I set the id to be yeminj.
+He asignado el valor
+"yeminj" a "_id".
 
 45
 00:02:22,600 --> 00:02:25,560
-And what's interesting about
-underscore id is that MongoDB
+Y resulta interesante porque
+MongoDB requiere que cada
 
 46
 00:02:25,560 --> 00:02:29,390
-requires that every document
-in a collection has an
+documento en una colección
+contenga un campo "_id",
 
 47
 00:02:29,390 --> 00:02:31,690
-underscore id field and
-that the value of
+y el valor de dicho campo
 
 48
 00:02:31,690 --> 00:02:33,350
-that field is unique.
+tiene que ser único.
 
 49
 00:02:33,350 --> 00:02:36,310
-So in this case, I'm creating
-an id field, and I'm sending
+En este caso, estoy creando
+un campo "_id", y le estoy
 
 50
 00:02:36,310 --> 00:02:37,140
-it to yeminj.
+dando el valor "yeminj".
 
 51
 00:02:37,140 --> 00:02:40,120
-And that means that no other
-documents in this collection
+Eso significa que no habrá ningún
+otro documento en esta colección
 
 52
 00:02:40,120 --> 00:02:42,730
-can have the id of the
-string yeminj.
+que pueda tener en el campo
+"_id" la cadena "yeminj".
 
 53
 00:02:42,730 --> 00:02:45,460
-And just so I can run this
-multiple times, I'm going to
+Y como puedo ejecutar esto
+varias veces, voy a
 
 54
 00:02:45,460 --> 00:02:50,000
-call people at collection dot
-drop before I execute this.
+llamar a "peopleCollection.drop()"
+antes de ejecutarlo.
 
 55
 00:02:50,000 --> 00:02:51,920
-And now, I think we're
-ready to run.
+Ahora creo que estamos listos
+para ejecutarlo.
 
 56
 00:02:51,920 --> 00:02:57,590
-So I'll say run, and there's no
-output so it just exited.
+Lo ejecutaré, y no imprime nada,
+simplemente termina.
 
 57
 00:02:57,590 --> 00:03:00,250
-So now, let's look at
-the collection.
+Ahora echemos un vistazo
+a la colección.
 
 58
 00:03:00,250 --> 00:03:02,050
-So I'm going to say
-Mongo course.
+Pondré "mongo course", de
+forma que la base de datos
 
 59
 00:03:02,050 --> 00:03:07,065
-So I default to the course
-database and show collections.
+por defecto será "course",
+y "show collections".
 
 60
 00:03:07,065 --> 00:03:09,450
-And you can see now, there's a
-people collection that was
+Y puedes ver que ahora tenemos
+una colección "people" que fue
 
 61
 00:03:09,450 --> 00:03:12,067
-created automatically when I
-inserted the first document to
+creada automáticamente cuando
+inserté el primer documento en
 
 62
 00:03:12,067 --> 00:03:13,350
-that collection.
+esa colección.
 
 63
 00:03:13,350 --> 00:03:15,095
-And let's see what's
-in the collection.
+Veamos qué hay en la colección.
 
 64
 00:03:15,095 --> 00:03:17,800
 
 65
 00:03:17,800 --> 00:03:24,650
-And you can see that there's
-a document id of yeminj.
+Y puedes ver que hay un
+documento "{'_id': 'yeminj'}".
 
 66
 00:03:24,650 --> 00:03:28,470
-So that's a basic insert of a
-document into collection.
+Eso es una inserción básica de
+un documento en una colección,
 
 67
 00:03:28,470 --> 00:03:31,960
-But this is JSON, so let's make
-this document a little
+pero esto es JSON, así que
+hagamos este documento un poco
 
 68
 00:03:31,960 --> 00:03:33,110
-more complex.
+más complejo.
 
 69
 00:03:33,110 --> 00:03:37,390
-So I'm going to add a few more
-fields to this document.
+Voy a añadir unos cuantos
+campos más al documento.
 
 70
 00:03:37,390 --> 00:03:44,680
-I'm going to say append, and
-I'll say name is Jeff Yemin
+Voy a decir "personDoc
+.append("name", "Jeff Yemin")"
 
 71
 00:03:44,680 --> 00:03:51,970
-and append profession
-programmer.
+".append("profession",
+"programmer");"
 
 72
 00:03:51,970 --> 00:03:55,790
-And let's run this again,
-and let's look again.
+Ejecutémoslo otra vez y
+veamos qué pasa.
 
 73
 00:03:55,790 --> 00:03:58,960
-And I can see we have
-the same id, yeminj.
+Y puedo ver que tenemos el
+mismo "'_id': 'yeminj'",
 
 74
 00:03:58,960 --> 00:04:01,510
-But now, we have name, Jeff
-Yemin, and profession,
+pero ahora tenemos también
+"'name': 'Jeff Yemin'" y
 
 75
 00:04:01,510 --> 00:04:02,780
-programmer.
+"'profession': 'programmer'".
 
 76
 00:04:02,780 --> 00:04:05,080
-So that shows how we can
-insert a document with
+Esto demuestra cómo podemos
+insertar un documento con
 
 77
 00:04:05,080 --> 00:04:06,520
-multiple fields.
+múltiples campos.
 
 78
 00:04:06,520 --> 00:04:10,240
-Now, let's use some of the power
-of JSON now to make a
+Ahora, usaremos la potencia
+de JSON para hacer una
 
 79
 00:04:10,240 --> 00:04:12,070
-more complicated structure.
+estructura más complicada.
 
 80
 00:04:12,070 --> 00:04:15,040
-So I'm going to also create
-a field for the list of
+Voy a crear un campo para
+la lista de lenguajes
 
 81
 00:04:15,040 --> 00:04:17,130
-programming languages that
-I'm familiar with.
+de programación que me
+resultan familiares.
 
 82
 00:04:17,130 --> 00:04:23,210
-So I'll say, person doc
-dot append languages.
+Entonces diré, "personDoc.
+append("languages", )",
 
 83
 00:04:23,210 --> 00:04:26,390
-But in this case, I need a list
-not just a scalar value.
+pero en este caso necesito una
+lista, no un valor escalar,
 
 84
 00:04:26,390 --> 00:04:28,750
-So I'm going to say,
-arrays dot as list.
+por lo que pondré
 
 85
 00:04:28,750 --> 00:04:35,430
-And I'll say, Java c plus plus
-and, I don't know, XSLT.
+"Arrays.asList("Java",
+"C++", "XLST")".
 
 86
 00:04:35,430 --> 00:04:37,980
 
 87
 00:04:37,980 --> 00:04:42,970
-And we'll run it again,
-and print it again.
+Lo ejecutaremos de nuevo,
+y veamos qué devuelve.
 
 88
 00:04:42,970 --> 00:04:45,720
-And now, we see that we have the
-three fields before, but
+Ahora vemos que tenemos los
+tres campos de antes, pero
 
 89
 00:04:45,720 --> 00:04:47,540
-we also have a languages
-field.
+también tenemos un campo
+"languages".
 
 90
 00:04:47,540 --> 00:04:50,690
-And you can see with these
-brackets that it's an array
+Y puedes ver por estos
+corchetes que es un array
 
 91
 00:04:50,690 --> 00:04:53,790
-with three values, Java
-c plus plus and XSLT.
+con tres valores,
+"Java", "C++" y "XLST".
 
 92
 00:04:53,790 --> 00:04:55,375
-Oh, I spelled XSLT wrong.
+Oh, escribí mal "XSLT".
 
 93
 00:04:55,375 --> 00:04:58,770
 
 94
 00:04:58,770 --> 00:05:02,090
-OK, let's show one last thing
-we can do with JSON.
+Bien, veamos una última cosa que
+podemos hacer con JSON.
 
 95
 00:05:02,090 --> 00:05:06,970
-So I can also embed a nested
-document inside of the person.
+También puedo embeber un documento
+dentro de la persona.
 
 96
 00:05:06,970 --> 00:05:10,250
-So I'm going to do that
-for my address.
+Voy a hacer eso para
+mi dirección.
 
 97
 00:05:10,250 --> 00:05:13,820
-I'll create an address
-field and I'll say,
+Crearé un campo
+"address" y pondré,
 
 98
 00:05:13,820 --> 00:05:15,890
-new basic db object.
+"new BasicDBObject()",
 
 99
 00:05:15,890 --> 00:05:18,610
-So this is a nested document.
+éste es mi documento anidado,
 
 100
 00:05:18,610 --> 00:05:22,653
-And I'll say, street Parkland.
+y diré, "("street", "Parkland")".
 
 101
 00:05:22,653 --> 00:05:27,140
 
 102
 00:05:27,140 --> 00:05:28,790
-Let's form it just a
-little differently.
+Vamos a crearlo de manera
+ligeramente diferente.
 
 103
 00:05:28,790 --> 00:05:37,720
-Number is 20 and town
-is WayLand.
+"("number", 20)" y
+"("town", "WayLand")".
 
 104
 00:05:37,720 --> 00:05:41,950
 
 105
 00:05:41,950 --> 00:05:44,920
-Now, let's insert this document
-into the collection
+Vamos a insertar este documento
+en la colección
 
 106
 00:05:44,920 --> 00:05:46,500
-and see what it looks like.
+y veamos qué aspecto tiene.
 
 107
 00:05:46,500 --> 00:05:49,260
-So now, we have the same
-document, but we, in addition
+Ahora tenemos el mismo
+documento pero, además de
 
 108
 00:05:49,260 --> 00:05:52,980
-to id, name, profession
-languages, we also have an
+"_id", "name", "profession",
+"languages", también tenemos un
 
 109
 00:05:52,980 --> 00:05:53,750
-address field.
+campo "address".
 
 110
 00:05:53,750 --> 00:05:57,480
-And this address field is a
-nested document with three
+Y este campo "address" es un
+documento anidado con tres
 
 111
 00:05:57,480 --> 00:05:59,720
-fields, street, number,
-and town.
+campos, "street", "number"
+y "town".
 
 112
 00:05:59,720 --> 00:06:00,970
